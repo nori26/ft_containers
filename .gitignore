@@ -1,0 +1,9 @@
+*
+
+!**/
+!.gitignore
+!.editorconfig
+!.clang-format
+!*.cpp
+!*.hpp
+!Makefile
