@@ -26,8 +26,7 @@ test		: $(TESTER) FORCE
 	./$< --gtest_filter='*$(GTEST_OPT)*' || ($(MAKE) check; ! :)
 	@$(MAKE) check
 
-.PHONY : asan
-asan   : 
+asan   : FORCE
 	$(MAKE) 'GTEST_FLAGS=$(GTEST_FLAGS) -fsanitize=address' 'OBJDIR=$(ASANDIR)'
 
 $(TESTER)	: $(GTESTLIB) $(CASE_OBJS)
