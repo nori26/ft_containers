@@ -23,6 +23,25 @@ namespace ft
 		vector() : first_(NULL), last_(NULL), reserved_last_(NULL), allocator_(std::allocator<T>())
 		{}
 
+		size_type size() const
+		{
+			return last_ - first_;
+		}
+
+		size_type capacity() const
+		{
+			return reserved_last_ - first_;
+		}
+
+		const T *data() const
+		{
+			return first_;
+		}
+
+		bool empty() const
+		{
+			return size() == 0;
+		}
 	};
 } // namespace ft
 
