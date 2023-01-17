@@ -12,7 +12,6 @@ all		: $(NAME)
 
 $(NAME)	: $(OBJS)
 	$(AR) $(ARFLAGS) $(DIR)/$(NAME) $^
-	$(RM) $(OBJS)
 
 $(LIBDIR):
 	mkdir -p $(DIR)
@@ -22,10 +21,10 @@ $(LIBDIR):
 
 .PHONY: clean
 clean:
-	$(RM) $(NAME)
+	$(RM) $(OBJS)
 
 fclean: clean
-	$(RM) -r $(DIR)
+	$(RM) $(NAME)
 
 $(SRCDIR): $(LIBDIR)
 	python3 $(LIBDIR)/googletest/scripts/fuse_gtest_files.py $(DIR)
