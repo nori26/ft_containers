@@ -1,4 +1,4 @@
-ALL_FILES=$(shell find . -path './gtest' -prune -o -name '*.cpp' -o -name '*.hpp')
+ALL_FILES=$(shell find tests srcs -type f -name '*.cpp' -o -name '*.hpp')
 
 .PHONY:all
 all:
