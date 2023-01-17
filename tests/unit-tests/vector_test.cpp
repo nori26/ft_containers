@@ -1,6 +1,11 @@
 #include "gtest.h"
 
-#include "vector.hpp"
+#ifdef STL_TEST
+  #include <vector>
+namespace ft = std;
+#else
+  #include "vector.hpp"
+#endif
 
 TEST(vector, example)
 {
