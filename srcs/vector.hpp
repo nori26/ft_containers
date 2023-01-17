@@ -8,7 +8,11 @@ namespace ft
 	template <class T, class Allocator = std::allocator<T> >
 	class vector
 	{
+	  private:
 		typedef T *pointer;
+
+	  public:
+		typedef std::size_t size_type;
 
 		pointer   first_;
 		pointer   last_;
