@@ -10,13 +10,15 @@ namespace ft
 	{
 		typedef T *pointer;
 
-		pointer   front_;
-		pointer   back_;
+		pointer   first_;
+		pointer   last_;
 		pointer   reserved_last_;
 		Allocator allocator_;
 
 	  public:
-		vector() : front_(NULL), back_(NULL), reserved_last_(NULL), allocator_(std::allocator<T>()) {}
+		vector() : first_(NULL), last_(NULL), reserved_last_(NULL), allocator_(std::allocator<T>())
+		{}
+
 	};
 } // namespace ft
 
