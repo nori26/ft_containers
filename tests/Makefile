@@ -18,6 +18,8 @@ GTEST_INCLUDES	 := -I$(GTESTDIR)/gtest
 GTEST_FLAGS		 := -Werror -Wall -Wextra -std=c++98
 GTEST_LIBS		 := -lpthread
 
+PP_FLAGS         := -D FT_TEST
+
 CASE_DIR	     := unit-tests
 CASE_SRCS	      = $(shell find $(CASE_DIR) -name '*test.cpp')
 CASE_OBJS	      = $(CASE_SRCS:%.cpp=$(OBJDIR)/%.o)
@@ -33,10 +35,10 @@ asan   : FORCE
 	$(MAKE) 'GTEST_FLAGS=$(GTEST_FLAGS) -fsanitize=address' 'OBJDIR=$(ASANDIR)'
 
 stl   : FORCE
-	$(MAKE) 'GTEST_FLAGS=$(GTEST_FLAGS) -D STL_TEST' 'OBJDIR=$(STLDIR)' 'TESTER=$(STL_TEST)'
+	$(MAKE) 'GTEST_FLAGS=$(GTEST_FLAGS)' 'OBJDIR=$(STLDIR)' 'TESTER=$(STL_TEST)' 'PP_FLAGS= -D STL_TEST'
 
 $(TESTER)	: $(GTESTLIB) $(CASE_OBJS)
-	c++ $(GTEST_FLAGS) $(GTEST_INCLUDES) $(INCLUDES) $(GTESTLIB) $(CASE_OBJS) $(TEST_TARGET) $(GTEST_LIBS) -o $@
+	c++ $(GTEST_FLAGS) $(PP_FLAGS) $(GTEST_INCLUDES) $(INCLUDES) $(GTESTLIB) $(CASE_OBJS) $(TEST_TARGET) $(GTEST_LIBS) -o $@
 
 $(GTESTLIB)	:
 	$(MAKE) -C $(TESTDIR)
@@ -44,7 +46,7 @@ $(GTESTLIB)	:
 $(OBJDIR)/$(CASE_DIR)/%.o: $(CASE_DIR)/%.cpp
 	@mkdir -p $(OBJDIR)/$(CASE_DIR)/$(*D)
 	@mkdir -p $(DEPSDIR)/$(CASE_DIR)/$(*D)
-	$(CXX) $(GTEST_FLAGS) $(GTEST_INCLUDES) $(INCLUDES) -MMD -MP -MF $(DEPSDIR)/$(CASE_DIR)/$*.d -c $< -o $@
+	$(CXX) $(GTEST_FLAGS) $(PP_FLAGS) $(GTEST_INCLUDES) $(INCLUDES) -MMD -MP -MF $(DEPSDIR)/$(CASE_DIR)/$*.d -c $< -o $@
 
 check:
 	@printf "$(RED)$(BOLD)\n"
