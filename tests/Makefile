@@ -5,10 +5,13 @@
 BUILDDIR		 := ./build
 OBJDIR           := $(BUILDDIR)/obj
 ASANDIR          := $(BUILDDIR)/obj-asan
+STLDIR           := $(BUILDDIR)/obj-stl
 DEPSDIR          := $(BUILDDIR)/depends
 INCLUDES         := -I ../srcs/
 
-TESTER			 := tester
+FT_TEST          := ft
+STL_TEST         := stl
+TESTER			 := $(FT_TEST)
 GTESTDIR		 := ../gtest/googletest
 GTESTLIB		 := $(GTESTDIR)/gtest.a
 GTEST_INCLUDES	 := -I$(GTESTDIR)/gtest
@@ -20,7 +23,7 @@ CASE_SRCS	      = $(shell find $(CASE_DIR) -name '*test.cpp')
 CASE_OBJS	      = $(CASE_SRCS:%.cpp=$(OBJDIR)/%.o)
 CASE_DEPS	      = $(CASE_SRCS:%.cpp=$(DEPSDIR)/%.d)
 
-GTEST_OPT	:= $(subst $() ,*:*,$(filter-out test asan clean fclean,$(MAKECMDGOALS)))
+GTEST_OPT	:= $(subst $() ,*:*,$(filter-out test asan clean fclean stl,$(MAKECMDGOALS)))
 
 test		: $(TESTER) FORCE
 	./$< --gtest_filter='*$(GTEST_OPT)*' || ($(MAKE) check; ! :)
@@ -28,6 +31,9 @@ test		: $(TESTER) FORCE
 
 asan   : FORCE
 	$(MAKE) 'GTEST_FLAGS=$(GTEST_FLAGS) -fsanitize=address' 'OBJDIR=$(ASANDIR)'
+
+stl   : FORCE
+	$(MAKE) 'GTEST_FLAGS=$(GTEST_FLAGS) -D STL_TEST' 'OBJDIR=$(STLDIR)' 'TESTER=$(STL_TEST)'
 
 $(TESTER)	: $(GTESTLIB) $(CASE_OBJS)
 	c++ $(GTEST_FLAGS) $(GTEST_INCLUDES) $(INCLUDES) $(GTESTLIB) $(CASE_OBJS) $(TEST_TARGET) $(GTEST_LIBS) -o $@
@@ -51,7 +57,7 @@ clean: FORCE
 	rm -rf $(BUILDDIR)
 
 fclean: clean
-	rm -f $(TESTER)
+	rm -f $(FT_TEST) $(STL_TEST)
 
 .PHONY: re
 re: fclean test

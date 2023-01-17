@@ -6,6 +6,9 @@ all:
 test      : FORCE
 	$(MAKE) test -C tests
 
+stl       : FORCE
+	$(MAKE) stl -C tests
+
 asan : FORCE
 	$(MAKE) asan -C tests
 
