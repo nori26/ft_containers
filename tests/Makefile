@@ -21,7 +21,7 @@ GTEST_LIBS		 := -lpthread
 PP_FLAGS         := -D FT_TEST
 
 CASE_DIR	     := unit-tests
-CASE_SRCS	      = $(shell find $(CASE_DIR) -name '*test.cpp')
+CASE_SRCS	      = $(shell find $(CASE_DIR) -name '*.cpp')
 CASE_OBJS	      = $(CASE_SRCS:%.cpp=$(OBJDIR)/%.o)
 CASE_DEPS	      = $(CASE_SRCS:%.cpp=$(DEPSDIR)/%.d)
 
@@ -29,7 +29,6 @@ GTEST_OPT	:= $(subst $() ,*:*,$(filter-out test asan clean fclean stl,$(MAKECMDG
 
 test		: $(TESTER) FORCE
 	./$< --gtest_filter='*$(GTEST_OPT)*' || ($(MAKE) check; ! :)
-	@$(MAKE) check
 
 asan   : FORCE
 	$(MAKE) 'GTEST_FLAGS=$(GTEST_FLAGS) -fsanitize=address' 'OBJDIR=$(ASANDIR)'
@@ -47,13 +46,6 @@ $(OBJDIR)/$(CASE_DIR)/%.o: $(CASE_DIR)/%.cpp
 	@mkdir -p $(OBJDIR)/$(CASE_DIR)/$(*D)
 	@mkdir -p $(DEPSDIR)/$(CASE_DIR)/$(*D)
 	$(CXX) $(GTEST_FLAGS) $(PP_FLAGS) $(GTEST_INCLUDES) $(INCLUDES) -MMD -MP -MF $(DEPSDIR)/$(CASE_DIR)/$*.d -c $< -o $@
-
-check:
-	@printf "$(RED)$(BOLD)\n"
-	@WARN_FILE=$$(find $(CASE_DIR) -type f | grep -v '_test\.cpp') \
-		&& printf "Some files are not included.\n$(END)$(RED)%s\n" $$WARN_FILE \
-		||:
-	@printf "$(END)"
 
 clean: FORCE
 	rm -rf $(BUILDDIR)
