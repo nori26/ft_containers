@@ -4,10 +4,11 @@ ALL_FILES=$(shell find tests srcs -type f -name '*.cpp' -o -name '*.hpp')
 all:
 
 test      : FORCE
-	$(MAKE) test -C tests
+	$(MAKE) $(MAKECMDGOALS) -C tests
+	$(error ft done)
 
 stl       : FORCE
-	$(MAKE) stl -C tests
+	$(MAKE) $(MAKECMDGOALS) -C tests
 
 asan : FORCE
 	$(MAKE) asan -C tests
@@ -23,5 +24,7 @@ re: fclean all
 
 fmt: FORCE
 	clang-format -i --verbose $(ALL_FILES)
+
+%:;@:
 
 .PHONY: FORCE
