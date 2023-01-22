@@ -24,6 +24,10 @@ namespace ft
 	  public:
 		vector() : first_(NULL), last_(NULL), reserved_last_(NULL), allocator_() {}
 
+		vector(const vector &other)
+		{
+			*this = other;
+		}
 
 		void push_back(const T &value)
 		{
