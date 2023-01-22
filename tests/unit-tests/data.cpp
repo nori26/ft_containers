@@ -11,21 +11,21 @@ namespace ft_containers
 	{
 		print(COL_CYAN "construct 0" COL_END);
 		p    = new int[1];
-		p[1] = 0;
+		p[0] = 0;
 	}
 
 	Data::Data(int i) : p()
 	{
 		print("construct n");
 		p    = new int[1];
-		p[1] = i;
+		p[0] = i;
 	}
 
 	Data::Data(const Data &d)
 	{
 		print("copy");
 		p    = new int[1];
-		p[1] = d.p[1];
+		p[0] = d.p[0];
 	}
 
 	Data::~Data()
@@ -42,14 +42,14 @@ namespace ft_containers
 		}
 		delete[] p;
 		p    = new int[1];
-		p[1] = d.p[1];
+		p[0] = d.p[0];
 		return *this;
 	}
 
 	bool Data::operator==(const Data &d) const
 	{
 		print("operator==");
-		return this->p[1] == d.p[1];
+		return this->p[0] == d.p[0];
 	}
 
 	bool Data::operator!=(const Data &d) const
