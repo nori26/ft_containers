@@ -5,7 +5,6 @@ all:
 
 test      : FORCE
 	$(MAKE) $(MAKECMDGOALS) -C tests
-	$(error ft done)
 
 stl       : FORCE
 	$(MAKE) $(MAKECMDGOALS) -C tests
