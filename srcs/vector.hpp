@@ -9,12 +9,12 @@ namespace ft
 	class vector
 	{
 	  public:
-		typedef T              *pointer;
-		typedef pointer         iterator;
-		typedef const iterator  const_iterator;
-		typedef T              &reference;
-		typedef const reference const_reference;
-		typedef std::size_t     size_type;
+		typedef T          *pointer;
+		typedef T          *iterator;
+		typedef const T    *const_iterator;
+		typedef T          &reference;
+		typedef const T    &const_reference;
+		typedef std::size_t size_type;
 
 		pointer   first_;
 		pointer   last_;
