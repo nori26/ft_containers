@@ -20,8 +20,8 @@ namespace ft
 		Allocator allocator_;
 
 	  public:
-		vector() : first_(NULL), last_(NULL), reserved_last_(NULL), allocator_(std::allocator<T>())
-		{}
+		vector() : first_(NULL), last_(NULL), reserved_last_(NULL), allocator_() {}
+
 
 		size_type size() const
 		{
