@@ -1,6 +1,8 @@
 #ifndef DATA_HPP
 #define DATA_HPP
 
+#include <string>
+
 namespace ft_containers
 {
 	class Data
