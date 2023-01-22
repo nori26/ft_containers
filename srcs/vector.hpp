@@ -25,6 +25,54 @@ namespace ft
 		vector() : first_(NULL), last_(NULL), reserved_last_(NULL), allocator_() {}
 
 
+		void push_back(const T &value)
+		{
+			(void)value;
+		}
+
+		void resize(size_type count, T value = T())
+		{
+			(void)count;
+			(void)value;
+		}
+
+		void reserve(size_type new_cap)
+		{
+			(void)new_cap;
+		}
+
+		iterator insert(iterator pos, const T &value)
+		{
+			(void)pos;
+			(void)value;
+		}
+
+		void insert(iterator pos, size_type count, const T &value)
+		{
+			(void)pos;
+			(void)count;
+			(void)value;
+		}
+
+		template <class InputIt>
+		void insert(iterator pos, InputIt first, InputIt last)
+		{
+			(void)pos;
+			(void)first;
+			(void)last;
+		}
+
+		vector &operator=(const vector &other)
+		{
+			if (&other == this) {
+				return *this;
+			}
+			// allocator_; // deallocate
+			// allocator_ = other.allocator_;
+			return *this;
+		}
+
+
 		size_type size() const
 		{
 			return last_ - first_;
