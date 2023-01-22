@@ -49,6 +49,24 @@ TEST(vector, copy_constructor)
 	}
 }
 
+TEST(vector, push_back)
+{
+	ft::vector<ftc::Data> v;
+	size_t cap = 1;
+
+	for (size_t i = 0; i < 17; i++) {
+		v.push_back(i);
+		ASSERT_EQ(v.capacity(), cap);
+		ASSERT_EQ(v.size(), i + 1U);
+		ASSERT_EQ(v[i], i);
+		ASSERT_EQ(ftc::Data(0), *v.begin());
+		ASSERT_EQ(ftc::Data(i), *(v.end() - 1));
+		if (v.size() == v.capacity()) {
+			cap *= 2;
+		}
+	}
+}
+
 TEST(vector, resize)
 {
 	ft::vector<ftc::Data> v;
