@@ -76,6 +76,15 @@ namespace ft
 			return *this;
 		}
 
+		reference operator[](size_type pos)
+		{
+			return first_[pos];
+		}
+
+		const_reference operator[](size_type pos) const
+		{
+			return first_[pos];
+		}
 
 		size_type size() const
 		{
