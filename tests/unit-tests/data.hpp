@@ -8,11 +8,12 @@ namespace ft_containers
 	  public:
 		class PrintOff
 		{
-			private:
-				bool tmp_;
-			public:
-				PrintOff();
-				~PrintOff();
+		  private:
+			bool tmp_;
+
+		  public:
+			PrintOff();
+			~PrintOff();
 		};
 
 	  private:
