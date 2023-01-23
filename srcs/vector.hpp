@@ -30,6 +30,12 @@ namespace ft
 			*this = other;
 		}
 
+		~vector()
+		{
+			destroy(begin(), end());
+			deallocate(first_, size());
+		}
+
 		void push_back(const T &value)
 		{
 			(void)value;
