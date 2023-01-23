@@ -10,7 +10,7 @@ stl       : FORCE
 	$(MAKE) $(MAKECMDGOALS) -C tests
 
 asan : FORCE
-	$(MAKE) asan -C tests
+	$(MAKE) $(MAKECMDGOALS) -C tests
 
 clean: FORCE
 	$(MAKE) clean -C tests

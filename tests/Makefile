@@ -3,10 +3,12 @@
 ##############
 
 BUILDDIR		 := ./build
-OBJDIR           := $(BUILDDIR)/obj
-ASANDIR          := $(BUILDDIR)/obj-asan
-STLDIR           := $(BUILDDIR)/obj-stl
-DEPSDIR          := $(BUILDDIR)/depends
+FTDIR            := $(BUILDDIR)/ft
+ASANDIR          := $(BUILDDIR)/asan
+STLDIR           := $(BUILDDIR)/stl
+DEFAULTDIR       := $(FTDIR)
+OBJDIR           := $(DEFAULTDIR)/obj
+DEPSDIR          := $(DEFAULTDIR)/depends
 INCLUDES         := -I ../srcs/
 
 FT_TEST          := ft
@@ -31,10 +33,10 @@ test		: $(TESTER) FORCE
 	./$< --gtest_filter='*$(GTEST_OPT)*' || ($(MAKE) check; ! :)
 
 asan   : FORCE
-	$(MAKE) 'GTEST_FLAGS=$(GTEST_FLAGS) -fsanitize=address' 'OBJDIR=$(ASANDIR)'
+	$(MAKE) test $(GTEST_OPT) 'GTEST_FLAGS=$(GTEST_FLAGS) -fsanitize=address -g3' 'DEFAULTDIR=$(ASANDIR)' 'TESTER=asan'
 
 stl   : FORCE
-	$(MAKE) test $(GTEST_OPT) 'OBJDIR=$(STLDIR)' 'TESTER=$(STL_TEST)' 'PP_FLAGS= -D STL_TEST'
+	$(MAKE) test $(GTEST_OPT) 'DEFAULTDIR=$(STLDIR)' 'TESTER=$(STL_TEST)' 'PP_FLAGS= -D STL_TEST'
 
 $(TESTER)	: $(GTESTLIB) $(CASE_OBJS)
 	c++ $(GTEST_FLAGS) $(PP_FLAGS) $(GTEST_INCLUDES) $(INCLUDES) $(GTESTLIB) $(CASE_OBJS) $(TEST_TARGET) $(GTEST_LIBS) -o $@
