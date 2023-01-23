@@ -36,7 +36,7 @@ namespace ft_containers
 		static bool GetPrintMode();
 
 	  private:
-		static void print(const std::string &s);
+		static void print(const std::string &s, int n);
 	};
 
 	typedef Data::PrintOff PrintOff;

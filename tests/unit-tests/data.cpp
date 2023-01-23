@@ -9,34 +9,34 @@ namespace ft_containers
 
 	Data::Data() : p()
 	{
-		print(COL_CYAN "construct 0" COL_END);
+		print(COL_CYAN "construct 0" COL_END, 0);
 		p    = new int[1];
 		p[0] = 0;
 	}
 
 	Data::Data(int i) : p()
 	{
-		print("construct n");
+		print("construct n", i);
 		p    = new int[1];
 		p[0] = i;
 	}
 
 	Data::Data(const Data &d)
 	{
-		print("copy");
+		print("copy", d.p[0]);
 		p    = new int[1];
 		p[0] = d.p[0];
 	}
 
 	Data::~Data()
 	{
-		print(COL_RED "destruct" COL_END);
+		print(COL_RED "destruct" COL_END, p[0]);
 		delete[] p;
 	}
 
 	Data &Data::operator=(const Data &d)
 	{
-		print("operator=");
+		print("operator=", d.p[0]);
 		if (&d == this) {
 			return *this;
 		}
@@ -48,20 +48,20 @@ namespace ft_containers
 
 	bool Data::operator==(const Data &d) const
 	{
-		print("operator==");
+		print("operator==", p[0]);
 		return this->p[0] == d.p[0];
 	}
 
 	bool Data::operator!=(const Data &d) const
 	{
-		print("operator!=");
+		print("operator!=", p[0]);
 		return !(*this == d);
 	}
 
-	void Data::print(const std::string &s)
+	void Data::print(const std::string &s, int n)
 	{
 		if (print_on_) {
-			std::cout << s << std::endl;
+			std::cout << s << " " << n << std::endl;
 		}
 	}
 
