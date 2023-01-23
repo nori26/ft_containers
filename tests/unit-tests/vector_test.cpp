@@ -10,6 +10,8 @@ namespace ft = std;
 
 namespace ftc = ft_containers;
 
+ftc::PrintOff _;
+
 TEST(vector, example)
 {
 	EXPECT_TRUE(true);
@@ -52,7 +54,7 @@ TEST(vector, copy_constructor)
 TEST(vector, push_back)
 {
 	ft::vector<ftc::Data> v;
-	size_t cap = 1;
+	size_t                cap = 1;
 
 	for (size_t i = 0; i < 17; i++) {
 		v.push_back(i);
@@ -92,18 +94,86 @@ TEST(vector, iterator)
 
 TEST(vector, reserve)
 {
-	ft::vector<ftc::Data> v = ft::vector<ftc::Data>();
-	v.reserve(0);
-	EXPECT_EQ(v.size(), 0U);
-	EXPECT_EQ(v.capacity(), 0U);
-	EXPECT_EQ(v.data(), (ftc::Data *)0);
-	EXPECT_TRUE(v.empty());
-
-	v.reserve(1);
-	EXPECT_EQ(v.size(), 0U);
-	EXPECT_EQ(v.capacity(), 1U);
-	EXPECT_NE(v.data(), (ftc::Data *)0);
-	EXPECT_TRUE(v.empty());
+	{
+		ft::vector<ftc::Data> v = ft::vector<ftc::Data>();
+		size_t                i = 0;
+		for (; i < 10; i++) {
+			v.reserve(i);
+			EXPECT_EQ(v.capacity(), i);
+			EXPECT_EQ(v.size(), 0U);
+			EXPECT_TRUE(v.empty());
+			if (i == 0) {
+				EXPECT_EQ(v.data(), (ftc::Data *)0);
+			} else {
+				EXPECT_NE(v.data(), (ftc::Data *)0);
+			}
+		}
+		size_t cap = i;
+		for (;; i--) {
+			v.reserve(i);
+			EXPECT_EQ(v.capacity(), cap);
+			EXPECT_EQ(v.size(), 0U);
+			EXPECT_TRUE(v.empty());
+			EXPECT_NE(v.data(), (ftc::Data *)0);
+			if (i == 0) {
+				break;
+			}
+		}
+	}
+	{
+		ft::vector<ftc::Data> v = ft::vector<ftc::Data>();
+		v.push_back(1);
+		size_t                i = v.capacity();
+		for (; i < 10; i++) {
+			v.reserve(i);
+			EXPECT_EQ(v.capacity(), i);
+			EXPECT_EQ(v.size(), 1U);
+			EXPECT_FALSE(v.empty());
+			EXPECT_EQ(v[0], ftc::Data(1));
+		}
+		size_t cap = i;
+		for (;; i--) {
+			v.reserve(i);
+			EXPECT_EQ(v.capacity(), cap);
+			EXPECT_EQ(v.size(), 1U);
+			EXPECT_FALSE(v.empty());
+			EXPECT_EQ(v[0], ftc::Data(1));
+			if (i == 0) {
+				break;
+			}
+		}
+	}
+	{
+		ft::vector<ftc::Data> v = ft::vector<ftc::Data>();
+		v.push_back(1);
+		v.push_back(2);
+		v.push_back(3);
+		size_t                size = v.size();
+		size_t                i = v.capacity();
+		for (; i < 10; i++) {
+			v.reserve(i);
+			EXPECT_EQ(v.capacity(), i);
+			EXPECT_EQ(v.size(), size);
+			EXPECT_FALSE(v.empty());
+			EXPECT_EQ(v[0], ftc::Data(1));
+		}
+		size_t cap = i;
+		for (;; i--) {
+			v.reserve(i);
+			EXPECT_EQ(v.capacity(), cap);
+			EXPECT_EQ(v.size(), size);
+			EXPECT_FALSE(v.empty());
+			EXPECT_EQ(v[0], ftc::Data(1));
+			if (i == 0) {
+				break;
+			}
+		}
+	}
+	{
+		ft::vector<ftc::Data> v = ft::vector<ftc::Data>();
+		EXPECT_THROW(v.reserve(v.max_size()),  std::bad_alloc);
+		EXPECT_THROW(v.reserve(v.max_size() + 1U), std::length_error);
+	}
 }
 
 TEST(vector, operator_eq)
