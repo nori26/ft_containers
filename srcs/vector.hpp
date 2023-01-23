@@ -38,7 +38,18 @@ namespace ft
 
 		void push_back(const T &value)
 		{
-			(void)value;
+			if (size() == capacity()) {
+				size_type new_cap = capacity() == 0 ? 1 : capacity() * 2;
+				pointer   new_ptr = allocate(new_cap);
+				construct(new_ptr, first_, size());
+				destroy(begin(), end());
+				deallocate(first_, size());
+				last_ = new_ptr + size();
+				first_ = new_ptr;
+				reserved_last_ = first_ + new_cap;
+			}
+			construct(first_ + size(), value);
+			last_++;
 		}
 
 		void resize(size_type count, T value = T())
