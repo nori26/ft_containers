@@ -126,6 +126,42 @@ namespace ft
 			return last_;
 		}
 
+	  private:
+		pointer allocate(size_type n)
+		{
+			return allocator_.allocate(n);
+		}
+
+		void deallocate(pointer p, size_type n)
+		{
+			allocator_.deallocate(p, n);
+		}
+
+		void destroy(pointer ptr)
+		{
+			allocator_.destroy(ptr);
+		}
+
+		void destroy(iterator first, iterator last)
+		{
+			while (first != last) {
+				destroy(first);
+				first++;
+			}
+		}
+
+		void construct(pointer ptr, const_reference value)
+		{
+			allocator_.construct(ptr, value);
+		}
+
+		void construct(pointer dest, pointer src, size_type size)
+		{
+			for (size_type i = 0; i < size; i++) {
+				construct(dest + i, src[i]);
+			}
+		}
+
 	};
 } // namespace ft
 
