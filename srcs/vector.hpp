@@ -8,6 +8,7 @@ namespace ft
 	template <class T, class Allocator = std::allocator<T> >
 	class vector
 	{
+		// TODO allocatorから？
 	  public:
 		typedef T          *pointer;
 		typedef T          *iterator;
