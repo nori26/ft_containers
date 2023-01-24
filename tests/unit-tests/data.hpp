@@ -54,6 +54,7 @@ namespace ft_containers
 	};
 
 	typedef Data::PrintOn PrintOn;
+	typedef Data::ExceptionOn ExceptionOn;
 } // namespace ft_containers
 
 #endif
