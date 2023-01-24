@@ -1,5 +1,8 @@
-#include "data.hpp"
 #include "gtest.h"
+
+#include <limits>
+
+#include "data.hpp"
 
 #ifdef FT_TEST
   #include "vector.hpp"
@@ -174,6 +177,15 @@ TEST(vector, reserve)
 		EXPECT_THROW(v.reserve(v.max_size()),  std::bad_alloc);
 		EXPECT_THROW(v.reserve(v.max_size() + 1U), std::length_error);
 	}
+}
+
+TEST(vector, max_size)
+{
+	ft::vector<ftc::Data> v = ft::vector<ftc::Data>();
+	std::allocator<ftc::Data> a;
+	const ft::vector<ftc::Data>::size_type alloc_max      = a.max_size();
+	const ft::vector<ftc::Data>::size_type difference_max = std::numeric_limits<std::allocator<ftc::Data>::difference_type>::max();
+	EXPECT_EQ(std::min<ft::vector<ftc::Data>::size_type>(alloc_max, difference_max), v.max_size());
 }
 
 TEST(vector, operator_eq)
