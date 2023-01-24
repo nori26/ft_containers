@@ -1,6 +1,7 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
+#include <limits>
 #include <memory>
 
 namespace ft
@@ -146,6 +147,13 @@ namespace ft
 		const_iterator end() const
 		{
 			return last_;
+		}
+
+		size_type max_size()
+		{
+			const size_type alloc_max      = allocator_.max_size();
+			const size_type difference_max = std::numeric_limits<difference_type>::max();
+			return std::min<size_type>(alloc_max, difference_max);
 		}
 
 	  private:
