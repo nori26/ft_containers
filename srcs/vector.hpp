@@ -40,7 +40,7 @@ namespace ft
 			deallocate(first_, size());
 		}
 
-		void push_back(const T &value)
+		void push_back(const value_type &value)
 		{
 			if (size() == capacity()) {
 				size_type new_cap = capacity() == 0 ? 1 : capacity() * 2;
@@ -48,15 +48,15 @@ namespace ft
 				construct(new_ptr, first_, size());
 				destroy(begin(), end());
 				deallocate(first_, size());
-				last_ = new_ptr + size();
-				first_ = new_ptr;
+				last_          = new_ptr + size();
+				first_         = new_ptr;
 				reserved_last_ = first_ + new_cap;
 			}
 			construct(first_ + size(), value);
 			last_++;
 		}
 
-		void resize(size_type count, T value = T())
+		void resize(size_type count, value_type value = value_type())
 		{
 			(void)count;
 			(void)value;
@@ -67,7 +67,7 @@ namespace ft
 			(void)new_cap;
 		}
 
-		iterator insert(iterator pos, const T &value)
+		iterator insert(iterator pos, const value_type &value)
 		{
 			(void)pos;
 			(void)value;
@@ -118,7 +118,7 @@ namespace ft
 			return reserved_last_ - first_;
 		}
 
-		const T *data() const
+		const value_type *data() const
 		{
 			return first_;
 		}
