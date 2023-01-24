@@ -12,6 +12,7 @@ namespace ft = std;
 #endif
 
 namespace ftc = ft_containers;
+typedef ft::vector<ftc::Data> Vector;
 
 ftc::PrintOff _;
 
@@ -23,7 +24,7 @@ TEST(vector, example)
 // If size() is ​0​, data() may or may not return a null pointer.
 TEST(vector, default_constructor)
 {
-	ft::vector<ftc::Data> v = ft::vector<ftc::Data>();
+	Vector v = Vector();
 	EXPECT_EQ(v.size(), 0U);
 	EXPECT_EQ(v.capacity(), 0U);
 	EXPECT_EQ(v.data(), (ftc::Data *)0);
@@ -33,31 +34,31 @@ TEST(vector, default_constructor)
 TEST(vector, copy_constructor)
 {
 	{
-		ftc::PrintOff         _;
-		ft::vector<ftc::Data> v;
+		ftc::PrintOff _;
+		Vector        v;
 
 		v.reserve(1000);
 		for (size_t i = 0; i < 1000; i++) {
 			v.resize(i);
-			ft::vector<ftc::Data> v2 = ft::vector<ftc::Data>(v);
+			Vector v2 = Vector(v);
 			ASSERT_EQ(v2.size(), i);
 			ASSERT_EQ(v2.capacity(), i);
 		}
 	}
 	{
-		ft::vector<ftc::Data> v1;
+		Vector v1;
 		v1.push_back(1);
 
-		ft::vector<ftc::Data> v2 = v1;
-		v1[0]                    = 0;
+		Vector v2 = v1;
+		v1[0]     = 0;
 		EXPECT_NE(v1[0], v2[0]);
 	}
 }
 
 TEST(vector, push_back)
 {
-	ft::vector<ftc::Data> v;
-	size_t                cap = 1;
+	Vector v;
+	size_t cap = 1;
 
 	for (size_t i = 0; i < 17; i++) {
 		v.push_back(i);
@@ -74,7 +75,7 @@ TEST(vector, push_back)
 
 TEST(vector, resize)
 {
-	ft::vector<ftc::Data> v;
+	Vector v;
 
 	std::cout << "[ resize 0 -> 0]" << std::endl;
 	v.resize(0);
@@ -91,15 +92,15 @@ TEST(vector, resize)
 
 TEST(vector, iterator)
 {
-	ft::vector<ftc::Data> v;
+	Vector v;
 	EXPECT_EQ(v.begin(), v.end());
 }
 
 TEST(vector, reserve)
 {
 	{
-		ft::vector<ftc::Data> v = ft::vector<ftc::Data>();
-		size_t                i = 0;
+		Vector v = Vector();
+		size_t i = 0;
 		for (; i < 10; i++) {
 			v.reserve(i);
 			EXPECT_EQ(v.capacity(), i);
@@ -124,9 +125,9 @@ TEST(vector, reserve)
 		}
 	}
 	{
-		ft::vector<ftc::Data> v = ft::vector<ftc::Data>();
+		Vector v = Vector();
 		v.push_back(1);
-		size_t                i = v.capacity();
+		size_t i = v.capacity();
 		for (; i < 10; i++) {
 			v.reserve(i);
 			EXPECT_EQ(v.capacity(), i);
@@ -147,12 +148,12 @@ TEST(vector, reserve)
 		}
 	}
 	{
-		ft::vector<ftc::Data> v = ft::vector<ftc::Data>();
+		Vector v = Vector();
 		v.push_back(1);
 		v.push_back(2);
 		v.push_back(3);
-		size_t                size = v.size();
-		size_t                i = v.capacity();
+		size_t size = v.size();
+		size_t i    = v.capacity();
 		for (; i < 10; i++) {
 			v.reserve(i);
 			EXPECT_EQ(v.capacity(), i);
@@ -173,26 +174,28 @@ TEST(vector, reserve)
 		}
 	}
 	{
-		ft::vector<ftc::Data> v = ft::vector<ftc::Data>();
-		EXPECT_THROW(v.reserve(v.max_size()),  std::bad_alloc);
+		Vector v = Vector();
+		EXPECT_THROW(v.reserve(v.max_size()), std::bad_alloc);
 		EXPECT_THROW(v.reserve(v.max_size() + 1U), std::length_error);
 	}
 }
 
 TEST(vector, max_size)
 {
-	ft::vector<ftc::Data> v = ft::vector<ftc::Data>();
+	typedef std::allocator<ftc::Data>::difference_type difference_type;
+
+	Vector                    v;
 	std::allocator<ftc::Data> a;
-	const ft::vector<ftc::Data>::size_type alloc_max      = a.max_size();
-	const ft::vector<ftc::Data>::size_type difference_max = std::numeric_limits<std::allocator<ftc::Data>::difference_type>::max();
-	EXPECT_EQ(std::min<ft::vector<ftc::Data>::size_type>(alloc_max, difference_max), v.max_size());
+	const Vector::size_type   alloc_max      = a.max_size();
+	const Vector::size_type   difference_max = std::numeric_limits<difference_type>::max();
+	EXPECT_EQ(std::min<Vector::size_type>(alloc_max, difference_max), v.max_size());
 }
 
 TEST(vector, operator_eq)
 {
-	ftc::PrintOff         _;
-	ft::vector<ftc::Data> v;
-	ft::vector<ftc::Data> v2;
+	ftc::PrintOff _;
+	Vector        v;
+	Vector        v2;
 
 	v.reserve(1000);
 	for (size_t i = 0; i < 1000; i++) {
