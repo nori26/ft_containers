@@ -23,6 +23,7 @@ namespace ft
 		typedef pointer                                  iterator;
 		typedef const_pointer                            const_iterator;
 
+	  private:
 		pointer   first_;
 		pointer   last_;
 		pointer   reserved_last_;
