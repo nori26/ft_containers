@@ -76,7 +76,7 @@ TEST(vector, push_back_except)
 	size_t cap = 1;
 
 	// ftc::PrintOn _;
-	for (size_t i = 0, j = 0; i < 100;i++) {
+	for (size_t i = 0, j = 0; i < 100; i++) {
 		try {
 			// TODO operator==
 			ftc::ExceptionOn _;

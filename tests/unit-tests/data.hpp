@@ -1,8 +1,8 @@
 #ifndef DATA_HPP
 #define DATA_HPP
 
-#include <string>
 #include <iostream>
+#include <string>
 
 namespace ft_containers
 {
@@ -54,7 +54,7 @@ namespace ft_containers
 		void        ThrowRandom(const std::string &msg, int id);
 	};
 
-	std::ostream& operator<<(std::ostream& os, const Data& d);
+	std::ostream &operator<<(std::ostream &os, const Data &d);
 
 	typedef Data::PrintOn     PrintOn;
 	typedef Data::ExceptionOn ExceptionOn;

@@ -143,7 +143,7 @@ namespace ft_containers
 		Data::SetExceptionMode(tmp_);
 	}
 
-	std::ostream& operator<<(std::ostream& os, const Data& d)
+	std::ostream &operator<<(std::ostream &os, const Data &d)
 	{
 		os << d.p[0];
 		return os;
