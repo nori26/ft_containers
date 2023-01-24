@@ -50,7 +50,7 @@ namespace ft_containers
 
 	  private:
 		static void print(const std::string &s, int n);
-		void        ThrowRandom();
+		void        ThrowRandom(const std::string &msg, int id);
 	};
 
 	typedef Data::PrintOn     PrintOn;

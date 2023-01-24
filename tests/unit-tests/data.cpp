@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <sstream>
 
 #include "color.hpp"
 #include "data.hpp"
@@ -31,7 +32,7 @@ namespace ft_containers
 	Data::Data() : p()
 	{
 		print(COL_CYAN "construct 0" COL_END, 0);
-		ThrowRandom();
+		ThrowRandom("construct 0", 0);
 		p    = new int[1];
 		p[0] = 0;
 	}
@@ -39,7 +40,7 @@ namespace ft_containers
 	Data::Data(int i) : p()
 	{
 		print("construct n", i);
-		ThrowRandom();
+		ThrowRandom("construct n", i);
 		p    = new int[1];
 		p[0] = i;
 	}
@@ -47,7 +48,7 @@ namespace ft_containers
 	Data::Data(const Data &d)
 	{
 		print("copy", d.p[0]);
-		ThrowRandom();
+		ThrowRandom("copy", d.p[0]);
 		p    = new int[1];
 		p[0] = d.p[0];
 	}
@@ -61,7 +62,7 @@ namespace ft_containers
 	Data &Data::operator=(const Data &d)
 	{
 		print("operator=", d.p[0]);
-		ThrowRandom();
+		ThrowRandom("operator=", d.p[0]);
 		if (&d == this) {
 			return *this;
 		}
@@ -90,10 +91,13 @@ namespace ft_containers
 		}
 	}
 
-	void Data::ThrowRandom()
+	void Data::ThrowRandom(const std::string &msg, int id)
 	{
 		if (exception_on_ && lottery(exception_rate_)) {
-			throw std::runtime_error("random throw");
+			std::stringstream ss;
+			ss << msg << " " << id;
+			throw std::runtime_error("random throw: " + ss.str());
+			throw std::runtime_error("random throw: ");
 		}
 	}
 
