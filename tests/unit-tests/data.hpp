@@ -17,9 +17,20 @@ namespace ft_containers
 			PrintOff();
 			~PrintOff();
 		};
+		class ExceptionOn
+		{
+		  private:
+			bool tmp_;
+
+		  public:
+			ExceptionOn();
+			~ExceptionOn();
+		};
 
 	  private:
 		static bool print_on_;
+		static bool exception_on_;
+		static const int exception_rate_;
 
 	  public:
 		int *p;
@@ -34,9 +45,12 @@ namespace ft_containers
 		bool        operator!=(const Data &d) const;
 		static void SetPrintMode(bool b);
 		static bool GetPrintMode();
+		static void SetExceptionMode(bool b);
+		static bool GetExceptionMode();
 
 	  private:
 		static void print(const std::string &s, int n);
+		void		ThrowRandom();
 	};
 
 	typedef Data::PrintOff PrintOff;
