@@ -14,8 +14,6 @@ namespace ft = std;
 namespace ftc = ft_containers;
 typedef ft::vector<ftc::Data> Vector;
 
-ftc::PrintOff _;
-
 TEST(vector, example)
 {
 	EXPECT_TRUE(true);
@@ -34,7 +32,6 @@ TEST(vector, default_constructor)
 TEST(vector, copy_constructor)
 {
 	{
-		ftc::PrintOff _;
 		Vector        v;
 
 		v.reserve(1000);
@@ -193,7 +190,6 @@ TEST(vector, max_size)
 
 TEST(vector, operator_eq)
 {
-	ftc::PrintOff _;
 	Vector        v;
 	Vector        v2;
 

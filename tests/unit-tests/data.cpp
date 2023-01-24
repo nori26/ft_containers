@@ -24,7 +24,7 @@ namespace
 
 namespace ft_containers
 {
-	bool      Data::print_on_       = true;
+	bool      Data::print_on_       = false;
 	bool      Data::exception_on_   = false;
 	const int Data::exception_rate_ = 3;
 
@@ -117,13 +117,13 @@ namespace ft_containers
 		return exception_on_;
 	}
 
-	Data::PrintOff::PrintOff()
+	Data::PrintOn::PrintOn()
 	{
 		tmp_ = GetPrintMode();
-		Data::SetPrintMode(false);
+		Data::SetPrintMode(true);
 	}
 
-	Data::PrintOff::~PrintOff()
+	Data::PrintOn::~PrintOn()
 	{
 		Data::SetPrintMode(tmp_);
 	}

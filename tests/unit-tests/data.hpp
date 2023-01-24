@@ -8,14 +8,14 @@ namespace ft_containers
 	class Data
 	{
 	  public:
-		class PrintOff
+		class PrintOn
 		{
 		  private:
 			bool tmp_;
 
 		  public:
-			PrintOff();
-			~PrintOff();
+			PrintOn();
+			~PrintOn();
 		};
 		class ExceptionOn
 		{
@@ -53,7 +53,7 @@ namespace ft_containers
 		void        ThrowRandom();
 	};
 
-	typedef Data::PrintOff PrintOff;
+	typedef Data::PrintOn PrintOn;
 } // namespace ft_containers
 
 #endif
