@@ -2,6 +2,7 @@
 #define DATA_HPP
 
 #include <string>
+#include <iostream>
 
 namespace ft_containers
 {
@@ -52,6 +53,8 @@ namespace ft_containers
 		static void print(const std::string &s, int n);
 		void        ThrowRandom(const std::string &msg, int id);
 	};
+
+	std::ostream& operator<<(std::ostream& os, const Data& d);
 
 	typedef Data::PrintOn     PrintOn;
 	typedef Data::ExceptionOn ExceptionOn;
