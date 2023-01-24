@@ -47,7 +47,7 @@ namespace ft
 				size_type new_cap = capacity() == 0 ? 1 : capacity() * 2;
 				pointer   new_ptr = allocate(new_cap);
 				construct(new_ptr, first_, size());
-				destroy(begin(), end());
+				destroy(begin(), end()); //TODO 例外安全
 				deallocate(first_, size());
 				last_          = new_ptr + size();
 				first_         = new_ptr;
