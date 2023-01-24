@@ -32,7 +32,7 @@ TEST(vector, default_constructor)
 TEST(vector, copy_constructor)
 {
 	{
-		Vector        v;
+		Vector v;
 
 		v.reserve(1000);
 		for (size_t i = 0; i < 1000; i++) {
@@ -190,8 +190,8 @@ TEST(vector, max_size)
 
 TEST(vector, operator_eq)
 {
-	Vector        v;
-	Vector        v2;
+	Vector v;
+	Vector v2;
 
 	v.reserve(1000);
 	for (size_t i = 0; i < 1000; i++) {
