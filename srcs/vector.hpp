@@ -3,6 +3,7 @@
 
 #include <limits>
 #include <memory>
+#include <stdexcept>
 
 namespace ft
 {
@@ -65,7 +66,20 @@ namespace ft
 
 		void reserve(size_type new_cap)
 		{
-			(void)new_cap;
+			if (new_cap > max_size()) {
+				throw std::length_error("vector::reserve");
+			}
+			if (new_cap <= capacity()) {
+				return;
+			}
+			size_type old_size = size();
+			pointer new_ptr = allocate(new_cap);
+			construct(new_ptr, first_, size());// TODO 例外安全
+			destroy(begin(), end());
+			deallocate(first_, size());
+			first_         = new_ptr;
+			last_          = new_ptr + old_size;
+			reserved_last_ = first_ + new_cap;
 		}
 
 		iterator insert(iterator pos, const value_type &value)
