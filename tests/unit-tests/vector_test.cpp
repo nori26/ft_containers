@@ -70,6 +70,32 @@ TEST(vector, push_back)
 	}
 }
 
+TEST(vector, push_back_except)
+{
+	Vector v;
+	size_t cap = 1;
+
+	// ftc::PrintOn _;
+	for (size_t i = 0, j = 0; i < 100;i++) {
+		try {
+			// TODO operator==
+			ftc::ExceptionOn _;
+			v.push_back(i);
+		} catch (std::runtime_error &e) {
+			std::cout << e.what() << std::endl;
+			continue;
+		}
+		ASSERT_EQ(v.capacity(), cap);
+		ASSERT_EQ(v.size(), j + 1U);
+		ASSERT_EQ(v[j], ftc::Data(i));
+		ASSERT_EQ(*(v.end() - 1), ftc::Data(i));
+		if (v.size() == v.capacity()) {
+			cap *= 2;
+		}
+		j++;
+	}
+}
+
 TEST(vector, resize)
 {
 	Vector v;
