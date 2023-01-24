@@ -24,8 +24,8 @@ namespace
 
 namespace ft_containers
 {
-	bool Data::print_on_ = true;
-	bool Data::exception_on_ = false;
+	bool      Data::print_on_       = true;
+	bool      Data::exception_on_   = false;
 	const int Data::exception_rate_ = 3;
 
 	Data::Data() : p()
@@ -96,7 +96,6 @@ namespace ft_containers
 			throw std::runtime_error("random throw");
 		}
 	}
-
 
 	void Data::SetPrintMode(bool b)
 	{

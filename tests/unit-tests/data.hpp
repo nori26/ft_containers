@@ -28,8 +28,8 @@ namespace ft_containers
 		};
 
 	  private:
-		static bool print_on_;
-		static bool exception_on_;
+		static bool      print_on_;
+		static bool      exception_on_;
 		static const int exception_rate_;
 
 	  public:
@@ -50,7 +50,7 @@ namespace ft_containers
 
 	  private:
 		static void print(const std::string &s, int n);
-		void		ThrowRandom();
+		void        ThrowRandom();
 	};
 
 	typedef Data::PrintOff PrintOff;
