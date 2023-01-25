@@ -1,27 +1,9 @@
-#include <cstdlib>
-#include <ctime>
 #include <iostream>
 #include <sstream>
 
 #include "color.hpp"
 #include "data.hpp"
-namespace
-{
-	class Srand
-	{
-	  public:
-		Srand()
-		{
-			std::srand(time(NULL));
-		}
-	};
-	bool lottery(int odds)
-	{
-		static Srand init;
-
-		return std::rand() % odds == 0;
-	}
-} // namespace
+#include "lottery.hpp"
 
 namespace ft_containers
 {
