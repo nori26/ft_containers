@@ -1,6 +1,7 @@
 #include "gtest.h"
 
 #include <limits>
+#include <memory>
 
 #include "data.hpp"
 
@@ -27,6 +28,17 @@ TEST(vector, default_constructor)
 	EXPECT_EQ(v.capacity(), 0U);
 	EXPECT_EQ(v.data(), (ftc::Data *)0);
 	EXPECT_TRUE(v.empty());
+}
+
+TEST(vector, constructor_alloc)
+{
+	Vector v = Vector(std::allocator<ftc::Data>());
+
+	EXPECT_EQ(v.capacity(), 0U);
+	EXPECT_EQ(v.data(), (ftc::Data *)0);
+	EXPECT_TRUE(v.empty());
+	v.push_back(1);
+	EXPECT_EQ(v[0], 1);
 }
 
 TEST(vector, copy_constructor)
