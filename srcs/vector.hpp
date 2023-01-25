@@ -65,7 +65,7 @@ namespace ft
 		void push_back(const value_type &value)
 		{
 			expand_buf_if_needed();
-			construct(last_, value);
+			construct_at_end(value);
 		}
 
 		void resize(size_type count, value_type value = value_type())
@@ -83,7 +83,7 @@ namespace ft
 				return;
 			}
 			vector<value_type, allocator_type> v(allocator_, new_cap);
-			v.construct(v.begin(), first_, size());
+			v.construct_at_end(begin(), end());
 			swap(v);
 		}
 
@@ -199,17 +199,16 @@ namespace ft
 			}
 		}
 
-		// TODO rename at_end
-		void construct(pointer ptr, const_reference value)
+		void construct_at_end(const_reference value)
 		{
-			allocator_.construct(ptr, value);
+			allocator_.construct(last_, value);
 			last_++;
 		}
 
-		void construct(pointer dest, pointer src, size_type size)
+		void construct_at_end(iterator first, iterator last)
 		{
-			for (size_type i = 0; i < size; i++) {
-				construct(dest + i, src[i]);
+			for (; first != last; first++) {
+				construct_at_end(*first);
 			}
 		}
 
