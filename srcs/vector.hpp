@@ -45,7 +45,7 @@ namespace ft
 
 		~vector()
 		{
-			destroy(begin(), end());
+			destroy_at_end(size());
 			deallocate(first_, size());
 		}
 
@@ -186,16 +186,19 @@ namespace ft
 			allocator_.deallocate(p, n);
 		}
 
-		void destroy(pointer ptr)
+		void destroy_at_end()
 		{
-			allocator_.destroy(ptr);
+			if (empty()) {
+				return ;
+			}
+			allocator_.destroy(last_ - 1); // TODO &back()
+			last_--;
 		}
 
-		void destroy(iterator first, iterator last)
+		void destroy_at_end(size_type size)
 		{
-			while (first != last) {
-				destroy(first);
-				first++;
+			for (size_type i = 0; i < size; i++) {
+				destroy_at_end();
 			}
 		}
 
