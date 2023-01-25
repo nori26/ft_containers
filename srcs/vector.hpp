@@ -92,14 +92,10 @@ namespace ft
 			if (new_cap <= capacity()) {
 				return;
 			}
-			vector<value_type, allocator_type> v =
-				vector<value_type, allocator_type>(allocator_, new_cap);
+			vector<value_type, allocator_type> v(allocator_, new_cap);
 			v.construct(v.begin(), first_, size());
 			v.last_ += size();
-			ft::swap(allocator_, v.allocator_);
-			ft::swap(first_, v.first_);
-			ft::swap(last_, v.last_);
-			ft::swap(reserved_last_, v.reserved_last_);
+			swap(v);
 		}
 
 		iterator insert(iterator pos, const value_type &value)
@@ -226,6 +222,13 @@ namespace ft
 			}
 		}
 
+		void swap(vector<value_type, allocator_type> &v)
+		{
+			ft::swap(allocator_, v.allocator_);
+			ft::swap(first_, v.first_);
+			ft::swap(last_, v.last_);
+			ft::swap(reserved_last_, v.reserved_last_);
+		}
 	};
 } // namespace ft
 
