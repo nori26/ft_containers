@@ -11,6 +11,8 @@ OBJDIR           := $(DEFAULTDIR)/obj
 DEPSDIR          := $(DEFAULTDIR)/depends
 INCLUDES         := -I ../srcs/
 
+VALGRIND         := $(shell type valgrind > /dev/null && echo valgrind)
+
 FT_TEST          := ft
 STL_TEST         := stl
 TESTER			 := $(FT_TEST)
@@ -30,10 +32,10 @@ CASE_DEPS	      = $(CASE_SRCS:%.cpp=$(DEPSDIR)/%.d)
 GTEST_OPT	:= $(subst $() ,*:*,$(filter-out test asan clean fclean stl,$(MAKECMDGOALS)))
 
 test		: $(TESTER) FORCE
-	./$< --gtest_filter='*$(GTEST_OPT)*' || ($(MAKE) check; ! :)
+	$(VALGRIND) ./$< --gtest_filter='*$(GTEST_OPT)*' || ($(MAKE) check; ! :)
 
 asan   : FORCE
-	$(MAKE) test $(GTEST_OPT) 'GTEST_FLAGS=$(GTEST_FLAGS) -fsanitize=address -g3' 'DEFAULTDIR=$(ASANDIR)' 'TESTER=asan'
+	$(MAKE) test $(GTEST_OPT) 'GTEST_FLAGS=$(GTEST_FLAGS) -fsanitize=address -g3' 'DEFAULTDIR=$(ASANDIR)' 'TESTER=asan' 'VALGRIND='
 
 stl   : FORCE
 	$(MAKE) test $(GTEST_OPT) 'DEFAULTDIR=$(STLDIR)' 'TESTER=$(STL_TEST)' 'PP_FLAGS= -D STL_TEST'
