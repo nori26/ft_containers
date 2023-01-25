@@ -97,7 +97,6 @@ namespace ft_containers
 			std::stringstream ss;
 			ss << msg << " " << id;
 			throw std::runtime_error("random throw: " + ss.str());
-			throw std::runtime_error("random throw: ");
 		}
 	}
 
