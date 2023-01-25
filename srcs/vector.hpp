@@ -189,7 +189,7 @@ namespace ft
 		void destroy_at_end()
 		{
 			if (empty()) {
-				return ;
+				return;
 			}
 			allocator_.destroy(last_ - 1); // TODO &back()
 			last_--;
@@ -226,7 +226,7 @@ namespace ft
 		void expand_buf_if_needed()
 		{
 			if (size() < capacity()) {
-				return ;
+				return;
 			}
 			size_type new_cap;
 			if (capacity() == 0) {
