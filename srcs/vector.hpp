@@ -65,7 +65,7 @@ namespace ft
 		void push_back(const value_type &value)
 		{
 			expand_buf_if_needed();
-			construct(first_ + size(), value);
+			construct(last_, value);
 		}
 
 		void resize(size_type count, value_type value = value_type())
