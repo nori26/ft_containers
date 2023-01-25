@@ -94,7 +94,6 @@ namespace ft
 			}
 			vector<value_type, allocator_type> v(allocator_, new_cap);
 			v.construct(v.begin(), first_, size());
-			v.last_ += size();
 			swap(v);
 		}
 
@@ -210,9 +209,11 @@ namespace ft
 			}
 		}
 
+		// TODO rename at_end
 		void construct(pointer ptr, const_reference value)
 		{
 			allocator_.construct(ptr, value);
+			last_++;
 		}
 
 		void construct(pointer dest, pointer src, size_type size)
