@@ -64,18 +64,8 @@ namespace ft
 	  public:
 		void push_back(const value_type &value)
 		{
-			if (size() == capacity()) {
-				size_type new_cap = capacity() == 0 ? 1 : capacity() * 2;
-				pointer   new_ptr = allocate(new_cap);
-				construct(new_ptr, first_, size());
-				destroy(begin(), end()); // TODO 例外安全
-				deallocate(first_, size());
-				last_          = new_ptr + size();
-				first_         = new_ptr;
-				reserved_last_ = first_ + new_cap;
-			}
+			expand_buf_if_needed();
 			construct(first_ + size(), value);
-			last_++;
 		}
 
 		void resize(size_type count, value_type value = value_type())
@@ -229,6 +219,22 @@ namespace ft
 			ft::swap(first_, v.first_);
 			ft::swap(last_, v.last_);
 			ft::swap(reserved_last_, v.reserved_last_);
+		}
+
+		void expand_buf_if_needed()
+		{
+			if (size() < capacity()) {
+				return ;
+			}
+			size_type new_cap;
+			if (capacity() == 0) {
+				new_cap = 1;
+			} else if (capacity() > max_size() / 2) {
+				new_cap = max_size();
+			} else {
+				new_cap = capacity() * 2;
+			}
+			reserve(new_cap);
 		}
 	};
 } // namespace ft
