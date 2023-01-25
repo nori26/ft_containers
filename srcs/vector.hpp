@@ -32,6 +32,10 @@ namespace ft
 	  public:
 		vector() : first_(NULL), last_(NULL), reserved_last_(NULL), allocator_() {}
 
+		explicit vector(const Allocator &alloc)
+			: first_(NULL), last_(NULL), reserved_last_(NULL), allocator_(alloc)
+		{}
+
 		vector(const vector &other)
 		{
 			*this = other;
