@@ -5,6 +5,8 @@
 #include <memory>
 #include <stdexcept>
 
+#include "utility.hpp"
+
 namespace ft
 {
 	template <class T, class Allocator = std::allocator<T> >
@@ -47,6 +49,19 @@ namespace ft
 			deallocate(first_, size());
 		}
 
+	  private:
+		vector(const Allocator &alloc, size_type cap)
+			: first_(NULL), last_(NULL), reserved_last_(NULL), allocator_(alloc)
+		{
+			if (cap == 0) {
+				return;
+			}
+			first_         = allocate(cap);
+			last_          = first_;
+			reserved_last_ = first_ + cap;
+		}
+
+	  public:
 		void push_back(const value_type &value)
 		{
 			if (size() == capacity()) {
@@ -77,14 +92,14 @@ namespace ft
 			if (new_cap <= capacity()) {
 				return;
 			}
-			size_type old_size = size();
-			pointer   new_ptr  = allocate(new_cap);
-			construct(new_ptr, first_, size()); // TODO 例外安全
-			destroy(begin(), end());
-			deallocate(first_, size());
-			first_         = new_ptr;
-			last_          = new_ptr + old_size;
-			reserved_last_ = first_ + new_cap;
+			vector<value_type, allocator_type> v =
+				vector<value_type, allocator_type>(allocator_, new_cap);
+			v.construct(v.begin(), first_, size());
+			v.last_ += size();
+			ft::swap(allocator_, v.allocator_);
+			ft::swap(first_, v.first_);
+			ft::swap(last_, v.last_);
+			ft::swap(reserved_last_, v.reserved_last_);
 		}
 
 		iterator insert(iterator pos, const value_type &value)
