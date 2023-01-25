@@ -138,22 +138,22 @@ TEST(vector, reserve)
 		size_t i = 0;
 		for (; i < 10; i++) {
 			v.reserve(i);
-			EXPECT_EQ(v.capacity(), i);
-			EXPECT_EQ(v.size(), 0U);
-			EXPECT_TRUE(v.empty());
+			ASSERT_EQ(v.capacity(), i);
+			ASSERT_EQ(v.size(), 0U);
+			ASSERT_TRUE(v.empty());
 			if (i == 0) {
-				EXPECT_EQ(v.data(), (ftc::Data *)0);
+				ASSERT_EQ(v.data(), (ftc::Data *)0);
 			} else {
-				EXPECT_NE(v.data(), (ftc::Data *)0);
+				ASSERT_NE(v.data(), (ftc::Data *)0);
 			}
 		}
 		size_t cap = i;
 		for (;; i--) {
 			v.reserve(i);
-			EXPECT_EQ(v.capacity(), cap);
-			EXPECT_EQ(v.size(), 0U);
-			EXPECT_TRUE(v.empty());
-			EXPECT_NE(v.data(), (ftc::Data *)0);
+			ASSERT_EQ(v.capacity(), cap);
+			ASSERT_EQ(v.size(), 0U);
+			ASSERT_TRUE(v.empty());
+			ASSERT_NE(v.data(), (ftc::Data *)0);
 			if (i == 0) {
 				break;
 			}
@@ -165,18 +165,18 @@ TEST(vector, reserve)
 		size_t i = v.capacity();
 		for (; i < 10; i++) {
 			v.reserve(i);
-			EXPECT_EQ(v.capacity(), i);
-			EXPECT_EQ(v.size(), 1U);
-			EXPECT_FALSE(v.empty());
-			EXPECT_EQ(v[0], ftc::Data(1));
+			ASSERT_EQ(v.capacity(), i);
+			ASSERT_EQ(v.size(), 1U);
+			ASSERT_FALSE(v.empty());
+			ASSERT_EQ(v[0], ftc::Data(1));
 		}
 		size_t cap = i;
 		for (;; i--) {
 			v.reserve(i);
-			EXPECT_EQ(v.capacity(), cap);
-			EXPECT_EQ(v.size(), 1U);
-			EXPECT_FALSE(v.empty());
-			EXPECT_EQ(v[0], ftc::Data(1));
+			ASSERT_EQ(v.capacity(), cap);
+			ASSERT_EQ(v.size(), 1U);
+			ASSERT_FALSE(v.empty());
+			ASSERT_EQ(v[0], ftc::Data(1));
 			if (i == 0) {
 				break;
 			}
