@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "data.hpp"
+#include "allocator.hpp"
 
 #ifdef FT_TEST
   #include "vector.hpp"
@@ -14,6 +15,7 @@ namespace ft = std;
 
 namespace ftc = ft_containers;
 typedef ft::vector<ftc::Data> Vector;
+typedef ft::vector<ftc::Data, ftc::Allocator<ftc::Data> > VectorAl;
 
 TEST(vector, example)
 {
@@ -85,6 +87,7 @@ TEST(vector, push_back)
 TEST(vector, push_back_except)
 {
 	Vector v;
+	// VectorAl v;
 	size_t cap = 1;
 
 	// ftc::PrintOn _;
