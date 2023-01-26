@@ -9,7 +9,7 @@ STLDIR           := $(BUILDDIR)/stl
 DEFAULTDIR       := $(FTDIR)
 OBJDIR           := $(DEFAULTDIR)/obj
 DEPSDIR          := $(DEFAULTDIR)/depends
-INCLUDES         := -I ../srcs/
+INCLUDES         := -I ../srcs/ -I utils/
 
 VALGRIND         := $(shell type valgrind > /dev/null && echo valgrind)
 
@@ -29,6 +29,11 @@ CASE_SRCS	      = $(shell find $(CASE_DIR) -name '*.cpp')
 CASE_OBJS	      = $(CASE_SRCS:%.cpp=$(OBJDIR)/%.o)
 CASE_DEPS	      = $(CASE_SRCS:%.cpp=$(DEPSDIR)/%.d)
 
+UTIL_DIR          := utils
+UTIL_SRCS	      = $(shell find $(UTIL_DIR) -name '*.cpp')
+UTIL_OBJS	      = $(UTIL_SRCS:%.cpp=$(OBJDIR)/%.o)
+UTIL_DEPS	      = $(UTIL_SRCS:%.cpp=$(DEPSDIR)/%.d)
+
 GTEST_OPT	:= $(subst $() ,*:*,$(filter-out test asan clean fclean stl,$(MAKECMDGOALS)))
 
 test		: $(TESTER) FORCE
@@ -40,8 +45,8 @@ asan   : FORCE
 stl   : FORCE
 	$(MAKE) test $(GTEST_OPT) 'DEFAULTDIR=$(STLDIR)' 'TESTER=$(STL_TEST)' 'PP_FLAGS= -D STL_TEST'
 
-$(TESTER)	: $(GTESTLIB) $(CASE_OBJS)
-	c++ $(GTEST_FLAGS) $(PP_FLAGS) $(GTEST_INCLUDES) $(INCLUDES) $(GTESTLIB) $(CASE_OBJS) $(TEST_TARGET) $(GTEST_LIBS) -o $@
+$(TESTER)	: $(GTESTLIB) $(CASE_OBJS) $(UTIL_OBJS)
+	c++ $(GTEST_FLAGS) $(PP_FLAGS) $(GTEST_INCLUDES) $(INCLUDES) $(GTESTLIB) $(CASE_OBJS) $(UTIL_OBJS) $(GTEST_LIBS) -o $@
 
 $(GTESTLIB)	:
 	$(MAKE) -C $(TESTDIR)
@@ -50,6 +55,11 @@ $(OBJDIR)/$(CASE_DIR)/%.o: $(CASE_DIR)/%.cpp
 	@mkdir -p $(OBJDIR)/$(CASE_DIR)/$(*D)
 	@mkdir -p $(DEPSDIR)/$(CASE_DIR)/$(*D)
 	$(CXX) $(GTEST_FLAGS) $(PP_FLAGS) $(GTEST_INCLUDES) $(INCLUDES) -MMD -MP -MF $(DEPSDIR)/$(CASE_DIR)/$*.d -c $< -o $@
+
+$(OBJDIR)/$(UTIL_DIR)/%.o: $(UTIL_DIR)/%.cpp
+	@mkdir -p $(OBJDIR)/$(UTIL_DIR)/$(*D)
+	@mkdir -p $(DEPSDIR)/$(UTIL_DIR)/$(*D)
+	$(CXX) $(GTEST_FLAGS) $(PP_FLAGS) $(GTEST_INCLUDES) $(INCLUDES) -MMD -MP -MF $(DEPSDIR)/$(UTIL_DIR)/$*.d -c $< -o $@
 
 clean: FORCE
 	rm -rf $(BUILDDIR)
@@ -62,5 +72,5 @@ re: fclean test
 
 %:;@:
 
-.PHONY: $(CASE_DEPS)
--include $(CASE_DEPS)
+.PHONY: $(CASE_DEPS) $(UTIL_DEPS)
+-include $(CASE_DEPS) $(UTIL_DEPS)
