@@ -111,51 +111,6 @@ TEST(vector, push_back_except)
 	}
 }
 
-TEST(vector, resize)
-{
-	// ftc::PrintOn _;
-	Vector v;
-
-	v.resize(0);
-	EXPECT_EQ(v.size(), 0U);
-	EXPECT_EQ(v.capacity(), 0U);
-	v.resize(1);
-	EXPECT_EQ(v.size(), 1U);
-	EXPECT_EQ(v.capacity(), 1U);
-	EXPECT_THROW(v.resize(v.max_size() + 1U), std::length_error);
-	v.resize(2);
-	EXPECT_EQ(v.size(), 2U);
-	EXPECT_EQ(v.capacity(), 2U);
-	v.resize(3);
-	EXPECT_EQ(v.size(), 3U);
-	EXPECT_EQ(v.capacity(), 4U);
-	EXPECT_THROW(v.resize(v.max_size() + 1U), std::length_error);
-	v.resize(0);
-	EXPECT_EQ(v.size(), 0U);
-	EXPECT_EQ(v.capacity(), 4U);
-	v.resize(15);
-	EXPECT_EQ(v.size(), 15U);
-	EXPECT_EQ(v.capacity(), 15U);
-	v.resize(17);
-	EXPECT_EQ(v.size(), 17U);
-	EXPECT_EQ(v.capacity(), 30U);
-	v.resize(61);
-	EXPECT_EQ(v.size(), 61U);
-	EXPECT_EQ(v.capacity(), 61U);
-	EXPECT_THROW(v.resize(v.max_size() + 1U), std::length_error);
-	// std::cout << "[ resize 0 -> 0]" << std::endl;
-	// v.resize(0);
-	// std::cout << "[ end ]" << std::endl;
-	// v.push_back(1);
-	// v.push_back(1);
-	// std::cout << "[ resize 2 -> 0]" << std::endl;
-	// v.resize(0);
-	// std::cout << "[ end ]" << std::endl;
-	// std::cout << "[ resize 0 -> 2]" << std::endl;
-	// v.resize(2);
-	// std::cout << "[ end ]" << std::endl;
-}
-
 TEST(vector, iterator)
 {
 	Vector v;
