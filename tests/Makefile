@@ -16,7 +16,9 @@ VALGRIND         := $(shell type valgrind > /dev/null && echo valgrind)
 FT_TEST          := ft
 STL_TEST         := stl
 TESTER			 := $(FT_TEST)
-GTESTDIR		 := ../gtest/googletest
+
+TESTDIR          := ../gtest
+GTESTDIR		 := $(TESTDIR)/googletest
 GTESTLIB		 := $(GTESTDIR)/gtest.a
 GTEST_INCLUDES	 := -I$(GTESTDIR)/gtest
 GTEST_FLAGS		 := -Werror -Wall -Wextra -std=c++98

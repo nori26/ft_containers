@@ -15,7 +15,7 @@ $(NAME)	: $(OBJS)
 
 $(LIBDIR):
 	mkdir -p $(DIR)
-	wget https://github.com/google/googletest/archive/refs/tags/release-1.8.1.tar.gz
+	curl -OL https://github.com/google/googletest/archive/refs/tags/release-1.8.1.tar.gz
 	tar -xvzf release-1.8.1.tar.gz -C $(DIR)
 	rm  release-1.8.1.tar.gz
 
@@ -30,4 +30,4 @@ $(SRCDIR): $(LIBDIR)
 	python3 $(LIBDIR)/googletest/scripts/fuse_gtest_files.py $(DIR)
 
 $(OBJS)	: $(SRCDIR)
-	c++ -c -std=c++98 $(LIBDIR)/googletest/src/gtest_main.cc $(SRCDIR)/gtest-all.cc -I$(DIR) 
+	c++ -c -std=c++98 -Wall -Wextra -Werror $(LIBDIR)/googletest/src/gtest_main.cc $(SRCDIR)/gtest-all.cc -I$(DIR)
