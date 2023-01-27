@@ -77,18 +77,18 @@ TEST(vector, reserve_3)
 	size_t i    = v.capacity();
 	for (; i < 10; i++) {
 		v.reserve(i);
-		EXPECT_EQ(v.capacity(), i);
-		EXPECT_EQ(v.size(), size);
-		EXPECT_FALSE(v.empty());
-		EXPECT_EQ(v[0], ftc::Data(1));
+		ASSERT_EQ(v.capacity(), i);
+		ASSERT_EQ(v.size(), size);
+		ASSERT_FALSE(v.empty());
+		ASSERT_EQ(v[0], ftc::Data(1));
 	}
 	size_t cap = i;
 	for (;; i--) {
 		v.reserve(i);
-		EXPECT_EQ(v.capacity(), cap);
-		EXPECT_EQ(v.size(), size);
-		EXPECT_FALSE(v.empty());
-		EXPECT_EQ(v[0], ftc::Data(1));
+		ASSERT_EQ(v.capacity(), cap);
+		ASSERT_EQ(v.size(), size);
+		ASSERT_FALSE(v.empty());
+		ASSERT_EQ(v[0], ftc::Data(1));
 		if (i == 0) {
 			break;
 		}
