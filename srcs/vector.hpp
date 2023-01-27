@@ -64,7 +64,7 @@ namespace ft
 	  public:
 		void push_back(const value_type &value)
 		{
-			expand_buf_if_needed();
+			reserve(recommend_capacity(size() + 1));
 			construct_at_end(value);
 		}
 
@@ -237,22 +237,6 @@ namespace ft
 			ft::swap(first_, v.first_);
 			ft::swap(last_, v.last_);
 			ft::swap(reserved_last_, v.reserved_last_);
-		}
-
-		void expand_buf_if_needed()
-		{
-			if (size() < capacity()) {
-				return;
-			}
-			size_type new_cap;
-			if (capacity() == 0) {
-				new_cap = 1;
-			} else if (capacity() > max_size() / 2) {
-				new_cap = max_size();
-			} else {
-				new_cap = capacity() * 2;
-			}
-			reserve(new_cap);
 		}
 
 		size_type recommend_capacity(size_type new_size)
