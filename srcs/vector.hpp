@@ -138,7 +138,12 @@ namespace ft
 			return reserved_last_ - first_;
 		}
 
-		const value_type *data() const
+		pointer data()
+		{
+			return first_;
+		}
+
+		const_pointer data() const
 		{
 			return first_;
 		}
