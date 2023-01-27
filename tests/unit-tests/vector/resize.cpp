@@ -3,8 +3,8 @@
 #include <limits>
 #include <memory>
 
-#include "data.hpp"
 #include "allocator.hpp"
+#include "data.hpp"
 
 #ifdef FT_TEST
   #include "vector.hpp"
@@ -14,7 +14,7 @@ namespace ft = std;
 #endif
 
 namespace ftc = ft_containers;
-typedef ft::vector<ftc::Data> Vector;
+typedef ft::vector<ftc::Data>                             Vector;
 typedef ft::vector<ftc::Data, ftc::Allocator<ftc::Data> > VectorAl;
 
 TEST(vector, resize)
@@ -46,6 +46,12 @@ TEST(vector, resize)
 	v.resize(61);
 	EXPECT_EQ(v.size(), 61U);
 	EXPECT_EQ(v.capacity(), 61U);
+	v.resize(62);
+	EXPECT_EQ(v.size(), 62U);
+	EXPECT_EQ(v.capacity(), 122U);
+	v.resize(63);
+	EXPECT_EQ(v.size(), 63U);
+	EXPECT_EQ(v.capacity(), 122U);
 }
 
 TEST(vector, resize_over_max)
@@ -56,7 +62,7 @@ TEST(vector, resize_over_max)
 	// TODO operator==
 	for (size_t i = 1; i < 100; i++) {
 		v.resize(i);
-		v[0] = ftc::Data(i);
+		v[0]       = ftc::Data(i);
 		size_t cap = v.capacity();
 		EXPECT_THROW(v.resize(v.max_size() + 1U), std::length_error);
 		EXPECT_EQ(v[0], ftc::Data(i));
