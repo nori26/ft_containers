@@ -15,6 +15,7 @@ VALGRIND         := $(shell type valgrind > /dev/null && echo valgrind)
 
 FT_TEST          := ft
 STL_TEST         := stl
+ASAN_TEST        := asan
 TESTER			 := $(FT_TEST)
 
 TESTDIR          := ../gtest
@@ -39,7 +40,7 @@ UTIL_DEPS	      = $(UTIL_SRCS:%.cpp=$(DEPSDIR)/%.d)
 GTEST_OPT	:= $(subst $() ,*:*,$(filter-out test asan clean fclean stl,$(MAKECMDGOALS)))
 
 test		: $(TESTER) FORCE
-	$(VALGRIND) ./$< --gtest_filter='*$(GTEST_OPT)*' || ($(MAKE) check; ! :)
+	$(VALGRIND) ./$< --gtest_filter='*$(GTEST_OPT)*'
 
 asan   : FORCE
 	$(MAKE) test $(GTEST_OPT) 'GTEST_FLAGS=$(GTEST_FLAGS) -fsanitize=address -g3' 'DEFAULTDIR=$(ASANDIR)' 'TESTER=asan' 'VALGRIND='
@@ -67,7 +68,7 @@ clean: FORCE
 	rm -rf $(BUILDDIR)
 
 fclean: clean
-	rm -f $(FT_TEST) $(STL_TEST)
+	rm -f $(FT_TEST) $(STL_TEST) $(ASAN_TEST)
 
 .PHONY: re
 re: fclean test
