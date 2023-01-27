@@ -201,6 +201,18 @@ TEST(vector, reserve)
 	}
 }
 
+TEST(vector, reserve_same)
+{
+	Vector v;
+
+	for (size_t i = 0; i < 18; i++) {
+		v.reserve(0);
+		Vector::pointer p = v.data();
+		v.reserve(0);
+		EXPECT_EQ(v.data(), p);
+	}
+}
+
 TEST(vector, max_size)
 {
 	typedef std::allocator<ftc::Data>::difference_type difference_type;
