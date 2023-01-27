@@ -68,10 +68,14 @@ namespace ft
 			construct_at_end(value);
 		}
 
-		void resize(size_type count, value_type value = value_type())
+		void resize(size_type new_size, value_type value = value_type())
 		{
-			(void)count;
-			(void)value;
+			if (new_size < size()) {
+				destroy_at_end(size() - new_size);
+			} else if (new_size > size()) {
+				reserve(recommend_capacity(new_size));
+				construct_at_end(new_size - size(), value);
+			}
 		}
 
 		void reserve(size_type new_cap)
@@ -220,6 +224,13 @@ namespace ft
 			}
 		}
 
+		void construct_at_end(size_type n, const_reference value)
+		{
+			for (size_type i = 0; i < n; i++) {
+				construct_at_end(value);
+			}
+		}
+
 		void swap(vector<value_type, allocator_type> &v)
 		{
 			ft::swap(allocator_, v.allocator_);
@@ -242,6 +253,20 @@ namespace ft
 				new_cap = capacity() * 2;
 			}
 			reserve(new_cap);
+		}
+
+		size_type recommend_capacity(size_type new_size)
+		{
+			if (new_size <= capacity()) {
+				return capacity();
+			}
+			if (new_size > max_size()) {
+				throw std::length_error("vector");
+			}
+			if (capacity() > max_size() / 2) {
+				return max_size();
+			}
+			return std::max(new_size, capacity() * 2);
 		}
 	};
 } // namespace ft
