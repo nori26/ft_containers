@@ -3,8 +3,8 @@
 #include <limits>
 #include <memory>
 
-#include "data.hpp"
 #include "allocator.hpp"
+#include "data.hpp"
 
 #ifdef FT_TEST
   #include "vector.hpp"
@@ -14,7 +14,7 @@ namespace ft = std;
 #endif
 
 namespace ftc = ft_containers;
-typedef ft::vector<ftc::Data> Vector;
+typedef ft::vector<ftc::Data>                             Vector;
 typedef ft::vector<ftc::Data, ftc::Allocator<ftc::Data> > VectorAl;
 
 TEST(vector, example)
