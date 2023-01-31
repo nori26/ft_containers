@@ -67,3 +67,5 @@ TEST(vector, resize_over_max)
 		EXPECT_EQ(v.capacity(), cap);
 	}
 }
+
+// TODO value, exception
