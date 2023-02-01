@@ -27,6 +27,9 @@ namespace ft
 		typedef const_pointer                            const_iterator;
 
 	  private:
+		typedef vector<value_type, allocator_type> instance_type;
+
+	  private:
 		pointer   first_;
 		pointer   last_;
 		pointer   reserved_last_;
@@ -87,7 +90,7 @@ namespace ft
 			if (new_cap <= capacity()) {
 				return;
 			}
-			vector<value_type, allocator_type> v(allocator_, new_cap);
+			instance_type v(allocator_, new_cap);
 			v.construct_at_end(begin(), end());
 			swap(v);
 		}
@@ -110,8 +113,8 @@ namespace ft
 		{
 			size_type distance = std::distance(first, last);
 			if (size() + distance > capacity()) {
-				size_type                          new_cap = recommend_capacity(size() + distance);
-				vector<value_type, allocator_type> v(allocator_, new_cap);
+				size_type     new_cap = recommend_capacity(size() + distance);
+				instance_type v(allocator_, new_cap);
 				v.construct_at_end(begin(), pos);
 				v.construct_at_end(first, last);
 				v.construct_at_end(pos, end());
@@ -242,7 +245,7 @@ namespace ft
 			}
 		}
 
-		void swap(vector<value_type, allocator_type> &v)
+		void swap(instance_type &v)
 		{
 			ft::swap(allocator_, v.allocator_);
 			ft::swap(first_, v.first_);
