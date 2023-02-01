@@ -30,49 +30,35 @@ TEST(vector, insert_empty)
 	}
 }
 
-TEST(vector, insert_between)
-{
-	size_t             a[] = {0, 3};
-	size_t             b[] = {1, 2};
-	ft::vector<size_t> enough;
-	ft::vector<size_t> lack;
-	enough.reserve(4);
-
-	size_t *enough_p = enough.data();
-	size_t *lack_p   = lack.data();
-	enough.insert(enough.end(), a, a + ARRAY_SIZE(a));
-	enough.insert(enough.begin() + 1, b, b + ARRAY_SIZE(b));
-	lack.insert(lack.end(), a, a + ARRAY_SIZE(a));
-	lack.insert(lack.begin() + 1, b, b + ARRAY_SIZE(b));
-
-	EXPECT_EQ(enough.data(), enough_p);
-	EXPECT_NE(lack.data(), lack_p);
-	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
-		EXPECT_EQ(enough[i], i);
-		EXPECT_EQ(lack[i], i);
-	}
-}
-
 TEST(vector, insert_forward)
 {
 	size_t             a[] = {2, 3};
 	size_t             b[] = {0, 1};
-	ft::vector<size_t> enough;
-	ft::vector<size_t> lack;
-	enough.reserve(4);
+	ft::vector<size_t> v;
 
-	size_t *enough_p = enough.data();
-	size_t *lack_p   = lack.data();
-	enough.insert(enough.end(), a, a + ARRAY_SIZE(a));
-	enough.insert(enough.begin(), b, b + ARRAY_SIZE(b));
-	lack.insert(lack.end(), a, a + ARRAY_SIZE(a));
-	lack.insert(lack.begin(), b, b + ARRAY_SIZE(b));
+	size_t *p = v.data();
+	v.insert(v.end(), a, a + ARRAY_SIZE(a));
+	v.insert(v.begin(), b, b + ARRAY_SIZE(b));
 
-	EXPECT_EQ(enough.data(), enough_p);
-	EXPECT_NE(lack.data(), lack_p);
+	EXPECT_NE(v.data(), p);
 	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
-		EXPECT_EQ(enough[i], i);
-		EXPECT_EQ(lack[i], i);
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST(vector, insert_between)
+{
+	size_t             a[] = {0, 3};
+	size_t             b[] = {1, 2};
+	ft::vector<size_t> v;
+
+	size_t *p = v.data();
+	v.insert(v.end(), a, a + ARRAY_SIZE(a));
+	v.insert(v.begin() + 1, b, b + ARRAY_SIZE(b));
+
+	EXPECT_NE(v.data(), p);
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
 	}
 }
 
@@ -80,22 +66,66 @@ TEST(vector, insert_backward)
 {
 	size_t             a[] = {0, 1};
 	size_t             b[] = {2, 3};
-	ft::vector<size_t> enough;
-	ft::vector<size_t> lack;
-	enough.reserve(4);
+	ft::vector<size_t> v;
 
-	size_t *enough_p = enough.data();
-	size_t *lack_p   = lack.data();
-	enough.insert(enough.end(), a, a + ARRAY_SIZE(a));
-	enough.insert(enough.end(), b, b + ARRAY_SIZE(b));
-	lack.insert(lack.end(), a, a + ARRAY_SIZE(a));
-	lack.insert(lack.end(), b, b + ARRAY_SIZE(b));
+	size_t *p = v.data();
+	v.insert(v.end(), a, a + ARRAY_SIZE(a));
+	v.insert(v.end(), b, b + ARRAY_SIZE(b));
 
-	EXPECT_EQ(enough.data(), enough_p);
-	EXPECT_NE(lack.data(), lack_p);
+	EXPECT_NE(v.data(), p);
 	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
-		EXPECT_EQ(enough[i], i);
-		EXPECT_EQ(lack[i], i);
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST(vector, insert_forward_reserved)
+{
+	size_t             a[] = {2, 3};
+	size_t             b[] = {0, 1};
+	ft::vector<size_t> v;
+	v.reserve(4);
+
+	size_t *p = v.data();
+	v.insert(v.end(), a, a + ARRAY_SIZE(a));
+	v.insert(v.begin(), b, b + ARRAY_SIZE(b));
+
+	EXPECT_EQ(v.data(), p);
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST(vector, insert_between_reserved)
+{
+	size_t             a[] = {0, 3};
+	size_t             b[] = {1, 2};
+	ft::vector<size_t> v;
+	v.reserve(4);
+
+	size_t *p = v.data();
+	v.insert(v.end(), a, a + ARRAY_SIZE(a));
+	v.insert(v.begin() + 1, b, b + ARRAY_SIZE(b));
+
+	EXPECT_EQ(v.data(), p);
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST(vector, insert_backward_reserved)
+{
+	size_t             a[] = {0, 1};
+	size_t             b[] = {2, 3};
+	ft::vector<size_t> v;
+	v.reserve(4);
+
+	size_t *p = v.data();
+	v.insert(v.end(), a, a + ARRAY_SIZE(a));
+	v.insert(v.end(), b, b + ARRAY_SIZE(b));
+
+	EXPECT_EQ(v.data(), p);
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
 	}
 }
 
@@ -108,5 +138,4 @@ TEST(vector, insert_size_t)
 	v.insert(v.end(), i, i);
 }
 
-// TODO input itr
-// TODO input except
+// TODO input itr, except, copy conut
