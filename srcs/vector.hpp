@@ -1,6 +1,7 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
+#include <iterator>
 #include <limits>
 #include <memory>
 #include <stdexcept>
@@ -107,6 +108,15 @@ namespace ft
 		template <class InputIt>
 		void insert(iterator pos, InputIt first, InputIt last)
 		{
+			size_type distance = std::distance(first, last);
+			if (size() + distance > capacity()) {
+				size_type                          new_cap = recommend_capacity(size() + distance);
+				vector<value_type, allocator_type> v(allocator_, new_cap);
+				v.construct_at_end(begin(), pos);
+				v.construct_at_end(first, last);
+				v.construct_at_end(pos, end());
+				swap(v);
+			}
 			(void)pos;
 			(void)first;
 			(void)last;
@@ -217,7 +227,8 @@ namespace ft
 			last_++;
 		}
 
-		void construct_at_end(iterator first, iterator last)
+		template <class InputIt>
+		void construct_at_end(InputIt first, InputIt last)
 		{
 			for (; first != last; first++) {
 				construct_at_end(*first);
