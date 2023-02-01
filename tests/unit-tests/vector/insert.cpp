@@ -138,4 +138,20 @@ TEST(vector, insert_size_t)
 	v.insert(v.end(), i, i);
 }
 
+TEST(vector, insert_cap)
+{
+	ft::vector<size_t> v;
+	size_t             a[] = {0, 1, 2, 3};
+
+	v.insert(v.end(), a, a + 1);
+	EXPECT_EQ(v.size(), 1U);
+	EXPECT_EQ(v.capacity(), 1U);
+	v.insert(v.end(), a, a + ARRAY_SIZE(a));
+	EXPECT_EQ(v.size(), 5U);
+	EXPECT_EQ(v.capacity(), 5U);
+	v.insert(v.end(), a, a + 1);
+	EXPECT_EQ(v.size(), 6U);
+	EXPECT_EQ(v.capacity(), 10U);
+}
+
 // TODO input itr, except, copy conut
