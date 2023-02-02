@@ -13,7 +13,6 @@ namespace ft
 	template <class T, class Allocator = std::allocator<T> >
 	class vector
 	{
-		// TODO allocatorから？
 	  public:
 		typedef Allocator                                allocator_type;
 		typedef typename allocator_type::pointer         pointer;
