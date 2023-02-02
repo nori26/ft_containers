@@ -107,21 +107,41 @@ namespace ft
 			(void)value;
 		}
 
+		// sizeof(InputIt::difference_type) <= sizeof(difference_type) &&
+		// sizeof(inputIt::difference_type) <= sizeof(size_type)
+		// を期待しているが、STLもそうなっているように見えたので諦めた
 		template <class InputIt>
 		void insert(iterator pos, InputIt first, InputIt last)
 		{
-			size_type distance = std::distance(first, last);
-			if (size() + distance > capacity()) {
-				size_type     new_cap = recommend_capacity(size() + distance);
+			difference_type insert_size = std::distance(first, last);
+			if (insert_size <= 0) {
+				return;
+			}
+			if (insert_size > reserved_last_ - last_) {
+				size_type     new_cap = recommend_capacity(size() + insert_size);
 				instance_type v(allocator_, new_cap);
 				v.construct_at_end(begin(), pos);
 				v.construct_at_end(first, last);
 				v.construct_at_end(pos, end());
 				swap(v);
+				return;
 			}
-			(void)pos;
-			(void)first;
-			(void)last;
+			difference_type initialized_size_from_pos = std::distance(pos, end());
+			iterator        old_end                   = end();
+			// = は無くてもいいが、insert_size == 0 が事前にreturnされていないと、
+			// std::copy_backward(pos, old_end, old_end); となって未定義
+			if (insert_size >= initialized_size_from_pos) {
+				InputIt uninitialized_first_of_insert = first;
+				std::advance(uninitialized_first_of_insert, initialized_size_from_pos);
+				construct_at_end(uninitialized_first_of_insert, last);
+				construct_at_end(pos, old_end);
+				std::copy(first, uninitialized_first_of_insert, pos);
+			} else {
+				iterator uninitialized_first_of_pos = end() - insert_size;
+				construct_at_end(uninitialized_first_of_pos, end());
+				std::copy_backward(pos, uninitialized_first_of_pos, old_end);
+				std::copy(first, last, pos);
+			}
 		}
 
 		vector &operator=(const vector &other)
