@@ -126,7 +126,7 @@ namespace ft
 				swap(v);
 				return;
 			}
-			difference_type initialized_size_from_pos = std::distance(pos, end());
+			difference_type initialized_size_from_pos = end() - pos;
 			iterator        old_end                   = end();
 			// = は無くてもいいが、insert_size == 0 が事前にreturnされていないと、
 			// std::copy_backward(pos, old_end, old_end); となって未定義
