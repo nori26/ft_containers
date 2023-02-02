@@ -62,6 +62,54 @@ TEST(vector, insert_between)
 	}
 }
 
+TEST(vector, insert_between2)
+{
+	size_t             a[] = {0, 3, 4};
+	size_t             b[] = {1, 2};
+	ft::vector<size_t> v;
+
+	size_t *p = v.data();
+	v.insert(v.end(), a, a + ARRAY_SIZE(a));
+	v.insert(v.begin() + 1, b, b + ARRAY_SIZE(b));
+
+	EXPECT_NE(v.data(), p);
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST(vector, insert_between3)
+{
+	size_t             a[] = {0, 3, 4, 5};
+	size_t             b[] = {1, 2};
+	ft::vector<size_t> v;
+
+	size_t *p = v.data();
+	v.insert(v.end(), a, a + ARRAY_SIZE(a));
+	v.insert(v.begin() + 1, b, b + ARRAY_SIZE(b));
+
+	EXPECT_NE(v.data(), p);
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST(vector, insert_between4)
+{
+	size_t             a[] = {0, 4};
+	size_t             b[] = {1, 2, 3};
+	ft::vector<size_t> v;
+
+	size_t *p = v.data();
+	v.insert(v.end(), a, a + ARRAY_SIZE(a));
+	v.insert(v.begin() + 1, b, b + ARRAY_SIZE(b));
+
+	EXPECT_NE(v.data(), p);
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
 TEST(vector, insert_backward)
 {
 	size_t             a[] = {0, 1};
@@ -83,7 +131,41 @@ TEST(vector, insert_forward_reserved)
 	size_t             a[] = {2, 3};
 	size_t             b[] = {0, 1};
 	ft::vector<size_t> v;
-	v.reserve(4);
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+
+	size_t *p = v.data();
+	v.insert(v.end(), a, a + ARRAY_SIZE(a));
+	v.insert(v.begin(), b, b + ARRAY_SIZE(b));
+
+	EXPECT_EQ(v.data(), p);
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST(vector, insert_forward_reserved2)
+{
+	size_t             a[] = {1, 2, 3};
+	size_t             b[] = {0};
+	ft::vector<size_t> v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+
+	size_t *p = v.data();
+	v.insert(v.end(), a, a + ARRAY_SIZE(a));
+	v.insert(v.begin(), b, b + ARRAY_SIZE(b));
+
+	EXPECT_EQ(v.data(), p);
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST(vector, insert_forward_reserved3)
+{
+	size_t             a[] = {3};
+	size_t             b[] = {0, 1, 2};
+	ft::vector<size_t> v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
 
 	size_t *p = v.data();
 	v.insert(v.end(), a, a + ARRAY_SIZE(a));
@@ -100,7 +182,7 @@ TEST(vector, insert_between_reserved)
 	size_t             a[] = {0, 3};
 	size_t             b[] = {1, 2};
 	ft::vector<size_t> v;
-	v.reserve(4);
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
 
 	size_t *p = v.data();
 	v.insert(v.end(), a, a + ARRAY_SIZE(a));
@@ -117,7 +199,7 @@ TEST(vector, insert_backward_reserved)
 	size_t             a[] = {0, 1};
 	size_t             b[] = {2, 3};
 	ft::vector<size_t> v;
-	v.reserve(4);
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
 
 	size_t *p = v.data();
 	v.insert(v.end(), a, a + ARRAY_SIZE(a));
@@ -154,4 +236,13 @@ TEST(vector, insert_cap)
 	EXPECT_EQ(v.capacity(), 10U);
 }
 
-// TODO input itr, except, copy conut
+// TEST(vector, insert_cap2)
+// {
+// 	ft::vector<size_t> v;
+// 	// size_t             a[] = {0, 1, 2, 3};
+
+// 	v.insert(v.end(), 10, 1);
+// 	std::cout << v.size() << std::endl;
+// 	// v.insert(v.end(), a + 3, a);
+// }
+// // TODO input itr, except, copy conut
