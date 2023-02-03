@@ -96,8 +96,9 @@ namespace ft
 
 		iterator insert(iterator pos, const value_type &value)
 		{
-			(void)pos;
-			(void)value;
+			difference_type offset_from_begin = pos - begin();
+			insert(pos, 1, value);
+			return begin() + offset_from_begin;
 		}
 
 		void insert(iterator pos, size_type count, const T &value)
