@@ -28,13 +28,19 @@ TEST(vector, insert_size_t)
 	v.insert(v.end(), i, i);
 }
 
-// TEST(vector, insert_cap2)
+// TEST(vector, insert_best_viable)
 // {
 // 	ft::vector<size_t> v;
-// 	// size_t             a[] = {0, 1, 2, 3};
+// 	Vector             v2;
 
 // 	v.insert(v.end(), 10, 1);
-// 	std::cout << v.size() << std::endl;
+// 	EXPECT_EQ(v.size(), 10U);
+
+// 	v2.insert(v2.end(), 1, 1);
+// 	v2.insert(v2.end(), 1U, 1U);
+// 	v2.insert(v2.end(), 1, 1U);
+// 	v2.insert(v2.end(), 1U, 1);
+// 	EXPECT_EQ(v2.size(), 4U);
 // 	// v.insert(v.end(), a + 3, a);
 // }
 // // TODO input itr, except, copy conut
