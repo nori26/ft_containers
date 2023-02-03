@@ -671,3 +671,226 @@ TEST(vector, insert_n_cap)
 	EXPECT_EQ(v.size(), 6U);
 	EXPECT_EQ(v.capacity(), 10U);
 }
+
+TEST(vector, insert_one_empty)
+{
+	Vector v1;
+	Vector v2;
+
+	v1.insert(v1.begin(), ftc::Data(1));
+	v2.insert(v2.end(), ftc::Data(1));
+	EXPECT_EQ(v1.size(), 1U);
+	EXPECT_EQ(v2.size(), 1U);
+	EXPECT_EQ(v1.capacity(), 1U);
+	EXPECT_EQ(v2.capacity(), 1U);
+	EXPECT_EQ(v1[0], 1);
+	EXPECT_EQ(v2[0], 1);
+}
+
+TEST(vector, insert_one_forward)
+{
+	size_t    a[]   = {2, 3};
+	ftc::Data b     = 1;
+	ftc::Data res[] = {1, 2, 3};
+	Vector    v;
+
+	ftc::Data *p = v.data();
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	v.insert(v.begin(), b);
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, insert_one_between)
+{
+	size_t    a[]   = {0, 3};
+	ftc::Data b     = 1;
+	ftc::Data res[] = {0, 1, 3};
+	Vector    v;
+
+	ftc::Data *p = v.data();
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	v.insert(v.begin() + 1, b);
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, insert_one_between2)
+{
+	size_t    a[]   = {0, 2, 3};
+	ftc::Data b     = 1;
+	ftc::Data res[] = {0, 1, 2, 3};
+	Vector    v;
+
+	ftc::Data *p = v.data();
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	v.insert(v.begin() + 1, b);
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, insert_one_between3)
+{
+	size_t    a[]   = {0, 2, 3, 4};
+	ftc::Data b     = 1;
+	ftc::Data res[] = {0, 1, 2, 3, 4};
+	Vector    v;
+
+	ftc::Data *p = v.data();
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	v.insert(v.begin() + 1, b);
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, insert_one_backward)
+{
+	size_t    a[]   = {0, 1};
+	ftc::Data b     = 2;
+	ftc::Data res[] = {0, 1, 2};
+	Vector    v;
+
+	ftc::Data *p = v.data();
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	v.insert(v.end(), b);
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, insert_one_forward_reserved)
+{
+	size_t    a[]   = {2, 3};
+	ftc::Data b     = 1;
+	ftc::Data res[] = {1, 2, 3};
+	Vector    v;
+	v.reserve(ARRAY_SIZE(res));
+
+	ftc::Data *p = v.data();
+	ftc::initv_no_reserve(v, a, a + ARRAY_SIZE(a));
+	v.insert(v.begin(), b);
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, insert_one_forward_reserved3)
+{
+	size_t    a[]   = {3};
+	ftc::Data b     = 1;
+	ftc::Data res[] = {1, 3};
+	Vector    v;
+	v.reserve(ARRAY_SIZE(res));
+
+	ftc::Data *p = v.data();
+	ftc::initv_no_reserve(v, a, a + ARRAY_SIZE(a));
+	v.insert(v.begin(), b);
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, insert_one_between_reserved)
+{
+	size_t    a[]   = {1, 3};
+	ftc::Data b     = 2;
+	ftc::Data res[] = {1, 2, 3};
+	Vector    v;
+	v.reserve(ARRAY_SIZE(res));
+
+	ftc::Data *p = v.data();
+	ftc::initv_no_reserve(v, a, a + ARRAY_SIZE(a));
+	v.insert(v.begin() + 1, b);
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, insert_one_between_reserved2)
+{
+	size_t    a[]   = {1, 3, 4};
+	ftc::Data b     = 2;
+	ftc::Data res[] = {1, 2, 3, 4};
+	Vector    v;
+	v.reserve(ARRAY_SIZE(res));
+
+	ftc::Data *p = v.data();
+	ftc::initv_no_reserve(v, a, a + ARRAY_SIZE(a));
+	v.insert(v.begin() + 1, b);
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, insert_one_between_reserved3)
+{
+	size_t    a[]   = {1, 3, 4, 5};
+	ftc::Data b     = 2;
+	ftc::Data res[] = {1, 2, 3, 4, 5};
+	Vector    v;
+	v.reserve(ARRAY_SIZE(res));
+
+	ftc::Data *p = v.data();
+	ftc::initv_no_reserve(v, a, a + ARRAY_SIZE(a));
+	v.insert(v.begin() + 1, b);
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, insert_one_backward_reserved)
+{
+	size_t    a[]   = {1, 2};
+	ftc::Data b     = 3;
+	ftc::Data res[] = {1, 2, 3};
+	Vector    v;
+	v.reserve(ARRAY_SIZE(res));
+
+	ftc::Data *p = v.data();
+	ftc::initv_no_reserve(v, a, a + ARRAY_SIZE(a));
+	v.insert(v.end(), b);
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, insert_one_cap)
+{
+	Vector v;
+
+	v.insert(v.end(), 1U);
+	EXPECT_EQ(v.size(), 1U);
+	EXPECT_EQ(v.capacity(), 1U);
+	v.insert(v.end(), 1);
+	EXPECT_EQ(v.size(), 2U);
+	EXPECT_EQ(v.capacity(), 2U);
+	v.insert(v.end(), 1U);
+	EXPECT_EQ(v.size(), 3U);
+	EXPECT_EQ(v.capacity(), 4U);
+}
