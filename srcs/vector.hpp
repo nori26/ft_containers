@@ -102,9 +102,36 @@ namespace ft
 
 		void insert(iterator pos, size_type count, const T &value)
 		{
-			(void)pos;
-			(void)count;
-			(void)value;
+			if (count > max_size() - size()) {
+				throw std::length_error("vector");
+			}
+			if (count == 0) {
+				return;
+			}
+			if (count > capacity() - size()) {
+				size_type     new_cap = recommend_capacity(size() + count);
+				instance_type v(allocator_, new_cap);
+				v.construct_at_end(begin(), pos);
+				v.construct_at_end(count, value);
+				v.construct_at_end(pos, end());
+				swap(v);
+				return;
+			}
+			difference_type initialized_size_from_pos = end() - pos;
+			iterator        old_end                   = end();
+			// = は無くてもいいが、insert_size == 0 が事前にreturnされていないと、
+			// std::copy_backward(pos, old_end, old_end); となって未定義
+			if (static_cast<difference_type>(count) >= initialized_size_from_pos) {
+				size_type uninitialized_count = count - initialized_size_from_pos;
+				construct_at_end(uninitialized_count, value);
+				construct_at_end(pos, old_end);
+				copy_n(pos, initialized_size_from_pos, value);
+			} else {
+				iterator uninitialized_first_of_pos = end() - count;
+				construct_at_end(uninitialized_first_of_pos, end());
+				std::copy_backward(pos, uninitialized_first_of_pos, old_end);
+				copy_n(pos, count, value);
+			}
 		}
 
 		// sizeof(InputIt::difference_type) <= sizeof(difference_type) &&
@@ -261,6 +288,13 @@ namespace ft
 		{
 			for (size_type i = 0; i < n; i++) {
 				construct_at_end(value);
+			}
+		}
+
+		void copy_n(iterator pos, size_type n, const_reference value)
+		{
+			for (size_type i = 0; i < n; i++, (void)pos++) {
+				*pos = value;
 			}
 		}
 
