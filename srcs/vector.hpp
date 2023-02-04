@@ -172,6 +172,17 @@ namespace ft
 			}
 		}
 
+		// The iterator pos must be valid and dereferenceable.
+		// Thus the end() iterator (which is valid, but is not dereferenceable)
+		// cannot be used as a value for pos.
+		iterator erase(iterator pos)
+		{
+			difference_type offset = pos - begin();
+			std::copy(pos + 1, end(), pos);
+			destroy_at_end();
+			return begin() + offset;
+		}
+
 		vector &operator=(const vector &other)
 		{
 			if (&other == this) {
