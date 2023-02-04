@@ -693,8 +693,10 @@ TEST(vector, insert_one_empty)
 	Vector v1;
 	Vector v2;
 
-	v1.insert(v1.begin(), ftc::Data(1));
-	v2.insert(v2.end(), ftc::Data(1));
+	Vector::iterator it1 = v1.insert(v1.begin(), ftc::Data(1));
+	Vector::iterator it2 = v2.insert(v2.end(), ftc::Data(1));
+	EXPECT_EQ(it1, v1.begin());
+	EXPECT_EQ(it2, v2.begin());
 	EXPECT_EQ(v1.size(), 1U);
 	EXPECT_EQ(v2.size(), 1U);
 	EXPECT_EQ(v1.capacity(), 1U);
@@ -712,7 +714,8 @@ TEST(vector, insert_one_forward)
 
 	ftc::Data *p = v.data();
 	ftc::initv(v, a, a + ARRAY_SIZE(a));
-	v.insert(v.begin(), b);
+	Vector::iterator it = v.insert(v.begin(), b);
+	EXPECT_EQ(it, v.begin());
 	EXPECT_NE(v.data(), p);
 	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
@@ -729,7 +732,8 @@ TEST(vector, insert_one_between)
 
 	ftc::Data *p = v.data();
 	ftc::initv(v, a, a + ARRAY_SIZE(a));
-	v.insert(v.begin() + 1, b);
+	Vector::iterator it = v.insert(v.begin() + 1, b);
+	EXPECT_EQ(it, v.begin() + 1);
 	EXPECT_NE(v.data(), p);
 	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
@@ -746,7 +750,8 @@ TEST(vector, insert_one_between2)
 
 	ftc::Data *p = v.data();
 	ftc::initv(v, a, a + ARRAY_SIZE(a));
-	v.insert(v.begin() + 1, b);
+	Vector::iterator it = v.insert(v.begin() + 1, b);
+	EXPECT_EQ(it, v.begin() + 1);
 	EXPECT_NE(v.data(), p);
 	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
@@ -763,7 +768,8 @@ TEST(vector, insert_one_between3)
 
 	ftc::Data *p = v.data();
 	ftc::initv(v, a, a + ARRAY_SIZE(a));
-	v.insert(v.begin() + 1, b);
+	Vector::iterator it = v.insert(v.begin() + 1, b);
+	EXPECT_EQ(it, v.begin() + 1);
 	EXPECT_NE(v.data(), p);
 	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
@@ -780,7 +786,8 @@ TEST(vector, insert_one_backward)
 
 	ftc::Data *p = v.data();
 	ftc::initv(v, a, a + ARRAY_SIZE(a));
-	v.insert(v.end(), b);
+	Vector::iterator it = v.insert(v.end(), b);
+	EXPECT_EQ(it, v.end() - 1);
 	EXPECT_NE(v.data(), p);
 	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
@@ -798,7 +805,8 @@ TEST(vector, insert_one_forward_reserved)
 
 	ftc::Data *p = v.data();
 	ftc::initv_no_reserve(v, a, a + ARRAY_SIZE(a));
-	v.insert(v.begin(), b);
+	Vector::iterator it = v.insert(v.begin(), b);
+	EXPECT_EQ(it, v.begin());
 	EXPECT_EQ(v.data(), p);
 	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
@@ -816,7 +824,8 @@ TEST(vector, insert_one_forward_reserved3)
 
 	ftc::Data *p = v.data();
 	ftc::initv_no_reserve(v, a, a + ARRAY_SIZE(a));
-	v.insert(v.begin(), b);
+	Vector::iterator it = v.insert(v.begin(), b);
+	EXPECT_EQ(it, v.begin());
 	EXPECT_EQ(v.data(), p);
 	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
@@ -834,7 +843,8 @@ TEST(vector, insert_one_between_reserved)
 
 	ftc::Data *p = v.data();
 	ftc::initv_no_reserve(v, a, a + ARRAY_SIZE(a));
-	v.insert(v.begin() + 1, b);
+	Vector::iterator it = v.insert(v.begin() + 1, b);
+	EXPECT_EQ(it, v.begin() + 1);
 	EXPECT_EQ(v.data(), p);
 	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
@@ -852,7 +862,8 @@ TEST(vector, insert_one_between_reserved2)
 
 	ftc::Data *p = v.data();
 	ftc::initv_no_reserve(v, a, a + ARRAY_SIZE(a));
-	v.insert(v.begin() + 1, b);
+	Vector::iterator it = v.insert(v.begin() + 1, b);
+	EXPECT_EQ(it, v.begin() + 1);
 	EXPECT_EQ(v.data(), p);
 	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
@@ -870,7 +881,8 @@ TEST(vector, insert_one_between_reserved3)
 
 	ftc::Data *p = v.data();
 	ftc::initv_no_reserve(v, a, a + ARRAY_SIZE(a));
-	v.insert(v.begin() + 1, b);
+	Vector::iterator it = v.insert(v.begin() + 1, b);
+	EXPECT_EQ(it, v.begin() + 1);
 	EXPECT_EQ(v.data(), p);
 	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
@@ -888,7 +900,8 @@ TEST(vector, insert_one_backward_reserved)
 
 	ftc::Data *p = v.data();
 	ftc::initv_no_reserve(v, a, a + ARRAY_SIZE(a));
-	v.insert(v.end(), b);
+	Vector::iterator it = v.insert(v.end(), b);
+	EXPECT_EQ(it, v.end() - 1);
 	EXPECT_EQ(v.data(), p);
 	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
@@ -900,13 +913,16 @@ TEST(vector, insert_one_cap)
 {
 	Vector v;
 
-	v.insert(v.end(), 1U);
+	Vector::iterator it = v.insert(v.end(), 1U);
+	EXPECT_EQ(it, v.end() - 1);
 	EXPECT_EQ(v.size(), 1U);
 	EXPECT_EQ(v.capacity(), 1U);
-	v.insert(v.end(), 1);
+	it = v.insert(v.end(), 1);
+	EXPECT_EQ(it, v.end() - 1);
 	EXPECT_EQ(v.size(), 2U);
 	EXPECT_EQ(v.capacity(), 2U);
-	v.insert(v.end(), 1U);
+	it = v.insert(v.end(), 1U);
+	EXPECT_EQ(it, v.end() - 1);
 	EXPECT_EQ(v.size(), 3U);
 	EXPECT_EQ(v.capacity(), 4U);
 }
