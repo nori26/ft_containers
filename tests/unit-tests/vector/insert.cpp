@@ -53,6 +53,8 @@ TEST(vector, insert_empty)
 
 	v1.insert(v1.begin(), a, a + ARRAY_SIZE(a));
 	v2.insert(v2.end(), a, a + ARRAY_SIZE(a));
+	EXPECT_EQ(v1.size(), ARRAY_SIZE(a));
+	EXPECT_EQ(v2.size(), ARRAY_SIZE(a));
 	EXPECT_EQ(v1.capacity(), ARRAY_SIZE(a));
 	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(a));
 	for (size_t i = 0; i < ARRAY_SIZE(a); i++) {
@@ -72,6 +74,7 @@ TEST(vector, insert_forward)
 	v.insert(v.begin(), b, b + ARRAY_SIZE(b));
 
 	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
 	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
 		EXPECT_EQ(v[i], i);
 	}
@@ -88,6 +91,7 @@ TEST(vector, insert_between)
 	v.insert(v.begin() + 1, b, b + ARRAY_SIZE(b));
 
 	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
 	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
 		EXPECT_EQ(v[i], i);
 	}
@@ -104,6 +108,7 @@ TEST(vector, insert_between2)
 	v.insert(v.begin() + 1, b, b + ARRAY_SIZE(b));
 
 	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
 	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
 		EXPECT_EQ(v[i], i);
 	}
@@ -120,6 +125,7 @@ TEST(vector, insert_between3)
 	v.insert(v.begin() + 1, b, b + ARRAY_SIZE(b));
 
 	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
 	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
 		EXPECT_EQ(v[i], i);
 	}
@@ -136,6 +142,7 @@ TEST(vector, insert_between4)
 	v.insert(v.begin() + 1, b, b + ARRAY_SIZE(b));
 
 	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
 	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
 		EXPECT_EQ(v[i], i);
 	}
@@ -152,6 +159,7 @@ TEST(vector, insert_backward)
 	v.insert(v.end(), b, b + ARRAY_SIZE(b));
 
 	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
 	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
 		EXPECT_EQ(v[i], i);
 	}
@@ -169,6 +177,7 @@ TEST(vector, insert_forward_reserved)
 	v.insert(v.begin(), b, b + ARRAY_SIZE(b));
 
 	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
 	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
 		EXPECT_EQ(v[i], i);
 	}
@@ -186,6 +195,7 @@ TEST(vector, insert_forward_reserved2)
 	v.insert(v.begin(), b, b + ARRAY_SIZE(b));
 
 	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
 	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
 		EXPECT_EQ(v[i], i);
 	}
@@ -203,6 +213,7 @@ TEST(vector, insert_forward_reserved3)
 	v.insert(v.begin(), b, b + ARRAY_SIZE(b));
 
 	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
 	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
 		EXPECT_EQ(v[i], i);
 	}
@@ -220,6 +231,7 @@ TEST(vector, insert_between_reserved)
 	v.insert(v.begin() + 1, b, b + ARRAY_SIZE(b));
 
 	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
 	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
 		EXPECT_EQ(v[i], i);
 	}
@@ -237,6 +249,7 @@ TEST(vector, insert_between_reserved2)
 	v.insert(v.begin() + 1, b, b + ARRAY_SIZE(b));
 
 	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
 	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
 		EXPECT_EQ(v[i], i);
 	}
@@ -254,6 +267,7 @@ TEST(vector, insert_between_reserved3)
 	v.insert(v.begin() + 1, b, b + ARRAY_SIZE(b));
 
 	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
 	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
 		EXPECT_EQ(v[i], i);
 	}
@@ -271,6 +285,7 @@ TEST(vector, insert_between_reserved4)
 	v.insert(v.begin() + 1, b, b + ARRAY_SIZE(b));
 
 	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
 	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
 		EXPECT_EQ(v[i], i);
 	}
@@ -288,6 +303,7 @@ TEST(vector, insert_backward_reserved)
 	v.insert(v.end(), b, b + ARRAY_SIZE(b));
 
 	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
 	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
 		EXPECT_EQ(v[i], i);
 	}
