@@ -26,7 +26,7 @@ TEST(vector, erase_one_forward)
 	ftc::Data        *p   = v.data();
 	Vector::size_type cap = v.capacity();
 	Vector::iterator  it  = v.erase(v.begin());
-	EXPECT_EQ(it, v.begin());
+	EXPECT_EQ(it, v.end());
 	EXPECT_EQ(v.data(), p);
 	EXPECT_EQ(v.capacity(), cap);
 	EXPECT_EQ(v.size(), 0U);
@@ -199,3 +199,380 @@ TEST(vector, erase_one_backward2)
 	}
 }
 
+TEST(vector, erase_empty)
+{
+	Vector v;
+
+	Vector::iterator it = v.erase(v.begin(), v.end());
+	EXPECT_EQ(it, v.end());
+	EXPECT_EQ(v.size(), 0U);
+	EXPECT_EQ(v.capacity(), 0U);
+	EXPECT_EQ(v.data(), (ftc::Data *)0);
+	v.erase(v.end(), v.end());
+	EXPECT_EQ(it, v.end());
+	EXPECT_EQ(v.size(), 0U);
+	EXPECT_EQ(v.capacity(), 0U);
+	EXPECT_EQ(v.data(), (ftc::Data *)0);
+	v.erase(v.begin(), v.begin());
+	EXPECT_EQ(it, v.end());
+	EXPECT_EQ(v.size(), 0U);
+	EXPECT_EQ(v.capacity(), 0U);
+	EXPECT_EQ(v.data(), (ftc::Data *)0);
+}
+
+TEST(vector, erase_nop)
+{
+	size_t    a[]   = {1, 2, 3, 4};
+	ftc::Data res[] = {1, 2, 3, 4};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.begin(), v.begin());
+	EXPECT_EQ(it, v.begin());
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_nop2)
+{
+	size_t    a[]   = {1, 2, 3, 4};
+	ftc::Data res[] = {1, 2, 3, 4};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.end(), v.end());
+	EXPECT_EQ(it, v.end());
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_forward)
+{
+	size_t a[] = {1};
+	Vector v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.begin(), v.begin() + 1);
+	EXPECT_EQ(it, v.end());
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), 0U);
+}
+
+TEST(vector, erase_forward2)
+{
+	size_t    a[]   = {1, 2, 3};
+	ftc::Data res[] = {2, 3};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.begin(), v.begin() + 1);
+	EXPECT_EQ(it, v.begin());
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_forward3)
+{
+	size_t    a[]   = {1, 2, 3};
+	ftc::Data res[] = {3};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.begin(), v.begin() + 2);
+	EXPECT_EQ(it, v.begin());
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_forward4)
+{
+	size_t    a[]   = {1, 2, 3};
+	ftc::Data res[] = {};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.begin(), v.begin() + ARRAY_SIZE(a));
+	EXPECT_EQ(it, v.end());
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_between)
+{
+	size_t    a[]   = {1, 2, 3};
+	ftc::Data res[] = {1, 3};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.begin() + 1, v.begin() + 2);
+	EXPECT_EQ(it, v.begin() + 1);
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_between2)
+{
+	size_t    a[]   = {1, 2, 3};
+	ftc::Data res[] = {1, 3};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.begin() + 1, v.begin() + 2);
+	EXPECT_EQ(it, v.begin() + 1);
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_between3)
+{
+	size_t    a[]   = {1, 2, 3, 4};
+	ftc::Data res[] = {1, 3, 4};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.begin() + 1, v.begin() + 2);
+	EXPECT_EQ(it, v.begin() + 1);
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_between4)
+{
+	size_t    a[]   = {1, 2, 3, 4};
+	ftc::Data res[] = {1, 4};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.begin() + 1, v.begin() + 3);
+	EXPECT_EQ(it, v.begin() + 1);
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_between5)
+{
+	size_t    a[]   = {1, 2, 3, 4, 5};
+	ftc::Data res[] = {1, 3, 4, 5};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.begin() + 1, v.begin() + 2);
+	EXPECT_EQ(it, v.begin() + 1);
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_between6)
+{
+	size_t    a[]   = {1, 2, 3, 4, 5};
+	ftc::Data res[] = {1, 5};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.begin() + 1, v.end() - 1);
+	EXPECT_EQ(it, v.begin() + 1);
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_between7)
+{
+	size_t    a[]   = {1, 2, 3, 4, 5};
+	ftc::Data res[] = {1, 2, 5};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.begin() + 2, v.end() - 1);
+	EXPECT_EQ(it, v.begin() + 2);
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_backword)
+{
+	size_t    a[]   = {1};
+	ftc::Data res[] = {};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.end() - 1, v.end());
+	EXPECT_EQ(it, v.end());
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_backword2)
+{
+	size_t    a[]   = {1, 2, 3};
+	ftc::Data res[] = {1, 2};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.end() - 1, v.end());
+	EXPECT_EQ(it, v.end());
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_backword3)
+{
+	size_t    a[]   = {1, 2, 3};
+	ftc::Data res[] = {1, 2};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.end() - 1, v.end());
+	EXPECT_EQ(it, v.end());
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_backword4)
+{
+	size_t    a[]   = {1, 2, 3};
+	ftc::Data res[] = {1};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.end() - 2, v.end());
+	EXPECT_EQ(it, v.end());
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_backword5)
+{
+	size_t    a[]   = {1, 2, 3};
+	ftc::Data res[] = {};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.end() - 3, v.end());
+	EXPECT_EQ(it, v.end());
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_backword6)
+{
+	size_t    a[]   = {1, 2, 3, 4, 5};
+	ftc::Data res[] = {1, 2};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.end() -3, v.end());
+	EXPECT_EQ(it, v.end());
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
