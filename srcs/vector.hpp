@@ -183,6 +183,14 @@ namespace ft
 			return begin() + offset;
 		}
 
+		iterator erase(iterator first, iterator last)
+		{
+			difference_type offset = first - begin();
+			std::copy(last, end(), first);
+			destroy_at_end(last - first);
+			return begin() + offset;
+		}
+
 		vector &operator=(const vector &other)
 		{
 			if (&other == this) {
