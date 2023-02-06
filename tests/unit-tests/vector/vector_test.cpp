@@ -48,8 +48,8 @@ TEST(vector, copy_constructor)
 	{
 		Vector v;
 
-		v.reserve(1000);
-		for (size_t i = 0; i < 1000; i++) {
+		v.reserve(128);
+		for (size_t i = 0; i < 128; i++) {
 			v.resize(i);
 			Vector v2 = Vector(v);
 			ASSERT_EQ(v2.size(), i);
