@@ -191,6 +191,11 @@ namespace ft
 			return begin() + offset;
 		}
 
+		void clear()
+		{
+			erase(begin(), end());
+		}
+
 		vector &operator=(const vector &other)
 		{
 			if (&other == this) {
