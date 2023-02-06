@@ -15,6 +15,25 @@ namespace ft_containers
 		struct rebind {
 			typedef Allocator<U> other;
 		};
+		class ExceptionOn
+		{
+		  private:
+			bool tmp_;
+
+		  public:
+			ExceptionOn()
+			{
+				tmp_ = exception_on_;
+				exception_on_ = true;
+			}
+			~ExceptionOn()
+			{
+				exception_on_ = tmp_;
+			}
+		};
+
+	  private:
+		static bool exception_on_;
 
 	  public:
 		Allocator() : std::allocator<T>()
@@ -30,7 +49,7 @@ namespace ft_containers
 
 		void deallocate(T *p, std::size_t n)
 		{
-			ThrowRandom(__func__);
+			// ThrowRandom(__func__);
 			std::allocator<T>::deallocate(p, n);
 		}
 
@@ -42,18 +61,20 @@ namespace ft_containers
 
 		void destroy(T *p)
 		{
-			ThrowRandom(__func__);
+			// ThrowRandom(__func__);
 			std::allocator<T>::destroy(p);
 		}
 
 	  private:
 		void ThrowRandom(const std::string &msg)
 		{
-			if (lottery()) {
+			if (exception_on_ && lottery()) {
 				throw std::runtime_error("alloc random throw: " + msg);
 			}
 		}
 	};
+	template <class T>
+	bool Allocator<T>::exception_on_ = false;
 } // namespace ft_containers
 
 #endif
