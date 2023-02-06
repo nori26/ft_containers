@@ -206,6 +206,24 @@ namespace ft
 			return *this;
 		}
 
+		reference at(size_type pos)
+		{
+			if (pos < size()) {
+				return first_[pos];
+			} else {
+				throw std::out_of_range("vector");
+			}
+		}
+
+		const_reference at(size_type pos) const
+		{
+			if (pos < size()) {
+				return first_[pos];
+			} else {
+				throw std::out_of_range("vector");
+			}
+		}
+
 		reference operator[](size_type pos)
 		{
 			return first_[pos];
