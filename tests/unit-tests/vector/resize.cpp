@@ -11,8 +11,8 @@ namespace ft = std;
 #endif
 
 namespace ftc = ft_containers;
-typedef ft::vector<ftc::Data>                             Vector;
-typedef ft::vector<ftc::Data, ftc::Allocator<ftc::Data> > VectorAl;
+typedef ft::vector<ftc::Data, ftc::Allocator<ftc::Data> > Vector;
+typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 
 TEST(vector, resize)
 {
