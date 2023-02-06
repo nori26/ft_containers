@@ -43,7 +43,8 @@ namespace ft_containers
 
 	Data &Data::operator=(const Data &d)
 	{
-		print("operator=", d.p[0]);
+		print("operator=lhs", p[0]);
+		print("operator=rhs", d.p[0]);
 		ThrowRandom("operator=", d.p[0]);
 		if (&d == this) {
 			return *this;
