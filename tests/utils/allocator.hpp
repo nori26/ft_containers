@@ -34,11 +34,29 @@ namespace ft_containers
 
 	  private:
 		static bool exception_on_;
+		void       *id;
 
 	  public:
-		Allocator() : std::allocator<T>()
+		Allocator() : std::allocator<T>(), id(this)
 		{
 			ThrowRandom(__func__);
+		}
+
+		Allocator(const Allocator &other) : std::allocator<T>(other)
+		{
+			ThrowRandom(__func__);
+			id = other.id;
+		}
+
+		Allocator &operator=(const Allocator &rhs)
+		{
+			ThrowRandom(__func__);
+			if (&rhs == this) {
+				return *this;
+			}
+			std::allocator<T>::operator=(rhs);
+			id = rhs.id;
+			return *this;
 		}
 
 		T *allocate(std::size_t n, const void *hint = 0)
@@ -63,6 +81,11 @@ namespace ft_containers
 		{
 			// ThrowRandom(__func__);
 			std::allocator<T>::destroy(p);
+		}
+
+		void *get_id()
+		{
+			return id;
 		}
 
 	  private:
