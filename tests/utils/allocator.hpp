@@ -23,7 +23,7 @@ namespace ft_containers
 		  public:
 			ExceptionOn()
 			{
-				tmp_ = exception_on_;
+				tmp_          = exception_on_;
 				exception_on_ = true;
 			}
 			~ExceptionOn()
