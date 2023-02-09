@@ -576,3 +576,43 @@ TEST(vector, erase_backword6)
 		EXPECT_EQ(v[i], res[i]);
 	}
 }
+
+TEST(vector, erase_append)
+{
+	size_t    a[]   = {1, 2, 3, 4, 5};
+	ftc::Data res[] = {1, 2, 3, 4, 5};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	Vector::iterator  it  = v.erase(v.end() - 3, v.end());
+	v.insert(it, a + 2, a + ARRAY_SIZE(a));
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
+
+TEST(vector, erase_push_append)
+{
+	size_t    a[]   = {1, 2, 3, 4, 5};
+	ftc::Data res[] = {1, 2, 3, 4, 5};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	v.erase(v.end() - 3, v.end());
+	v.push_back(3);
+	v.push_back(4);
+	v.push_back(5);
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+}
