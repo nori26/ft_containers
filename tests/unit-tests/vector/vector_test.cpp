@@ -46,10 +46,10 @@ TEST(vector, push_back)
 TEST(vector, push_back_except)
 {
 	Vector v;
-	// VectorAl v;
 	size_t cap = 1;
 
 	// ftc::PrintOn _;
+	AllocExceptionOn _;
 	for (size_t i = 0, j = 0; i < 100; i++) {
 		try {
 			// TODO operator==
