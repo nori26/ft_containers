@@ -17,6 +17,14 @@ namespace ftc = ft_containers;
 typedef ft::vector<ftc::Data, ftc::Allocator<ftc::Data> > Vector;
 typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 
+TEST(vector, get_allocator)
+{
+	ftc::Allocator<ftc::Data> a;
+	const Vector              v(a);
+
+	EXPECT_EQ(v.get_allocator().get_id(), a.get_id());
+}
+
 TEST(vector, push_back)
 {
 	Vector v;
