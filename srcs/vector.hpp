@@ -65,6 +65,11 @@ namespace ft
 		}
 
 	  public:
+		allocator_type get_allocator() const
+		{
+			return allocator_;
+		}
+
 		void push_back(const value_type &value)
 		{
 			reserve(recommend_capacity(size() + 1));
