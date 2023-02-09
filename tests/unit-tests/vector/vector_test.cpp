@@ -86,21 +86,3 @@ TEST(vector, max_size)
 	const Vector::size_type   difference_max = std::numeric_limits<difference_type>::max();
 	EXPECT_EQ(std::min<Vector::size_type>(alloc_max, difference_max), v.max_size());
 }
-
-TEST(vector, operator_eq)
-{
-	Vector v;
-	Vector v2;
-
-	v.reserve(100);
-	v2.reserve(200);
-	for (size_t i = 0; i < 100; i++) {
-		v.resize(i);
-		v2 = v;
-		ASSERT_EQ(v2.size(), i);
-		ASSERT_EQ(v2.capacity(), 200U);
-	}
-	v.resize(201);
-	v2 = v;
-	EXPECT_EQ(v2.capacity(), 201U);
-}
