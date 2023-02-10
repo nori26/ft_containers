@@ -2,8 +2,8 @@
 #define DATA_HPP
 
 #include <iostream>
-#include <string>
 #include <set>
+#include <string>
 
 namespace ft_containers
 {
@@ -30,10 +30,10 @@ namespace ft_containers
 		};
 
 	  private:
-	  	static std::set<Data *> destructed;
-		static bool      print_on_;
-		static bool      exception_on_;
-		static const int exception_rate_;
+		static std::set<Data *> destructed;
+		static bool             print_on_;
+		static bool             exception_on_;
+		static const int        exception_rate_;
 
 	  public:
 		int *p;

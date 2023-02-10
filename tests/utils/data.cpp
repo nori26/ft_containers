@@ -7,9 +7,9 @@
 
 namespace ft_containers
 {
-	bool      Data::print_on_       = false;
-	bool      Data::exception_on_   = false;
-	const int Data::exception_rate_ = 3;
+	bool             Data::print_on_       = false;
+	bool             Data::exception_on_   = false;
+	const int        Data::exception_rate_ = 3;
 	std::set<Data *> Data::destructed;
 
 	Data::Data() : p()
