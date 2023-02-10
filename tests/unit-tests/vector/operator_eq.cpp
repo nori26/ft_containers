@@ -59,6 +59,7 @@ TEST_F(vector, operator_eq_empty3)
 	EXPECT_EQ(v2.size(), 0U);
 	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(a));
 	EXPECT_NE(v.get_allocator().get_id(), v2.get_allocator().get_id());
+	EXPECT_TRUE(ftc::Data::IsDestructed(v2.end(), v2.end() + ARRAY_SIZE(a)));
 }
 
 TEST_F(vector, operator_eq_meta)
@@ -212,6 +213,7 @@ TEST_F(vector, operator_eq_val2)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		ASSERT_EQ(v2[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v2.end(), v2.end() + ARRAY_SIZE(a2) - ARRAY_SIZE(a1)));
 }
 
 TEST_F(vector, operator_eq_val3)
@@ -253,6 +255,7 @@ TEST_F(vector, operator_eq_append)
 	}
 	EXPECT_EQ(v2.size(), ARRAY_SIZE(res));
 	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(res));
+	EXPECT_TRUE(ftc::Data::IsDestructed(v2.end() - 1, v2.end()));
 }
 
 TEST_F(vector, operator_eq_append2)
