@@ -230,18 +230,7 @@ namespace ft
 			if (&other == this) {
 				return *this;
 			}
-			if (other.size() > capacity()) {
-				instance_type v(allocator_, other.size());
-				v.insert(v.end(), other.begin(), other.end());
-				swap(v);
-			} else if (other.size() > size()) {
-				const_iterator initialized_last = other.begin() + size();
-				std::copy(other.begin(), initialized_last, begin());
-				construct_at_end(initialized_last, other.end());
-			} else {
-				std::copy(other.begin(), other.end(), begin());
-				destroy_at_end(size() - other.size());
-			}
+			assign(other.begin(), other.end());
 			return *this;
 		}
 
