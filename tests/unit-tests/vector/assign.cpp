@@ -187,6 +187,27 @@ TEST_F(vector, assign_val3)
 	}
 }
 
+TEST_F(vector, assign_val_reserved)
+{
+	ftc::Data a1[]  = {1, 2, 3, 4};
+	ftc::Data a2[]  = {4, 5, 6};
+	ftc::Data res[] = {1, 2, 3, 4};
+	Vector    v1;
+	Vector    v2;
+
+	v2.reserve(ARRAY_SIZE(a1));
+	ftc::initv(v1, a1, a1 + ARRAY_SIZE(a1));
+	ftc::initv_no_reserve(v2, a2, a2 + ARRAY_SIZE(a2));
+	// ftc::PrintOn _;
+	v2.assign(v1.begin(), v1.end());
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		ASSERT_EQ(v1[i], a1[i]);
+	}
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		ASSERT_EQ(v2[i], res[i]);
+	}
+}
+
 TEST_F(vector, assign_append)
 {
 	ftc::Data a1[]  = {1, 2, 3};
