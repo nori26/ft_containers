@@ -32,9 +32,11 @@ TEST_F(vector, resize)
 	v.resize(3);
 	EXPECT_EQ(v.size(), 3U);
 	EXPECT_EQ(v.capacity(), 4U);
+	ftc::Data::ClearDestructedPool();
 	v.resize(0);
 	EXPECT_EQ(v.size(), 0U);
 	EXPECT_EQ(v.capacity(), 4U);
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + 3));
 	v.resize(15);
 	EXPECT_EQ(v.size(), 15U);
 	EXPECT_EQ(v.capacity(), 15U);
