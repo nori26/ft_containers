@@ -310,6 +310,7 @@ namespace ft
 		void deallocate(pointer p, size_type n)
 		{
 			allocator_.deallocate(p, n);
+			first_ = last_ = reserved_last_ = NULL;
 		}
 
 		void destroy_at_end()
