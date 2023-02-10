@@ -31,6 +31,7 @@ TEST_F(vector, erase_one_forward)
 	EXPECT_EQ(v.data(), p);
 	EXPECT_EQ(v.capacity(), cap);
 	EXPECT_EQ(v.size(), 0U);
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.data(), v.data() + 1));
 }
 
 TEST_F(vector, erase_one_forward2)
@@ -50,6 +51,7 @@ TEST_F(vector, erase_one_forward2)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_one_forward3)
@@ -69,6 +71,7 @@ TEST_F(vector, erase_one_forward3)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_one_forward4)
@@ -88,6 +91,7 @@ TEST_F(vector, erase_one_forward4)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		ASSERT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_one_between)
@@ -107,6 +111,7 @@ TEST_F(vector, erase_one_between)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_one_between2)
@@ -126,6 +131,7 @@ TEST_F(vector, erase_one_between2)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_one_between3)
@@ -145,6 +151,7 @@ TEST_F(vector, erase_one_between3)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_one_between4)
@@ -164,6 +171,7 @@ TEST_F(vector, erase_one_between4)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_one_backward)
@@ -179,6 +187,7 @@ TEST_F(vector, erase_one_backward)
 	EXPECT_EQ(v.data(), p);
 	EXPECT_EQ(v.capacity(), cap);
 	EXPECT_EQ(v.size(), 0U);
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a)));
 }
 
 TEST_F(vector, erase_one_backward2)
@@ -198,6 +207,7 @@ TEST_F(vector, erase_one_backward2)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_empty)
@@ -272,6 +282,7 @@ TEST_F(vector, erase_forward)
 	EXPECT_EQ(v.data(), p);
 	EXPECT_EQ(v.capacity(), cap);
 	EXPECT_EQ(v.size(), 0U);
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a)));
 }
 
 TEST_F(vector, erase_forward2)
@@ -291,6 +302,7 @@ TEST_F(vector, erase_forward2)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_forward3)
@@ -310,6 +322,7 @@ TEST_F(vector, erase_forward3)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_forward4)
@@ -329,6 +342,7 @@ TEST_F(vector, erase_forward4)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_between)
@@ -348,6 +362,7 @@ TEST_F(vector, erase_between)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_between2)
@@ -367,6 +382,7 @@ TEST_F(vector, erase_between2)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_between3)
@@ -386,6 +402,7 @@ TEST_F(vector, erase_between3)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_between4)
@@ -405,6 +422,7 @@ TEST_F(vector, erase_between4)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_between5)
@@ -424,6 +442,7 @@ TEST_F(vector, erase_between5)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_between6)
@@ -443,6 +462,7 @@ TEST_F(vector, erase_between6)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_between7)
@@ -462,6 +482,7 @@ TEST_F(vector, erase_between7)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_backword)
@@ -481,6 +502,7 @@ TEST_F(vector, erase_backword)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_backword2)
@@ -500,6 +522,7 @@ TEST_F(vector, erase_backword2)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_backword3)
@@ -519,6 +542,7 @@ TEST_F(vector, erase_backword3)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_backword4)
@@ -538,6 +562,7 @@ TEST_F(vector, erase_backword4)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_backword5)
@@ -557,6 +582,7 @@ TEST_F(vector, erase_backword5)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_backword6)
@@ -576,6 +602,7 @@ TEST_F(vector, erase_backword6)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_append)
@@ -595,6 +622,7 @@ TEST_F(vector, erase_append)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
 TEST_F(vector, erase_push_append)
@@ -616,4 +644,5 @@ TEST_F(vector, erase_push_append)
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
 		EXPECT_EQ(v[i], res[i]);
 	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
