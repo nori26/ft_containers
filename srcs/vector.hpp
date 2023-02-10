@@ -65,6 +65,30 @@ namespace ft
 		}
 
 	  public:
+		void assign(size_type count, const value_type &value)
+		{
+			(void)count;
+			(void)value;
+		}
+
+		template <class InputIt>
+		void assign(InputIt first, InputIt last)
+		{
+			size_type len = std::distance(first, last);
+			if (len > capacity()) {               // TODO Basic guarantee ?
+				instance_type v(allocator_, len); // range constructor
+				v.insert(v.end(), first, last);
+				swap(v);
+			} else if (len > size()) {
+				InputIt initialized_last = first + size();
+				std::copy(first, initialized_last, begin());
+				construct_at_end(initialized_last, last);
+			} else {
+				iterator new_end = std::copy(first, last, begin());
+				erase(new_end, end());
+			}
+		}
+
 		allocator_type get_allocator() const
 		{
 			return allocator_;
