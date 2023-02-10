@@ -3,6 +3,7 @@
 #include "allocator.hpp"
 #include "data.hpp"
 #include "init_vector.hpp"
+#include "vector_fixture.hpp"
 
 #ifdef FT_TEST
   #include "vector.hpp"
@@ -18,7 +19,7 @@ typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
 
 // If size() is ​0​, data() may or may not return a null pointer.
-TEST(vector, default_constructor)
+TEST_F(vector, default_constructor)
 {
 	Vector v = Vector();
 	EXPECT_EQ(v.size(), 0U);
@@ -27,7 +28,7 @@ TEST(vector, default_constructor)
 	EXPECT_TRUE(v.empty());
 }
 
-TEST(vector, constructor_alloc)
+TEST_F(vector, constructor_alloc)
 {
 	Vector v = Vector(ftc::Allocator<ftc::Data>());
 
@@ -38,7 +39,7 @@ TEST(vector, constructor_alloc)
 	EXPECT_EQ(v[0], 1);
 }
 
-TEST(vector, copy_constructor)
+TEST_F(vector, copy_constructor)
 {
 	{
 		Vector v;

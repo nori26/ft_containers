@@ -3,6 +3,7 @@
 #include "allocator.hpp"
 #include "data.hpp"
 #include "init_vector.hpp"
+#include "vector_fixture.hpp"
 
 #ifdef FT_TEST
   #include "vector.hpp"
@@ -17,7 +18,7 @@ typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
 
-TEST(vector, operator_eq_empty)
+TEST_F(vector, operator_eq_empty)
 {
 	Vector v;
 	Vector v2;
@@ -30,7 +31,7 @@ TEST(vector, operator_eq_empty)
 	EXPECT_NE(v.get_allocator().get_id(), v2.get_allocator().get_id());
 }
 
-TEST(vector, operator_eq_empty2)
+TEST_F(vector, operator_eq_empty2)
 {
 	ftc::Data a[] = {1, 2, 3};
 	Vector    v;
@@ -45,7 +46,7 @@ TEST(vector, operator_eq_empty2)
 	EXPECT_NE(v.get_allocator().get_id(), v2.get_allocator().get_id());
 }
 
-TEST(vector, operator_eq_empty3)
+TEST_F(vector, operator_eq_empty3)
 {
 	ftc::Data a[] = {1, 2, 3};
 	Vector    v;
@@ -60,7 +61,7 @@ TEST(vector, operator_eq_empty3)
 	EXPECT_NE(v.get_allocator().get_id(), v2.get_allocator().get_id());
 }
 
-TEST(vector, operator_eq_meta)
+TEST_F(vector, operator_eq_meta)
 {
 	Vector v;
 	Vector v2;
@@ -79,7 +80,7 @@ TEST(vector, operator_eq_meta)
 	}
 }
 
-TEST(vector, operator_eq_meta2)
+TEST_F(vector, operator_eq_meta2)
 {
 	Vector v;
 	Vector v2;
@@ -98,7 +99,7 @@ TEST(vector, operator_eq_meta2)
 	}
 }
 
-TEST(vector, operator_eq_meta3)
+TEST_F(vector, operator_eq_meta3)
 {
 	Vector v;
 	Vector v2;
@@ -113,7 +114,7 @@ TEST(vector, operator_eq_meta3)
 	ASSERT_NE(v.get_allocator().get_id(), v2.get_allocator().get_id());
 }
 
-TEST(vector, operator_eq_meta4)
+TEST_F(vector, operator_eq_meta4)
 {
 	Vector v;
 	Vector v2;
@@ -127,7 +128,7 @@ TEST(vector, operator_eq_meta4)
 	ASSERT_NE(v.get_allocator().get_id(), v2.get_allocator().get_id());
 }
 
-TEST(vector, operator_eq_ret)
+TEST_F(vector, operator_eq_ret)
 {
 	ftc::Data a1[]  = {1, 2, 3};
 	ftc::Data a2[]  = {4, 5, 6};
@@ -150,7 +151,7 @@ TEST(vector, operator_eq_ret)
 	}
 }
 
-TEST(vector, operator_eq_ret2)
+TEST_F(vector, operator_eq_ret2)
 {
 	ftc::Data a1[]  = {1, 2, 3};
 	ftc::Data a2[]  = {4, 5, 6};
@@ -175,7 +176,7 @@ TEST(vector, operator_eq_ret2)
 	}
 }
 
-TEST(vector, operator_eq_val)
+TEST_F(vector, operator_eq_val)
 {
 	ftc::Data a1[]  = {1, 2, 3};
 	ftc::Data a2[]  = {4, 5, 6};
@@ -194,7 +195,7 @@ TEST(vector, operator_eq_val)
 	}
 }
 
-TEST(vector, operator_eq_val2)
+TEST_F(vector, operator_eq_val2)
 {
 	ftc::Data a1[]  = {1, 2, 3};
 	ftc::Data a2[]  = {4, 5, 6, 7};
@@ -213,7 +214,7 @@ TEST(vector, operator_eq_val2)
 	}
 }
 
-TEST(vector, operator_eq_val3)
+TEST_F(vector, operator_eq_val3)
 {
 	ftc::Data a1[]  = {1, 2, 3};
 	ftc::Data a2[]  = {4, 5};
@@ -232,7 +233,7 @@ TEST(vector, operator_eq_val3)
 	}
 }
 
-TEST(vector, operator_eq_append)
+TEST_F(vector, operator_eq_append)
 {
 	ftc::Data a1[]  = {1, 2, 3};
 	ftc::Data a2[]  = {4, 5, 6, 7};
@@ -254,7 +255,7 @@ TEST(vector, operator_eq_append)
 	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(res));
 }
 
-TEST(vector, operator_eq_append2)
+TEST_F(vector, operator_eq_append2)
 {
 	ftc::Data a1[]  = {1, 2, 3};
 	ftc::Data a2[]  = {4, 5, 6, 7};

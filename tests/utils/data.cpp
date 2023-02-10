@@ -10,6 +10,7 @@ namespace ft_containers
 	bool      Data::print_on_       = false;
 	bool      Data::exception_on_   = false;
 	const int Data::exception_rate_ = 3;
+	std::set<Data *> Data::destructed;
 
 	Data::Data() : p()
 	{
@@ -39,6 +40,7 @@ namespace ft_containers
 	{
 		print(COL_RED "destruct" COL_END, p[0]);
 		delete[] p;
+		destructed.insert(this);
 	}
 
 	Data &Data::operator=(const Data &d)
@@ -81,6 +83,11 @@ namespace ft_containers
 			ss << msg << " " << id;
 			throw std::runtime_error("random throw: " + ss.str());
 		}
+	}
+
+	void Data::ClearDestructedPool()
+	{
+		destructed.clear();
 	}
 
 	void Data::SetPrintMode(bool b)

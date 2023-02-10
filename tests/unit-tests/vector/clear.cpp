@@ -3,6 +3,7 @@
 #include "allocator.hpp"
 #include "data.hpp"
 #include "init_vector.hpp"
+#include "vector_fixture.hpp"
 
 #ifdef FT_TEST
   #include "vector.hpp"
@@ -17,7 +18,7 @@ typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
 
-TEST(vector, clear_empty)
+TEST_F(vector, clear_empty)
 {
 	Vector v;
 
@@ -30,7 +31,7 @@ TEST(vector, clear_empty)
 	EXPECT_TRUE(v.empty());
 }
 
-TEST(vector, clear1)
+TEST_F(vector, clear1)
 {
 	size_t a[1] = {};
 	Vector v;
@@ -45,7 +46,7 @@ TEST(vector, clear1)
 	EXPECT_TRUE(v.empty());
 }
 
-TEST(vector, clear2)
+TEST_F(vector, clear2)
 {
 	size_t a[2] = {};
 	Vector v;
@@ -60,7 +61,7 @@ TEST(vector, clear2)
 	EXPECT_TRUE(v.empty());
 }
 
-TEST(vector, clear3)
+TEST_F(vector, clear3)
 {
 	size_t a[3] = {};
 	Vector v;
@@ -75,7 +76,7 @@ TEST(vector, clear3)
 	EXPECT_TRUE(v.empty());
 }
 
-TEST(vector, clear4)
+TEST_F(vector, clear4)
 {
 	size_t a[4] = {};
 	Vector v;
@@ -90,7 +91,7 @@ TEST(vector, clear4)
 	EXPECT_TRUE(v.empty());
 }
 
-TEST(vector, clear5)
+TEST_F(vector, clear5)
 {
 	size_t a[5] = {};
 	Vector v;
@@ -105,7 +106,7 @@ TEST(vector, clear5)
 	EXPECT_TRUE(v.empty());
 }
 
-TEST(vector, clear6)
+TEST_F(vector, clear6)
 {
 	size_t a[6] = {};
 	Vector v;
@@ -120,7 +121,7 @@ TEST(vector, clear6)
 	EXPECT_TRUE(v.empty());
 }
 
-TEST(vector, clear7)
+TEST_F(vector, clear7)
 {
 	size_t a[7] = {};
 	Vector v;
@@ -135,7 +136,7 @@ TEST(vector, clear7)
 	EXPECT_TRUE(v.empty());
 }
 
-TEST(vector, clear8)
+TEST_F(vector, clear8)
 {
 	size_t a[1000] = {};
 	Vector v;
@@ -150,7 +151,7 @@ TEST(vector, clear8)
 	EXPECT_TRUE(v.empty());
 }
 
-TEST(vector, clear_append1)
+TEST_F(vector, clear_append1)
 {
 	size_t a[1] = {};
 	size_t b[1] = {1};
@@ -169,7 +170,7 @@ TEST(vector, clear_append1)
 	}
 }
 
-TEST(vector, clear_append2)
+TEST_F(vector, clear_append2)
 {
 	size_t a[2] = {};
 	size_t b[2] = {1};
@@ -188,7 +189,7 @@ TEST(vector, clear_append2)
 	}
 }
 
-TEST(vector, clear_append3)
+TEST_F(vector, clear_append3)
 {
 	size_t a[3] = {};
 	size_t b[3] = {1};
@@ -207,7 +208,7 @@ TEST(vector, clear_append3)
 	}
 }
 
-TEST(vector, clear_append4)
+TEST_F(vector, clear_append4)
 {
 	size_t a[4] = {};
 	size_t b[4] = {1};
@@ -226,7 +227,7 @@ TEST(vector, clear_append4)
 	}
 }
 
-TEST(vector, clear_append5)
+TEST_F(vector, clear_append5)
 {
 	size_t a[5] = {};
 	size_t b[5] = {1};
@@ -245,7 +246,7 @@ TEST(vector, clear_append5)
 	}
 }
 
-TEST(vector, clear_append6)
+TEST_F(vector, clear_append6)
 {
 	size_t a[6] = {};
 	size_t b[6] = {1};
@@ -264,7 +265,7 @@ TEST(vector, clear_append6)
 	}
 }
 
-TEST(vector, clear_append7)
+TEST_F(vector, clear_append7)
 {
 	size_t a[7] = {};
 	size_t b[7] = {1};
@@ -283,7 +284,7 @@ TEST(vector, clear_append7)
 	}
 }
 
-TEST(vector, clear_append8)
+TEST_F(vector, clear_append8)
 {
 	size_t a[1000] = {};
 	size_t b[1000] = {1};

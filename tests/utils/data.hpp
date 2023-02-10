@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <set>
 
 namespace ft_containers
 {
@@ -29,6 +30,7 @@ namespace ft_containers
 		};
 
 	  private:
+	  	static std::set<Data *> destructed;
 		static bool      print_on_;
 		static bool      exception_on_;
 		static const int exception_rate_;
@@ -48,6 +50,17 @@ namespace ft_containers
 		static bool GetPrintMode();
 		static void SetExceptionMode(bool b);
 		static bool GetExceptionMode();
+		static void ClearDestructedPool();
+		template <class Iterator>
+		static bool IsDestructed(Iterator first, Iterator last)
+		{
+			for (; first != last; first++) {
+				if (destructed.count(&*first) == 0) {
+					return false;
+				}
+			}
+			return true;
+		}
 
 	  private:
 		static void print(const std::string &s, int n);

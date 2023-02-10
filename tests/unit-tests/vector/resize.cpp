@@ -2,6 +2,7 @@
 
 #include "allocator.hpp"
 #include "data.hpp"
+#include "vector_fixture.hpp"
 
 #ifdef FT_TEST
   #include "vector.hpp"
@@ -14,7 +15,7 @@ namespace ftc = ft_containers;
 typedef ft::vector<ftc::Data, ftc::Allocator<ftc::Data> > Vector;
 typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 
-TEST(vector, resize)
+TEST_F(vector, resize)
 {
 	// ftc::PrintOn _;
 	Vector v;
@@ -51,7 +52,7 @@ TEST(vector, resize)
 	EXPECT_EQ(v.capacity(), 122U);
 }
 
-TEST(vector, resize_over_max)
+TEST_F(vector, resize_over_max)
 {
 	Vector v;
 

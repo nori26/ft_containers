@@ -5,6 +5,7 @@
 #include "allocator.hpp"
 #include "data.hpp"
 #include "init_vector.hpp"
+#include "vector_fixture.hpp"
 
 #ifdef FT_TEST
   #include "vector.hpp"
@@ -19,7 +20,7 @@ typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
 
-TEST(vector, insert_size_t)
+TEST_F(vector, insert_size_t)
 {
 	ft::vector<size_t> v;
 	// size_t ary[1] = {0};
@@ -28,7 +29,7 @@ TEST(vector, insert_size_t)
 	v.insert(v.end(), i, i);
 }
 
-// TEST(vector, insert_best_viable)
+// TEST_F(vector, insert_best_viable)
 // {
 // 	ft::vector<size_t> v;
 // 	Vector             v2;
@@ -45,7 +46,7 @@ TEST(vector, insert_size_t)
 // }
 // // TODO input itr, except, copy conut
 
-TEST(vector, insert_empty)
+TEST_F(vector, insert_empty)
 {
 	Vector v1;
 	Vector v2;
@@ -63,7 +64,7 @@ TEST(vector, insert_empty)
 	}
 }
 
-TEST(vector, insert_forward)
+TEST_F(vector, insert_forward)
 {
 	size_t a[] = {2, 3};
 	size_t b[] = {0, 1};
@@ -80,7 +81,7 @@ TEST(vector, insert_forward)
 	}
 }
 
-TEST(vector, insert_between)
+TEST_F(vector, insert_between)
 {
 	size_t a[] = {0, 3};
 	size_t b[] = {1, 2};
@@ -97,7 +98,7 @@ TEST(vector, insert_between)
 	}
 }
 
-TEST(vector, insert_between2)
+TEST_F(vector, insert_between2)
 {
 	size_t a[] = {0, 3, 4};
 	size_t b[] = {1, 2};
@@ -114,7 +115,7 @@ TEST(vector, insert_between2)
 	}
 }
 
-TEST(vector, insert_between3)
+TEST_F(vector, insert_between3)
 {
 	size_t a[] = {0, 3, 4, 5};
 	size_t b[] = {1, 2};
@@ -131,7 +132,7 @@ TEST(vector, insert_between3)
 	}
 }
 
-TEST(vector, insert_between4)
+TEST_F(vector, insert_between4)
 {
 	size_t a[] = {0, 4};
 	size_t b[] = {1, 2, 3};
@@ -148,7 +149,7 @@ TEST(vector, insert_between4)
 	}
 }
 
-TEST(vector, insert_backward)
+TEST_F(vector, insert_backward)
 {
 	size_t a[] = {0, 1};
 	size_t b[] = {2, 3};
@@ -165,7 +166,7 @@ TEST(vector, insert_backward)
 	}
 }
 
-TEST(vector, insert_forward_reserved)
+TEST_F(vector, insert_forward_reserved)
 {
 	size_t a[] = {2, 3};
 	size_t b[] = {0, 1};
@@ -183,7 +184,7 @@ TEST(vector, insert_forward_reserved)
 	}
 }
 
-TEST(vector, insert_forward_reserved2)
+TEST_F(vector, insert_forward_reserved2)
 {
 	size_t a[] = {1, 2, 3};
 	size_t b[] = {0};
@@ -201,7 +202,7 @@ TEST(vector, insert_forward_reserved2)
 	}
 }
 
-TEST(vector, insert_forward_reserved3)
+TEST_F(vector, insert_forward_reserved3)
 {
 	size_t a[] = {3};
 	size_t b[] = {0, 1, 2};
@@ -219,7 +220,7 @@ TEST(vector, insert_forward_reserved3)
 	}
 }
 
-TEST(vector, insert_between_reserved)
+TEST_F(vector, insert_between_reserved)
 {
 	size_t a[] = {0, 3};
 	size_t b[] = {1, 2};
@@ -237,7 +238,7 @@ TEST(vector, insert_between_reserved)
 	}
 }
 
-TEST(vector, insert_between_reserved2)
+TEST_F(vector, insert_between_reserved2)
 {
 	size_t a[] = {0, 3, 4};
 	size_t b[] = {1, 2};
@@ -255,7 +256,7 @@ TEST(vector, insert_between_reserved2)
 	}
 }
 
-TEST(vector, insert_between_reserved3)
+TEST_F(vector, insert_between_reserved3)
 {
 	size_t a[] = {0, 3, 4, 5};
 	size_t b[] = {1, 2};
@@ -273,7 +274,7 @@ TEST(vector, insert_between_reserved3)
 	}
 }
 
-TEST(vector, insert_between_reserved4)
+TEST_F(vector, insert_between_reserved4)
 {
 	size_t a[] = {0, 4};
 	size_t b[] = {1, 2, 3};
@@ -291,7 +292,7 @@ TEST(vector, insert_between_reserved4)
 	}
 }
 
-TEST(vector, insert_backward_reserved)
+TEST_F(vector, insert_backward_reserved)
 {
 	size_t a[] = {0, 1};
 	size_t b[] = {2, 3};
@@ -309,7 +310,7 @@ TEST(vector, insert_backward_reserved)
 	}
 }
 
-TEST(vector, insert_cap)
+TEST_F(vector, insert_cap)
 {
 	Vector v;
 	size_t a[] = {0, 1, 2, 3};
@@ -325,7 +326,7 @@ TEST(vector, insert_cap)
 	EXPECT_EQ(v.capacity(), 10U);
 }
 
-TEST(vector, insert_n_empty)
+TEST_F(vector, insert_n_empty)
 {
 	Vector v1;
 	Vector v2;
@@ -340,7 +341,7 @@ TEST(vector, insert_n_empty)
 	}
 }
 
-TEST(vector, insert_n_empty2)
+TEST_F(vector, insert_n_empty2)
 {
 	Vector v;
 
@@ -350,7 +351,7 @@ TEST(vector, insert_n_empty2)
 	EXPECT_EQ(v.data(), (ftc::Data *)0);
 }
 
-TEST(vector, insert_n_max)
+TEST_F(vector, insert_n_max)
 {
 	Vector            v;
 	Vector::size_type max = std::numeric_limits<Vector::size_type>::max();
@@ -359,7 +360,7 @@ TEST(vector, insert_n_max)
 	EXPECT_THROW(v.insert(v.begin(), max, ftc::Data(1)), std::length_error);
 }
 
-TEST(vector, insert_n_forward)
+TEST_F(vector, insert_n_forward)
 {
 	size_t    a[]   = {2, 3};
 	ftc::Data b     = 1;
@@ -377,7 +378,7 @@ TEST(vector, insert_n_forward)
 	}
 }
 
-TEST(vector, insert_n_forward2)
+TEST_F(vector, insert_n_forward2)
 {
 	Vector    v;
 	ftc::Data left    = 0;
@@ -404,7 +405,7 @@ TEST(vector, insert_n_forward2)
 	}
 }
 
-TEST(vector, insert_n_between)
+TEST_F(vector, insert_n_between)
 {
 	size_t    a[]   = {0, 3};
 	ftc::Data b     = 1;
@@ -422,7 +423,7 @@ TEST(vector, insert_n_between)
 	}
 }
 
-TEST(vector, insert_n_between2)
+TEST_F(vector, insert_n_between2)
 {
 	size_t    a[]   = {0, 2, 3};
 	ftc::Data b     = 1;
@@ -440,7 +441,7 @@ TEST(vector, insert_n_between2)
 	}
 }
 
-TEST(vector, insert_n_between3)
+TEST_F(vector, insert_n_between3)
 {
 	size_t    a[]   = {0, 2, 3, 4};
 	ftc::Data b     = 1;
@@ -458,7 +459,7 @@ TEST(vector, insert_n_between3)
 	}
 }
 
-TEST(vector, insert_n_between4)
+TEST_F(vector, insert_n_between4)
 {
 	size_t    a[]   = {0, 4};
 	ftc::Data b     = 1;
@@ -476,7 +477,7 @@ TEST(vector, insert_n_between4)
 	}
 }
 
-TEST(vector, insert_n_between5)
+TEST_F(vector, insert_n_between5)
 {
 	Vector    v;
 	ftc::Data left    = 0;
@@ -503,7 +504,7 @@ TEST(vector, insert_n_between5)
 	}
 }
 
-TEST(vector, insert_n_backward)
+TEST_F(vector, insert_n_backward)
 {
 	size_t    a[]   = {0, 1};
 	ftc::Data b     = 2;
@@ -521,7 +522,7 @@ TEST(vector, insert_n_backward)
 	}
 }
 
-TEST(vector, insert_n_forward_reserved)
+TEST_F(vector, insert_n_forward_reserved)
 {
 	size_t    a[]   = {2, 3};
 	ftc::Data b     = 1;
@@ -540,7 +541,7 @@ TEST(vector, insert_n_forward_reserved)
 	}
 }
 
-TEST(vector, insert_n_forward_reserved2)
+TEST_F(vector, insert_n_forward_reserved2)
 {
 	size_t    a[]   = {1, 2, 3};
 	ftc::Data b     = 1;
@@ -559,7 +560,7 @@ TEST(vector, insert_n_forward_reserved2)
 	}
 }
 
-TEST(vector, insert_n_forward_reserved3)
+TEST_F(vector, insert_n_forward_reserved3)
 {
 	size_t    a[]   = {3};
 	ftc::Data b     = 1;
@@ -578,7 +579,7 @@ TEST(vector, insert_n_forward_reserved3)
 	}
 }
 
-TEST(vector, insert_n_between_reserved)
+TEST_F(vector, insert_n_between_reserved)
 {
 	size_t    a[]   = {1, 3};
 	ftc::Data b     = 2;
@@ -597,7 +598,7 @@ TEST(vector, insert_n_between_reserved)
 	}
 }
 
-TEST(vector, insert_n_between_reserved2)
+TEST_F(vector, insert_n_between_reserved2)
 {
 	size_t    a[]   = {1, 3, 4};
 	ftc::Data b     = 2;
@@ -616,7 +617,7 @@ TEST(vector, insert_n_between_reserved2)
 	}
 }
 
-TEST(vector, insert_n_between_reserved3)
+TEST_F(vector, insert_n_between_reserved3)
 {
 	size_t    a[]   = {1, 3, 4, 5};
 	ftc::Data b     = 2;
@@ -635,7 +636,7 @@ TEST(vector, insert_n_between_reserved3)
 	}
 }
 
-TEST(vector, insert_n_between_reserved4)
+TEST_F(vector, insert_n_between_reserved4)
 {
 	size_t    a[]   = {1, 5};
 	ftc::Data b     = 2;
@@ -654,7 +655,7 @@ TEST(vector, insert_n_between_reserved4)
 	}
 }
 
-TEST(vector, insert_n_backward_reserved)
+TEST_F(vector, insert_n_backward_reserved)
 {
 	size_t    a[]   = {1, 2};
 	ftc::Data b     = 3;
@@ -673,7 +674,7 @@ TEST(vector, insert_n_backward_reserved)
 	}
 }
 
-TEST(vector, insert_n_cap)
+TEST_F(vector, insert_n_cap)
 {
 	Vector v;
 
@@ -688,7 +689,7 @@ TEST(vector, insert_n_cap)
 	EXPECT_EQ(v.capacity(), 10U);
 }
 
-TEST(vector, insert_one_empty)
+TEST_F(vector, insert_one_empty)
 {
 	Vector v1;
 	Vector v2;
@@ -705,7 +706,7 @@ TEST(vector, insert_one_empty)
 	EXPECT_EQ(v2[0], 1);
 }
 
-TEST(vector, insert_one_forward)
+TEST_F(vector, insert_one_forward)
 {
 	size_t    a[]   = {2, 3};
 	ftc::Data b     = 1;
@@ -723,7 +724,7 @@ TEST(vector, insert_one_forward)
 	}
 }
 
-TEST(vector, insert_one_between)
+TEST_F(vector, insert_one_between)
 {
 	size_t    a[]   = {0, 3};
 	ftc::Data b     = 1;
@@ -741,7 +742,7 @@ TEST(vector, insert_one_between)
 	}
 }
 
-TEST(vector, insert_one_between2)
+TEST_F(vector, insert_one_between2)
 {
 	size_t    a[]   = {0, 2, 3};
 	ftc::Data b     = 1;
@@ -759,7 +760,7 @@ TEST(vector, insert_one_between2)
 	}
 }
 
-TEST(vector, insert_one_between3)
+TEST_F(vector, insert_one_between3)
 {
 	size_t    a[]   = {0, 2, 3, 4};
 	ftc::Data b     = 1;
@@ -777,7 +778,7 @@ TEST(vector, insert_one_between3)
 	}
 }
 
-TEST(vector, insert_one_backward)
+TEST_F(vector, insert_one_backward)
 {
 	size_t    a[]   = {0, 1};
 	ftc::Data b     = 2;
@@ -795,7 +796,7 @@ TEST(vector, insert_one_backward)
 	}
 }
 
-TEST(vector, insert_one_forward_reserved)
+TEST_F(vector, insert_one_forward_reserved)
 {
 	size_t    a[]   = {2, 3};
 	ftc::Data b     = 1;
@@ -814,7 +815,7 @@ TEST(vector, insert_one_forward_reserved)
 	}
 }
 
-TEST(vector, insert_one_forward_reserved3)
+TEST_F(vector, insert_one_forward_reserved3)
 {
 	size_t    a[]   = {3};
 	ftc::Data b     = 1;
@@ -833,7 +834,7 @@ TEST(vector, insert_one_forward_reserved3)
 	}
 }
 
-TEST(vector, insert_one_between_reserved)
+TEST_F(vector, insert_one_between_reserved)
 {
 	size_t    a[]   = {1, 3};
 	ftc::Data b     = 2;
@@ -852,7 +853,7 @@ TEST(vector, insert_one_between_reserved)
 	}
 }
 
-TEST(vector, insert_one_between_reserved2)
+TEST_F(vector, insert_one_between_reserved2)
 {
 	size_t    a[]   = {1, 3, 4};
 	ftc::Data b     = 2;
@@ -871,7 +872,7 @@ TEST(vector, insert_one_between_reserved2)
 	}
 }
 
-TEST(vector, insert_one_between_reserved3)
+TEST_F(vector, insert_one_between_reserved3)
 {
 	size_t    a[]   = {1, 3, 4, 5};
 	ftc::Data b     = 2;
@@ -890,7 +891,7 @@ TEST(vector, insert_one_between_reserved3)
 	}
 }
 
-TEST(vector, insert_one_backward_reserved)
+TEST_F(vector, insert_one_backward_reserved)
 {
 	size_t    a[]   = {1, 2};
 	ftc::Data b     = 3;
@@ -909,7 +910,7 @@ TEST(vector, insert_one_backward_reserved)
 	}
 }
 
-TEST(vector, insert_one_cap)
+TEST_F(vector, insert_one_cap)
 {
 	Vector v;
 

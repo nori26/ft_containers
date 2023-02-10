@@ -3,6 +3,7 @@
 #include "allocator.hpp"
 #include "data.hpp"
 #include "init_vector.hpp"
+#include "vector_fixture.hpp"
 
 #ifdef FT_TEST
   #include "vector.hpp"
@@ -17,7 +18,7 @@ typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
 
-TEST(vector, erase_one_forward)
+TEST_F(vector, erase_one_forward)
 {
 	size_t a[] = {1};
 	Vector v;
@@ -32,7 +33,7 @@ TEST(vector, erase_one_forward)
 	EXPECT_EQ(v.size(), 0U);
 }
 
-TEST(vector, erase_one_forward2)
+TEST_F(vector, erase_one_forward2)
 {
 	size_t    a[]   = {2, 3};
 	ftc::Data res[] = {3};
@@ -51,7 +52,7 @@ TEST(vector, erase_one_forward2)
 	}
 }
 
-TEST(vector, erase_one_forward3)
+TEST_F(vector, erase_one_forward3)
 {
 	size_t    a[]   = {2, 3, 4};
 	ftc::Data res[] = {3, 4};
@@ -70,7 +71,7 @@ TEST(vector, erase_one_forward3)
 	}
 }
 
-TEST(vector, erase_one_forward4)
+TEST_F(vector, erase_one_forward4)
 {
 	size_t    a[129]   = {2, 3, 4, 5};
 	ftc::Data res[128] = {3, 4, 5};
@@ -89,7 +90,7 @@ TEST(vector, erase_one_forward4)
 	}
 }
 
-TEST(vector, erase_one_between)
+TEST_F(vector, erase_one_between)
 {
 	size_t    a[]   = {1, 2, 3};
 	ftc::Data res[] = {1, 3};
@@ -108,7 +109,7 @@ TEST(vector, erase_one_between)
 	}
 }
 
-TEST(vector, erase_one_between2)
+TEST_F(vector, erase_one_between2)
 {
 	size_t    a[]   = {1, 2, 3, 4};
 	ftc::Data res[] = {1, 3, 4};
@@ -127,7 +128,7 @@ TEST(vector, erase_one_between2)
 	}
 }
 
-TEST(vector, erase_one_between3)
+TEST_F(vector, erase_one_between3)
 {
 	size_t    a[128]   = {1, 2, 3};
 	ftc::Data res[127] = {1, 3};
@@ -146,7 +147,7 @@ TEST(vector, erase_one_between3)
 	}
 }
 
-TEST(vector, erase_one_between4)
+TEST_F(vector, erase_one_between4)
 {
 	size_t    a[128]   = {1, 2, 3};
 	ftc::Data res[127] = {1, 2, 3};
@@ -165,7 +166,7 @@ TEST(vector, erase_one_between4)
 	}
 }
 
-TEST(vector, erase_one_backward)
+TEST_F(vector, erase_one_backward)
 {
 	size_t a[] = {1};
 	Vector v;
@@ -180,7 +181,7 @@ TEST(vector, erase_one_backward)
 	EXPECT_EQ(v.size(), 0U);
 }
 
-TEST(vector, erase_one_backward2)
+TEST_F(vector, erase_one_backward2)
 {
 	size_t    a[]   = {2, 3};
 	ftc::Data res[] = {2};
@@ -199,7 +200,7 @@ TEST(vector, erase_one_backward2)
 	}
 }
 
-TEST(vector, erase_empty)
+TEST_F(vector, erase_empty)
 {
 	Vector v;
 
@@ -220,7 +221,7 @@ TEST(vector, erase_empty)
 	EXPECT_EQ(v.data(), (ftc::Data *)0);
 }
 
-TEST(vector, erase_nop)
+TEST_F(vector, erase_nop)
 {
 	size_t    a[]   = {1, 2, 3, 4};
 	ftc::Data res[] = {1, 2, 3, 4};
@@ -239,7 +240,7 @@ TEST(vector, erase_nop)
 	}
 }
 
-TEST(vector, erase_nop2)
+TEST_F(vector, erase_nop2)
 {
 	size_t    a[]   = {1, 2, 3, 4};
 	ftc::Data res[] = {1, 2, 3, 4};
@@ -258,7 +259,7 @@ TEST(vector, erase_nop2)
 	}
 }
 
-TEST(vector, erase_forward)
+TEST_F(vector, erase_forward)
 {
 	size_t a[] = {1};
 	Vector v;
@@ -273,7 +274,7 @@ TEST(vector, erase_forward)
 	EXPECT_EQ(v.size(), 0U);
 }
 
-TEST(vector, erase_forward2)
+TEST_F(vector, erase_forward2)
 {
 	size_t    a[]   = {1, 2, 3};
 	ftc::Data res[] = {2, 3};
@@ -292,7 +293,7 @@ TEST(vector, erase_forward2)
 	}
 }
 
-TEST(vector, erase_forward3)
+TEST_F(vector, erase_forward3)
 {
 	size_t    a[]   = {1, 2, 3};
 	ftc::Data res[] = {3};
@@ -311,7 +312,7 @@ TEST(vector, erase_forward3)
 	}
 }
 
-TEST(vector, erase_forward4)
+TEST_F(vector, erase_forward4)
 {
 	size_t    a[]   = {1, 2, 3};
 	ftc::Data res[] = {};
@@ -330,7 +331,7 @@ TEST(vector, erase_forward4)
 	}
 }
 
-TEST(vector, erase_between)
+TEST_F(vector, erase_between)
 {
 	size_t    a[]   = {1, 2, 3};
 	ftc::Data res[] = {1, 3};
@@ -349,7 +350,7 @@ TEST(vector, erase_between)
 	}
 }
 
-TEST(vector, erase_between2)
+TEST_F(vector, erase_between2)
 {
 	size_t    a[]   = {1, 2, 3};
 	ftc::Data res[] = {1, 3};
@@ -368,7 +369,7 @@ TEST(vector, erase_between2)
 	}
 }
 
-TEST(vector, erase_between3)
+TEST_F(vector, erase_between3)
 {
 	size_t    a[]   = {1, 2, 3, 4};
 	ftc::Data res[] = {1, 3, 4};
@@ -387,7 +388,7 @@ TEST(vector, erase_between3)
 	}
 }
 
-TEST(vector, erase_between4)
+TEST_F(vector, erase_between4)
 {
 	size_t    a[]   = {1, 2, 3, 4};
 	ftc::Data res[] = {1, 4};
@@ -406,7 +407,7 @@ TEST(vector, erase_between4)
 	}
 }
 
-TEST(vector, erase_between5)
+TEST_F(vector, erase_between5)
 {
 	size_t    a[]   = {1, 2, 3, 4, 5};
 	ftc::Data res[] = {1, 3, 4, 5};
@@ -425,7 +426,7 @@ TEST(vector, erase_between5)
 	}
 }
 
-TEST(vector, erase_between6)
+TEST_F(vector, erase_between6)
 {
 	size_t    a[]   = {1, 2, 3, 4, 5};
 	ftc::Data res[] = {1, 5};
@@ -444,7 +445,7 @@ TEST(vector, erase_between6)
 	}
 }
 
-TEST(vector, erase_between7)
+TEST_F(vector, erase_between7)
 {
 	size_t    a[]   = {1, 2, 3, 4, 5};
 	ftc::Data res[] = {1, 2, 5};
@@ -463,7 +464,7 @@ TEST(vector, erase_between7)
 	}
 }
 
-TEST(vector, erase_backword)
+TEST_F(vector, erase_backword)
 {
 	size_t    a[]   = {1};
 	ftc::Data res[] = {};
@@ -482,7 +483,7 @@ TEST(vector, erase_backword)
 	}
 }
 
-TEST(vector, erase_backword2)
+TEST_F(vector, erase_backword2)
 {
 	size_t    a[]   = {1, 2, 3};
 	ftc::Data res[] = {1, 2};
@@ -501,7 +502,7 @@ TEST(vector, erase_backword2)
 	}
 }
 
-TEST(vector, erase_backword3)
+TEST_F(vector, erase_backword3)
 {
 	size_t    a[]   = {1, 2, 3};
 	ftc::Data res[] = {1, 2};
@@ -520,7 +521,7 @@ TEST(vector, erase_backword3)
 	}
 }
 
-TEST(vector, erase_backword4)
+TEST_F(vector, erase_backword4)
 {
 	size_t    a[]   = {1, 2, 3};
 	ftc::Data res[] = {1};
@@ -539,7 +540,7 @@ TEST(vector, erase_backword4)
 	}
 }
 
-TEST(vector, erase_backword5)
+TEST_F(vector, erase_backword5)
 {
 	size_t    a[]   = {1, 2, 3};
 	ftc::Data res[] = {};
@@ -558,7 +559,7 @@ TEST(vector, erase_backword5)
 	}
 }
 
-TEST(vector, erase_backword6)
+TEST_F(vector, erase_backword6)
 {
 	size_t    a[]   = {1, 2, 3, 4, 5};
 	ftc::Data res[] = {1, 2};
@@ -567,7 +568,7 @@ TEST(vector, erase_backword6)
 	ftc::initv(v, a, a + ARRAY_SIZE(a));
 	ftc::Data        *p   = v.data();
 	Vector::size_type cap = v.capacity();
-	Vector::iterator  it  = v.erase(v.end() -3, v.end());
+	Vector::iterator  it  = v.erase(v.end() - 3, v.end());
 	EXPECT_EQ(it, v.end());
 	EXPECT_EQ(v.data(), p);
 	EXPECT_EQ(v.capacity(), cap);
@@ -577,7 +578,7 @@ TEST(vector, erase_backword6)
 	}
 }
 
-TEST(vector, erase_append)
+TEST_F(vector, erase_append)
 {
 	size_t    a[]   = {1, 2, 3, 4, 5};
 	ftc::Data res[] = {1, 2, 3, 4, 5};
@@ -596,7 +597,7 @@ TEST(vector, erase_append)
 	}
 }
 
-TEST(vector, erase_push_append)
+TEST_F(vector, erase_push_append)
 {
 	size_t    a[]   = {1, 2, 3, 4, 5};
 	ftc::Data res[] = {1, 2, 3, 4, 5};
