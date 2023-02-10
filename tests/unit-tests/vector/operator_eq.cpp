@@ -177,6 +177,58 @@ TEST_F(vector, operator_eq_ret2)
 	}
 }
 
+TEST_F(vector, operator_eq_ret_reserved1)
+{
+	ftc::Data a1[]  = {1, 2, 3};
+	ftc::Data a2[]  = {4, 5, 6};
+	ftc::Data a3[]  = {7, 8, 9, 10};
+	ftc::Data res[] = {7, 8, 9, 10};
+	Vector    v1;
+	Vector    v2;
+	Vector    v3;
+
+	v1.reserve(ARRAY_SIZE(a1) + 1);
+	v1.reserve(ARRAY_SIZE(a2) + 1);
+	ftc::initv_no_reserve(v1, a1, a1 + ARRAY_SIZE(a1));
+	ftc::initv_no_reserve(v2, a2, a2 + ARRAY_SIZE(a2));
+	ftc::initv(v3, a3, a3 + ARRAY_SIZE(a3));
+	v1 = v2 = v3;
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		ASSERT_EQ(v1[i], res[i]);
+		ASSERT_EQ(v2[i], res[i]);
+	}
+	for (size_t i = 0; i < ARRAY_SIZE(a3); i++) {
+		ASSERT_EQ(v3[i], a3[i]);
+	}
+}
+
+TEST_F(vector, operator_eq_ret_reserved2)
+{
+	ftc::Data a1[]  = {1, 2, 3};
+	ftc::Data a2[]  = {4, 5, 6};
+	ftc::Data a3[]  = {7, 8, 9, 10};
+	ftc::Data res[] = {7, 8, 9, 10};
+	Vector    v1;
+	Vector    v2;
+	Vector    v3;
+
+	v1.reserve(ARRAY_SIZE(a1) + 1);
+	v1.reserve(ARRAY_SIZE(a2) + 1);
+	ftc::initv_no_reserve(v1, a1, a1 + ARRAY_SIZE(a1));
+	ftc::initv_no_reserve(v2, a2, a2 + ARRAY_SIZE(a2));
+	ftc::initv(v3, a3, a3 + ARRAY_SIZE(a3));
+	(v1 = v2) = v3;
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		ASSERT_EQ(v1[i], res[i]);
+	}
+	for (size_t i = 0; i < ARRAY_SIZE(a2); i++) {
+		ASSERT_EQ(v2[i], a2[i]);
+	}
+	for (size_t i = 0; i < ARRAY_SIZE(a3); i++) {
+		ASSERT_EQ(v3[i], a3[i]);
+	}
+}
+
 TEST_F(vector, operator_eq_val)
 {
 	ftc::Data a1[]  = {1, 2, 3};
@@ -226,6 +278,26 @@ TEST_F(vector, operator_eq_val3)
 
 	ftc::initv(v1, a1, a1 + ARRAY_SIZE(a1));
 	ftc::initv(v2, a2, a2 + ARRAY_SIZE(a2));
+	v2 = v1;
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		ASSERT_EQ(v1[i], a1[i]);
+	}
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		ASSERT_EQ(v2[i], res[i]);
+	}
+}
+
+TEST_F(vector, operator_eq_val_reserved)
+{
+	ftc::Data a1[]  = {1, 2, 3, 4};
+	ftc::Data a2[]  = {4, 5, 6};
+	ftc::Data res[] = {1, 2, 3, 4};
+	Vector    v1;
+	Vector    v2;
+
+	v2.reserve(ARRAY_SIZE(a1));
+	ftc::initv(v1, a1, a1 + ARRAY_SIZE(a1));
+	ftc::initv_no_reserve(v2, a2, a2 + ARRAY_SIZE(a2));
 	v2 = v1;
 	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
 		ASSERT_EQ(v1[i], a1[i]);
