@@ -81,7 +81,7 @@ TEST_F(vector, max_size)
 {
 	typedef std::allocator<ftc::Data>::difference_type difference_type;
 
-	Vector                    v;
+	const Vector              v;
 	std::allocator<ftc::Data> a;
 	const Vector::size_type   alloc_max      = a.max_size();
 	const Vector::size_type   difference_max = std::numeric_limits<difference_type>::max();
