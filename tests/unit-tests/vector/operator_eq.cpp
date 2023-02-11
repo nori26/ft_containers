@@ -90,7 +90,6 @@ TEST_F(vector, operator_eq_meta2)
 	v.reserve(cap);
 	for (size_t i = 1; i <= cap; i++) {
 		v.resize(i);
-		v2.reserve(i - 1);
 		v2 = v;
 		EXPECT_EQ(v.size(), i);
 		EXPECT_EQ(v.capacity(), cap);
