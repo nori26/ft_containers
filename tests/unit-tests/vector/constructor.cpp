@@ -123,3 +123,89 @@ TEST_F(vector, copy_constructor4)
 	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(a1));
 	EXPECT_EQ(v1.get_allocator().get_id(), v2.get_allocator().get_id());
 }
+
+TEST_F(vector, range_constructor_empty)
+{
+	Vector v;
+	Vector v2(v.begin(), v.end());
+
+	EXPECT_EQ(v2.size(), 0U);
+	EXPECT_EQ(v2.capacity(), 0U);
+	EXPECT_EQ(v2.data(), (ftc::Data *)NULL);
+}
+
+TEST_F(vector, range_constructor)
+{
+	Vector                          v;
+	size_t                          cap = 128;
+
+	v.reserve(cap);
+	for (size_t i = 0; i < cap; i++) {
+		v.resize(i);
+		Vector v2(v.begin(), v.end());
+		EXPECT_NE(v.data(), v2.data());
+		ASSERT_EQ(v.size(), i);
+		ASSERT_EQ(v.capacity(), cap);
+		ASSERT_EQ(v2.size(), i);
+		ASSERT_EQ(v2.capacity(), i);
+	}
+}
+
+TEST_F(vector, range_constructor3)
+{
+	Vector                          v;
+	size_t                          cap = 128;
+	const ftc::Allocator<ftc::Data> a;
+
+	v.reserve(cap);
+	for (size_t i = 0; i < cap; i++) {
+		v.resize(i);
+		Vector v2(v.begin(), v.end(), a);
+		EXPECT_NE(v.data(), v2.data());
+		ASSERT_EQ(v.size(), i);
+		ASSERT_EQ(v.capacity(), cap);
+		ASSERT_EQ(v2.size(), i);
+		ASSERT_EQ(v2.capacity(), i);
+		EXPECT_EQ(v2.get_allocator().get_id(), a.get_id());
+	}
+}
+
+TEST_F(vector, range_constructor4)
+{
+	ftc::Data a1[] = {1, 2, 3};
+	Vector    v1;
+
+	ftc::initv(v1, a1, a1 + ARRAY_SIZE(a1));
+	Vector v2(v1.begin(), v1.end());
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		ASSERT_EQ(v1[i], a1[i]);
+	}
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		ASSERT_EQ(v2[i], a1[i]);
+	}
+	EXPECT_NE(v1.data(), v2.data());
+	EXPECT_EQ(v1.size(), ARRAY_SIZE(a1));
+	EXPECT_EQ(v1.capacity(), ARRAY_SIZE(a1));
+	EXPECT_EQ(v2.size(), ARRAY_SIZE(a1));
+	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(a1));
+}
+
+TEST_F(vector, range_constructor5)
+{
+	ftc::Data a1[256] = {1, 2, 3};
+	Vector    v1;
+
+	ftc::initv(v1, a1, a1 + ARRAY_SIZE(a1));
+	Vector v2(v1.begin(), v1.end());
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		ASSERT_EQ(v1[i], a1[i]);
+	}
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		ASSERT_EQ(v2[i], a1[i]);
+	}
+	EXPECT_NE(v1.data(), v2.data());
+	EXPECT_EQ(v1.size(), ARRAY_SIZE(a1));
+	EXPECT_EQ(v1.capacity(), ARRAY_SIZE(a1));
+	EXPECT_EQ(v2.size(), ARRAY_SIZE(a1));
+	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(a1));
+}
