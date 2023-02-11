@@ -253,3 +253,147 @@ TEST_F(vector, assign_append2)
 	}
 	EXPECT_EQ(v2.size(), ARRAY_SIZE(res));
 }
+
+TEST_F(vector, assign_n_0)
+{
+	ftc::Data d = 3;
+	size_t    n = 0;
+	Vector    v;
+
+	v.assign(n, d);
+	EXPECT_EQ(v.data(), (ftc::Data *)NULL);
+	EXPECT_EQ(v.size(), n);
+	EXPECT_EQ(v.capacity(), n);
+}
+
+TEST_F(vector, assign_n_empty)
+{
+	ftc::Data d = 3;
+	size_t    n = 1;
+	Vector    v;
+
+	v.assign(n, d);
+	EXPECT_EQ(v.size(), n);
+	EXPECT_EQ(v.capacity(), n);
+	for (size_t i = 0; i < n; i++) {
+		ASSERT_EQ(v[i], d);
+	}
+}
+
+TEST_F(vector, assign_n)
+{
+	ftc::Data d = 3;
+	Vector    v;
+	Vector    v2;
+	size_t    cap = 129;
+
+	for (size_t i = 1; i <= cap; i++) {
+		v.assign(i, d);
+		ASSERT_EQ(v.size(), i);
+		ASSERT_EQ(v.capacity(), i);
+		for (size_t j = 0; j < v.size(); j++) {
+			ASSERT_EQ(v[j], d);
+		}
+	}
+}
+
+TEST_F(vector, assign_n2)
+{
+	ftc::Data a[5] = {};
+	ftc::Data d    = 3;
+	size_t    n    = 10;
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	v.assign(n, d);
+	EXPECT_EQ(v.size(), 10U);
+	EXPECT_EQ(v.capacity(), 10U);
+	for (size_t i = 0; i < n; i++) {
+		ASSERT_EQ(v[i], d);
+	}
+}
+
+TEST_F(vector, assign_n3)
+{
+	ftc::Data a[] = {1, 1, 1};
+	ftc::Data d   = 3;
+	size_t    n   = 3;
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	v.assign(n, d);
+	EXPECT_EQ(v.size(), n);
+	EXPECT_EQ(v.capacity(), n);
+	for (size_t i = 0; i < n; i++) {
+		ASSERT_EQ(v[i], d);
+	}
+}
+
+TEST_F(vector, assign_n4)
+{
+	ftc::Data a[] = {1, 1, 1, 1};
+	ftc::Data d   = 3;
+	size_t    n   = 3;
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	v.assign(n, d);
+	EXPECT_EQ(v.size(), n);
+	EXPECT_EQ(v.capacity(), ARRAY_SIZE(a));
+	for (size_t i = 0; i < n; i++) {
+		ASSERT_EQ(v[i], d);
+	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - n));
+}
+
+TEST_F(vector, assign_n_reserved)
+{
+	ftc::Data d   = 3;
+	size_t    cap = 129;
+	Vector    v;
+
+	v.reserve(cap + 1);
+	for (size_t i = 0; i <= cap; i++) {
+		v.assign(i, d);
+		ASSERT_EQ(v.size(), i);
+		ASSERT_EQ(v.capacity(), cap + 1);
+		for (size_t j = 0; j < v.size(); j++) {
+			ASSERT_EQ(v[j], d);
+		}
+	}
+}
+
+TEST_F(vector, assign_n_reserved2)
+{
+	ftc::Data a[] = {5, 5, 5, 5, 5};
+	ftc::Data d   = 3;
+	size_t    n   = 129;
+	Vector    v;
+
+	v.reserve(n);
+	ftc::initv_no_reserve(v, a, a + ARRAY_SIZE(a));
+	v.assign(n, d);
+	EXPECT_EQ(v.size(), n);
+	EXPECT_EQ(v.capacity(), n);
+	for (size_t i = 0; i < n; i++) {
+		ASSERT_EQ(v[i], d);
+	}
+}
+
+TEST_F(vector, assign_n_append)
+{
+	ftc::Data a[]   = {4, 5, 6, 7};
+	ftc::Data d     = 3;
+	size_t    n     = 3;
+	ftc::Data res[] = {3, 3, 3, 9, 10};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	v.assign(n, d);
+	v.push_back(9);
+	v.push_back(10);
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		ASSERT_EQ(v[i], res[i]);
+	}
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+}
