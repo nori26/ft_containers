@@ -68,10 +68,7 @@ namespace ft
 	  public:
 		void assign(size_type count, const value_type &value)
 		{
-			if (count > max_size() - size()) {
-				throw std::length_error("vector");
-			}
-			if (count > capacity()) { // TODO Basic guarantee ?
+			if (count > capacity()) {
 				instance_type v(allocator_, count);
 				v.construct_at_end(count, value);
 				swap(v);
