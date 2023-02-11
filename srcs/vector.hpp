@@ -41,6 +41,13 @@ namespace ft
 			: first_(NULL), last_(NULL), reserved_last_(NULL), allocator_(alloc)
 		{}
 
+		template <class InputIt>
+		vector(InputIt first, InputIt last, const Allocator &alloc = Allocator())
+			: first_(NULL), last_(NULL), reserved_last_(NULL), allocator_(alloc)
+		{
+			assign(first, last);
+		}
+
 		vector(const vector &other)
 			: first_(NULL), last_(NULL), reserved_last_(NULL), allocator_(other.allocator_)
 		{
