@@ -93,8 +93,8 @@ namespace ft
 		{
 			size_type len = std::distance(first, last);
 			if (len > capacity()) {
-				instance_type v(allocator_, len); // range constructor
-				v.insert(v.end(), first, last);
+				instance_type v(allocator_, len);
+				v.construct_at_end(first, last);
 				swap(v);
 			} else if (len > size()) {
 				InputIt initialized_last = first + size();
