@@ -30,13 +30,15 @@ TEST_F(vector, default_constructor)
 
 TEST_F(vector, constructor_alloc)
 {
-	Vector v = Vector(ftc::Allocator<ftc::Data>());
+	const ftc::Allocator<ftc::Data> a;
+	Vector                          v = Vector(a);
 
 	EXPECT_EQ(v.capacity(), 0U);
 	EXPECT_EQ(v.data(), (ftc::Data *)0);
 	EXPECT_TRUE(v.empty());
 	v.push_back(1);
 	EXPECT_EQ(v[0], 1);
+	EXPECT_EQ(v.get_allocator().get_id(), a.get_id());
 }
 
 TEST_F(vector, copy_constructor_empty)
