@@ -67,8 +67,20 @@ namespace ft
 	  public:
 		void assign(size_type count, const value_type &value)
 		{
-			(void)count;
-			(void)value;
+			if (count > max_size() - size()) {
+				throw std::length_error("vector");
+			}
+			if (count > capacity()) { // TODO Basic guarantee ?
+				instance_type v(allocator_, count);
+				v.construct_at_end(count, value);
+				swap(v);
+			} else if (count > size()) {
+				copy_n(begin(), size(), value);
+				construct_at_end(count - size(), value);
+			} else {
+				copy_n(begin(), count, value);
+				erase(begin() + count, end());
+			}
 		}
 
 		template <class InputIt>
