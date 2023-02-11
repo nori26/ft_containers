@@ -42,8 +42,9 @@ namespace ft
 		{}
 
 		vector(const vector &other)
+			: first_(NULL), last_(NULL), reserved_last_(NULL), allocator_(other.allocator_)
 		{
-			*this = other;
+			assign(other.begin(), other.end());
 		}
 
 		~vector()
