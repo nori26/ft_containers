@@ -85,7 +85,7 @@ namespace ft
 		void assign(InputIt first, InputIt last)
 		{
 			size_type len = std::distance(first, last);
-			if (len > capacity()) {               // TODO Basic guarantee ?
+			if (len > capacity()) {
 				instance_type v(allocator_, len); // range constructor
 				v.insert(v.end(), first, last);
 				swap(v);
