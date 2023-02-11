@@ -317,7 +317,7 @@ namespace ft
 			return last_;
 		}
 
-		size_type max_size()
+		size_type max_size() const
 		{
 			const size_type alloc_max      = allocator_.max_size();
 			const size_type difference_max = std::numeric_limits<difference_type>::max();
