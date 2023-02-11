@@ -83,7 +83,7 @@ namespace ft_containers
 			std::allocator<T>::destroy(p);
 		}
 
-		void *get_id()
+		void *get_id() const
 		{
 			return id;
 		}
