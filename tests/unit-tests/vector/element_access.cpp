@@ -87,3 +87,56 @@ TEST_F(vector, at_const)
 	EXPECT_EQ(v.capacity(), cap);
 	EXPECT_EQ(v.size(), ARRAY_SIZE(a));
 }
+
+TEST_F(vector, data_empty)
+{
+	Vector v;
+
+	EXPECT_EQ(v.size(), 0U);
+	EXPECT_EQ(v.capacity(), 0U);
+	EXPECT_EQ(v.data(), (ftc::Data *)NULL);
+	EXPECT_EQ(v.size(), 0U);
+	EXPECT_EQ(v.capacity(), 0U);
+}
+
+TEST_F(vector, data_empty_const)
+{
+	const Vector v;
+
+	EXPECT_EQ(v.size(), 0U);
+	EXPECT_EQ(v.capacity(), 0U);
+	EXPECT_EQ(v.data(), (ftc::Data *)NULL);
+	EXPECT_EQ(v.size(), 0U);
+	EXPECT_EQ(v.capacity(), 0U);
+}
+
+TEST_F(vector, data)
+{
+	ftc::Data a[] = {0, 1, 2, 3};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	Vector::size_type cap = v.capacity();
+	ftc::Data        *p   = v.data();
+	for (size_t i = 0; i < ARRAY_SIZE(a); i++) {
+		EXPECT_EQ(p[i], a[i]);
+	}
+	p[0] = 10;
+	EXPECT_EQ(v[0], 10);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a));
+}
+
+TEST_F(vector, data_const)
+{
+	ftc::Data    a[] = {0, 1, 2, 3};
+	const Vector v(a, a + ARRAY_SIZE(a));
+
+	Vector::size_type cap = v.capacity();
+	const ftc::Data  *p   = v.data();
+	for (size_t i = 0; i < ARRAY_SIZE(a); i++) {
+		EXPECT_EQ(p[i], a[i]);
+	}
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a));
+}
