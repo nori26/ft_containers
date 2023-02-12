@@ -41,6 +41,14 @@ namespace ft
 			: first_(NULL), last_(NULL), reserved_last_(NULL), allocator_(alloc)
 		{}
 
+		explicit vector(
+			size_type count, const_reference value = T(), const Allocator &alloc = Allocator()
+		)
+			: first_(NULL), last_(NULL), reserved_last_(NULL), allocator_(alloc)
+		{
+			assign(count, value);
+		}
+
 		template <class InputIt>
 		vector(InputIt first, InputIt last, const Allocator &alloc = Allocator())
 			: first_(NULL), last_(NULL), reserved_last_(NULL), allocator_(alloc)
