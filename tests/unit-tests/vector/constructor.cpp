@@ -209,3 +209,59 @@ TEST_F(vector, range_constructor5)
 	EXPECT_EQ(v2.size(), ARRAY_SIZE(a1));
 	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(a1));
 }
+
+TEST_F(vector, fill_constructor_0)
+{
+	ftc::Data d = 3;
+	size_t    n = 0;
+	Vector    v(n, d);
+
+	EXPECT_EQ(v.size(), 0U);
+	EXPECT_EQ(v.capacity(), 0U);
+	EXPECT_EQ(v.data(), (ftc::Data *)NULL);
+}
+
+TEST_F(vector, fill_constructor_0_2)
+{
+	const ftc::Allocator<ftc::Data> a;
+	ftc::Data                       d = 3;
+	size_t                          n = 0;
+	Vector                          v(n, d, a);
+
+	EXPECT_EQ(v.size(), 0U);
+	EXPECT_EQ(v.capacity(), 0U);
+	EXPECT_EQ(v.data(), (ftc::Data *)NULL);
+	EXPECT_EQ(v.get_allocator().get_id(), a.get_id());
+}
+
+TEST_F(vector, fill_constructor)
+{
+	ftc::Data d = 3;
+	size_t    n = 0;
+
+	for (size_t i = 0; i < n; i++) {
+		Vector v2(i, d);
+		ASSERT_EQ(v2.size(), i);
+		ASSERT_EQ(v2.capacity(), i);
+		for (size_t j = 0; j < i; j++) {
+			ASSERT_EQ(v2[i], d);
+		}
+	}
+}
+
+TEST_F(vector, fill_constructor3)
+{
+	const ftc::Allocator<ftc::Data> a;
+	ftc::Data                       d = 3;
+	size_t                          n = 0;
+
+	for (size_t i = 0; i < n; i++) {
+		Vector v2(i, d, a);
+		ASSERT_EQ(v2.size(), i);
+		ASSERT_EQ(v2.capacity(), i);
+		EXPECT_EQ(v2.get_allocator().get_id(), a.get_id());
+		for (size_t j = 0; j < i; j++) {
+			ASSERT_EQ(v2[i], d);
+		}
+	}
+}
