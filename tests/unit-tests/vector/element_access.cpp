@@ -69,3 +69,21 @@ TEST_F(vector, at_empty_const)
 	EXPECT_TRUE(v.empty());
 }
 
+TEST_F(vector, at_const)
+{
+	ftc::Data    a[] = {0, 1, 2, 3};
+	const Vector v(a, a + ARRAY_SIZE(a));
+
+	const ftc::Data  *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	for (size_t i = 0; i < ARRAY_SIZE(a); i++) {
+		EXPECT_EQ(v.at(i), a[i]);
+	}
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a));
+	EXPECT_THROW(v.at(ARRAY_SIZE(a)), std::out_of_range);
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a));
+}
