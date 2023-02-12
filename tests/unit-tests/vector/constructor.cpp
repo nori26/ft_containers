@@ -134,10 +134,22 @@ TEST_F(vector, range_constructor_empty)
 	EXPECT_EQ(v2.data(), (ftc::Data *)NULL);
 }
 
+TEST_F(vector, range_constructor_empty2)
+{
+	const ftc::Allocator<ftc::Data> a;
+	Vector                          v;
+	Vector                          v2(v.begin(), v.end(), a);
+
+	EXPECT_EQ(v2.size(), 0U);
+	EXPECT_EQ(v2.capacity(), 0U);
+	EXPECT_EQ(v2.data(), (ftc::Data *)NULL);
+	EXPECT_EQ(v2.get_allocator().get_id(), a.get_id());
+}
+
 TEST_F(vector, range_constructor)
 {
-	Vector                          v;
-	size_t                          cap = 128;
+	Vector v;
+	size_t cap = 128;
 
 	v.reserve(cap);
 	for (size_t i = 0; i < cap; i++) {
