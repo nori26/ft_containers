@@ -485,7 +485,7 @@ TEST_F(vector, erase_between7)
 	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
-TEST_F(vector, erase_backword)
+TEST_F(vector, erase_backward)
 {
 	size_t    a[]   = {1};
 	ftc::Data res[] = {};
@@ -505,7 +505,7 @@ TEST_F(vector, erase_backword)
 	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
-TEST_F(vector, erase_backword2)
+TEST_F(vector, erase_backward2)
 {
 	size_t    a[]   = {1, 2, 3};
 	ftc::Data res[] = {1, 2};
@@ -525,7 +525,7 @@ TEST_F(vector, erase_backword2)
 	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
-TEST_F(vector, erase_backword3)
+TEST_F(vector, erase_backward3)
 {
 	size_t    a[]   = {1, 2, 3};
 	ftc::Data res[] = {1, 2};
@@ -545,7 +545,7 @@ TEST_F(vector, erase_backword3)
 	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
-TEST_F(vector, erase_backword4)
+TEST_F(vector, erase_backward4)
 {
 	size_t    a[]   = {1, 2, 3};
 	ftc::Data res[] = {1};
@@ -565,7 +565,7 @@ TEST_F(vector, erase_backword4)
 	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
-TEST_F(vector, erase_backword5)
+TEST_F(vector, erase_backward5)
 {
 	size_t    a[]   = {1, 2, 3};
 	ftc::Data res[] = {};
@@ -585,7 +585,7 @@ TEST_F(vector, erase_backword5)
 	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
 }
 
-TEST_F(vector, erase_backword6)
+TEST_F(vector, erase_backward6)
 {
 	size_t    a[]   = {1, 2, 3, 4, 5};
 	ftc::Data res[] = {1, 2};
