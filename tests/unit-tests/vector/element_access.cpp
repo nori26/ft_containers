@@ -171,3 +171,152 @@ TEST_F(vector, back_const)
 	EXPECT_EQ(v.capacity(), cap);
 	EXPECT_EQ(v.size(), ARRAY_SIZE(a));
 }
+
+TEST_F(vector, at_empty_exception)
+{
+	Vector           v;
+	AllocExceptionOn e(1);
+	ftc::ExceptionOn e2(1);
+
+	EXPECT_THROW(v.at(0), std::out_of_range);
+}
+
+TEST_F(vector, at_exception)
+{
+	ftc::Data a[] = {0, 1, 2, 3};
+	Vector    v;
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	AllocExceptionOn e(1);
+	ftc::ExceptionOn e2(1);
+
+	for (size_t i = 0; i < ARRAY_SIZE(a); i++) {
+		EXPECT_NO_THROW(v.at(i));
+	}
+	EXPECT_THROW(v.at(ARRAY_SIZE(a)), std::out_of_range);
+}
+
+TEST_F(vector, at_empty_const_exception)
+{
+	const Vector     v;
+	AllocExceptionOn e(1);
+	ftc::ExceptionOn e2(1);
+
+	EXPECT_THROW(v.at(0), std::out_of_range);
+}
+
+TEST_F(vector, at_const_exception)
+{
+	ftc::Data        a[] = {0, 1, 2, 3};
+	const Vector     v(a, a + ARRAY_SIZE(a));
+	AllocExceptionOn e(1);
+	ftc::ExceptionOn e2(1);
+
+	for (size_t i = 0; i < ARRAY_SIZE(a); i++) {
+		EXPECT_NO_THROW(v.at(i));
+	}
+	EXPECT_THROW(v.at(ARRAY_SIZE(a)), std::out_of_range);
+}
+
+TEST_F(vector, operator_brackets_exception)
+{
+	ftc::Data        a[] = {0, 1, 2, 3};
+	Vector    v(a, a + ARRAY_SIZE(a));
+	AllocExceptionOn e(1);
+	ftc::ExceptionOn e2(1);
+
+	for (size_t i = 0; i < ARRAY_SIZE(a); i++) {
+		EXPECT_NO_THROW(v[i]);
+	}
+}
+
+TEST_F(vector, operator_brackets_const_exception)
+{
+	ftc::Data        a[] = {0, 1, 2, 3};
+	const Vector     v(a, a + ARRAY_SIZE(a));
+	AllocExceptionOn e(1);
+	ftc::ExceptionOn e2(1);
+
+	for (size_t i = 0; i < ARRAY_SIZE(a); i++) {
+		EXPECT_NO_THROW(v[i]);
+	}
+}
+
+TEST_F(vector, data_empty_exception)
+{
+	Vector           v;
+	AllocExceptionOn e(1);
+	ftc::ExceptionOn e2(1);
+
+	EXPECT_EQ(v.data(), (ftc::Data *)NULL);
+}
+
+TEST_F(vector, data_empty_const_exception)
+{
+	const Vector     v;
+	AllocExceptionOn e(1);
+	ftc::ExceptionOn e2(1);
+
+	EXPECT_EQ(v.data(), (ftc::Data *)NULL);
+}
+
+TEST_F(vector, data_exception)
+{
+	ftc::Data a[] = {0, 1, 2, 3};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	AllocExceptionOn e(1);
+	ftc::ExceptionOn e2(1);
+
+	EXPECT_NO_THROW(v.data());
+}
+
+TEST_F(vector, data_const_exception)
+{
+	ftc::Data        a[] = {0, 1, 2, 3};
+	const Vector     v(a, a + ARRAY_SIZE(a));
+	AllocExceptionOn e(1);
+	ftc::ExceptionOn e2(1);
+
+	EXPECT_NO_THROW(v.data());
+}
+
+TEST_F(vector, front_exception)
+{
+	ftc::Data        a[] = {0, 1, 2, 3};
+	Vector           v(a, a + ARRAY_SIZE(a));
+	AllocExceptionOn e(1);
+	ftc::ExceptionOn e2(1);
+
+	EXPECT_NO_THROW(v.front());
+}
+
+TEST_F(vector, front_const_exception)
+{
+	ftc::Data        a[] = {0, 1, 2, 3};
+	const Vector     v(a, a + ARRAY_SIZE(a));
+	AllocExceptionOn e(1);
+	ftc::ExceptionOn e2(1);
+
+	EXPECT_NO_THROW(v.front());
+}
+
+TEST_F(vector, back_exception)
+{
+	ftc::Data        a[] = {0, 1, 2, 3};
+	Vector           v(a, a + ARRAY_SIZE(a));
+	AllocExceptionOn e(1);
+	ftc::ExceptionOn e2(1);
+
+	EXPECT_NO_THROW(v.back());
+}
+
+TEST_F(vector, back_const_exception)
+{
+	ftc::Data        a[] = {0, 1, 2, 3};
+	const Vector     v(a, a + ARRAY_SIZE(a));
+	AllocExceptionOn e(1);
+	ftc::ExceptionOn e2(1);
+
+	EXPECT_NO_THROW(v.back());
+}
