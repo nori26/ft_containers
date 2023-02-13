@@ -74,6 +74,37 @@ TEST_F(vector, at_const)
 	EXPECT_THROW(v.at(ARRAY_SIZE(a)), std::out_of_range);
 }
 
+TEST_F(vector, operator_brackets)
+{
+	ftc::Data a[] = {0, 1, 2, 3};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	for (size_t i = 0; i < ARRAY_SIZE(a); i++) {
+		EXPECT_EQ(v[i], a[i]);
+	}
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a));
+	v[0] = 10;
+	EXPECT_EQ(v[0], 10);
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a));
+}
+
+TEST_F(vector, operator_brackets_const)
+{
+	ftc::Data    a[] = {0, 1, 2, 3};
+	const Vector v(a, a + ARRAY_SIZE(a));
+
+	for (size_t i = 0; i < ARRAY_SIZE(a); i++) {
+		EXPECT_EQ(v[i], a[i]);
+	}
+}
+
 TEST_F(vector, data_empty)
 {
 	Vector v;
