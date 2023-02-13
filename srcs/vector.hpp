@@ -415,6 +415,7 @@ namespace ft
 			}
 		}
 
+		// std::swap使っていいかも
 		void swap(instance_type &v)
 		{
 			ft::swap(allocator_, v.allocator_);
