@@ -7,8 +7,6 @@
 #include <memory>
 #include <stdexcept>
 
-#include "utility.hpp"
-
 namespace ft
 {
 	template <class T, class Allocator = std::allocator<T> >
@@ -360,12 +358,11 @@ namespace ft
 			return std::min(alloc_max, difference_max);
 		}
 
-		// std::swap使っていいかも
 		void swap(instance_type &v)
 		{
-			ft::swap(first_, v.first_);
-			ft::swap(last_, v.last_);
-			ft::swap(reserved_last_, v.reserved_last_);
+			std::swap(first_, v.first_);
+			std::swap(last_, v.last_);
+			std::swap(reserved_last_, v.reserved_last_);
 		}
 
 	  private:
