@@ -359,6 +359,14 @@ namespace ft
 			return std::min(alloc_max, difference_max);
 		}
 
+		// std::swap使っていいかも
+		void swap(instance_type &v)
+		{
+			ft::swap(first_, v.first_);
+			ft::swap(last_, v.last_);
+			ft::swap(reserved_last_, v.reserved_last_);
+		}
+
 	  private:
 		pointer allocate(size_type n)
 		{
@@ -413,15 +421,6 @@ namespace ft
 			for (size_type i = 0; i < n; i++, (void)pos++) {
 				*pos = value;
 			}
-		}
-
-		// std::swap使っていいかも
-		void swap(instance_type &v)
-		{
-			ft::swap(allocator_, v.allocator_);
-			ft::swap(first_, v.first_);
-			ft::swap(last_, v.last_);
-			ft::swap(reserved_last_, v.reserved_last_);
 		}
 
 		size_type recommend_capacity(size_type new_size)
