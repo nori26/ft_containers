@@ -124,6 +124,11 @@ namespace ft
 			construct_at_end(value);
 		}
 
+		void pop_back()
+		{
+			destroy_at_end();
+		}
+
 		void resize(size_type new_size, value_type value = value_type())
 		{
 			if (new_size < size()) {
