@@ -1,6 +1,7 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
+#include <algorithm>
 #include <iterator>
 #include <limits>
 #include <memory>
@@ -438,5 +439,14 @@ namespace ft
 		}
 	};
 } // namespace ft
+
+namespace std
+{
+	template <class T, class Allocator>
+	inline void swap(ft::vector<T, Allocator> &v1, ft::vector<T, Allocator> &v2)
+	{
+		v1.swap(v2);
+	}
+} // namespace std
 
 #endif
