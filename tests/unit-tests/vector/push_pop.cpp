@@ -62,3 +62,60 @@ TEST_F(vector, push_back_exception)
 		j++;
 	}
 }
+
+TEST_F(vector, pop_back)
+{
+	size_t a[] = {1};
+	Vector v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	v.pop_back();
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), 0U);
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a)));
+}
+
+TEST_F(vector, pop_back2)
+{
+	size_t    a[]   = {2, 3};
+	ftc::Data res[] = {2};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	ftc::Data        *p   = v.data();
+	Vector::size_type cap = v.capacity();
+	v.pop_back();
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.capacity(), cap);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(res));
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		EXPECT_EQ(v[i], res[i]);
+	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v.end(), v.end() + ARRAY_SIZE(a) - ARRAY_SIZE(res)));
+}
+
+TEST_F(vector, pop_back_exception)
+{
+	size_t a[] = {1};
+	Vector v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	AllocExceptionOn e(1);
+	ftc::ExceptionOn e2(1);
+	EXPECT_NO_THROW(v.pop_back());
+}
+
+TEST_F(vector, pop_back_exception2)
+{
+	size_t    a[]   = {2, 3};
+	ftc::Data res[] = {2};
+	Vector    v;
+
+	ftc::initv(v, a, a + ARRAY_SIZE(a));
+	AllocExceptionOn e(1);
+	ftc::ExceptionOn e2(1);
+	EXPECT_NO_THROW(v.pop_back());
+}
