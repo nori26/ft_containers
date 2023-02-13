@@ -287,6 +287,26 @@ namespace ft
 			return first_[pos];
 		}
 
+		reference front()
+		{
+			return *first_;
+		}
+
+		const_reference front() const
+		{
+			return *first_;
+		}
+
+		reference back()
+		{
+			return *(last_ - 1);
+		}
+
+		const_reference back() const
+		{
+			return *(last_ - 1);
+		}
+
 		size_type size() const
 		{
 			return last_ - first_;
