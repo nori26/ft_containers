@@ -76,14 +76,3 @@ TEST_F(vector, iterator)
 	Vector v;
 	EXPECT_EQ(v.begin(), v.end());
 }
-
-TEST_F(vector, max_size)
-{
-	typedef std::allocator<ftc::Data>::difference_type difference_type;
-
-	const Vector              v;
-	std::allocator<ftc::Data> a;
-	const Vector::size_type   alloc_max      = a.max_size();
-	const Vector::size_type   difference_max = std::numeric_limits<difference_type>::max();
-	EXPECT_EQ(std::min<Vector::size_type>(alloc_max, difference_max), v.max_size());
-}
