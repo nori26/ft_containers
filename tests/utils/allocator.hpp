@@ -19,21 +19,26 @@ namespace ft_containers
 		{
 		  private:
 			bool tmp_;
+			int  tmp_rate_;
 
 		  public:
-			ExceptionOn()
+			ExceptionOn(int rate = 3)
 			{
-				tmp_          = exception_on_;
-				exception_on_ = true;
+				tmp_            = exception_on_;
+				exception_on_   = true;
+				tmp_rate_       = exception_rate_;
+				exception_rate_ = rate;
 			}
 			~ExceptionOn()
 			{
-				exception_on_ = tmp_;
+				exception_on_   = tmp_;
+				exception_rate_ = tmp_rate_;
 			}
 		};
 
 	  private:
 		static bool exception_on_;
+		static int  exception_rate_;
 		void       *id;
 
 	  public:
@@ -91,13 +96,15 @@ namespace ft_containers
 	  private:
 		void ThrowRandom(const std::string &msg)
 		{
-			if (exception_on_ && lottery()) {
+			if (exception_on_ && lottery(exception_rate_)) {
 				throw std::runtime_error("alloc random throw: " + msg);
 			}
 		}
 	};
 	template <class T>
 	bool Allocator<T>::exception_on_ = false;
+	template <class T>
+	int Allocator<T>::exception_rate_ = 3;
 } // namespace ft_containers
 
 #endif

@@ -9,7 +9,7 @@ namespace ft_containers
 {
 	bool             Data::print_on_       = false;
 	bool             Data::exception_on_   = false;
-	const int        Data::exception_rate_ = 3;
+	int              Data::exception_rate_ = 3;
 	std::set<Data *> Data::destructed;
 
 	Data::Data() : p()
@@ -121,15 +121,18 @@ namespace ft_containers
 		Data::SetPrintMode(tmp_);
 	}
 
-	Data::ExceptionOn::ExceptionOn()
+	Data::ExceptionOn::ExceptionOn(int rate)
 	{
-		tmp_ = GetExceptionMode();
+		tmp_            = GetExceptionMode();
+		tmp_rate_       = exception_rate_;
+		exception_rate_ = rate;
 		Data::SetExceptionMode(true);
 	}
 
 	Data::ExceptionOn::~ExceptionOn()
 	{
 		Data::SetExceptionMode(tmp_);
+		exception_rate_ = tmp_rate_;
 	}
 
 	std::ostream &operator<<(std::ostream &os, const Data &d)

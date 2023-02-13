@@ -23,9 +23,10 @@ namespace ft_containers
 		{
 		  private:
 			bool tmp_;
+			int  tmp_rate_;
 
 		  public:
-			ExceptionOn();
+			ExceptionOn(int rate = 3);
 			~ExceptionOn();
 		};
 
@@ -33,7 +34,7 @@ namespace ft_containers
 		static std::set<Data *> destructed;
 		static bool             print_on_;
 		static bool             exception_on_;
-		static const int        exception_rate_;
+		static int              exception_rate_;
 
 	  public:
 		int *p;
