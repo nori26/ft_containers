@@ -442,6 +442,48 @@ namespace ft
 	};
 } // namespace ft
 
+template <class T, class Alloc>
+bool operator==(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+	(void)lhs, (void)rhs;
+	return false;
+}
+
+template <class T, class Alloc>
+bool operator!=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+	(void)lhs, (void)rhs;
+	return false;
+}
+
+template <class T, class Alloc>
+bool operator<(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+	(void)lhs, (void)rhs;
+	return false;
+}
+
+template <class T, class Alloc>
+bool operator<=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+	(void)lhs, (void)rhs;
+	return false;
+}
+
+template <class T, class Alloc>
+bool operator>(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+	(void)lhs, (void)rhs;
+	return false;
+}
+
+template <class T, class Alloc>
+bool operator>=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+	(void)lhs, (void)rhs;
+	return false;
+}
+
 namespace std
 {
 	template <class T, class Allocator>
