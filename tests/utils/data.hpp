@@ -47,6 +47,7 @@ namespace ft_containers
 		Data       &operator=(const Data &d);
 		bool        operator==(const Data &d) const;
 		bool        operator!=(const Data &d) const;
+		Data        operator,(const Data &a);
 		static void SetPrintMode(bool b);
 		static bool GetPrintMode();
 		static void SetExceptionMode(bool b);

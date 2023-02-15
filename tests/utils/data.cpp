@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 #include <sstream>
 
@@ -108,6 +109,13 @@ namespace ft_containers
 	bool Data::GetExceptionMode()
 	{
 		return exception_on_;
+	}
+
+	Data Data::operator,(const Data &a)
+	{
+		std::cerr << "abort commna" << std::endl;
+		abort();
+		return a;
 	}
 
 	Data::PrintOn::PrintOn()
