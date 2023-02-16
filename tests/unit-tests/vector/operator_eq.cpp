@@ -18,7 +18,7 @@ typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
 
-TEST_F(vector, operator_eq_self_empty)
+TEST_F(vector, operator_assignment_self_empty)
 {
 	Vector v;
 
@@ -27,7 +27,7 @@ TEST_F(vector, operator_eq_self_empty)
 	EXPECT_EQ(v.capacity(), 0U);
 }
 
-TEST_F(vector, operator_eq_self)
+TEST_F(vector, operator_assignment_self)
 {
 	ftc::Data a[] = {1, 2, 3};
 	Vector    v(a, a + ARRAY_SIZE(a));
@@ -44,7 +44,7 @@ TEST_F(vector, operator_eq_self)
 	}
 }
 
-TEST_F(vector, operator_eq_empty)
+TEST_F(vector, operator_assignment_empty)
 {
 	Vector v;
 	Vector v2;
@@ -57,7 +57,7 @@ TEST_F(vector, operator_eq_empty)
 	EXPECT_NE(v.get_allocator().get_id(), v2.get_allocator().get_id());
 }
 
-TEST_F(vector, operator_eq_empty2)
+TEST_F(vector, operator_assignment_empty2)
 {
 	ftc::Data a[] = {1, 2, 3};
 	Vector    v;
@@ -72,7 +72,7 @@ TEST_F(vector, operator_eq_empty2)
 	EXPECT_NE(v.get_allocator().get_id(), v2.get_allocator().get_id());
 }
 
-TEST_F(vector, operator_eq_empty3)
+TEST_F(vector, operator_assignment_empty3)
 {
 	ftc::Data a[] = {1, 2, 3};
 	Vector    v;
@@ -88,7 +88,7 @@ TEST_F(vector, operator_eq_empty3)
 	EXPECT_TRUE(ftc::Data::IsDestructed(v2.end(), v2.end() + ARRAY_SIZE(a)));
 }
 
-TEST_F(vector, operator_eq_meta)
+TEST_F(vector, operator_assignment_meta)
 {
 	Vector v;
 	Vector v2;
@@ -107,7 +107,7 @@ TEST_F(vector, operator_eq_meta)
 	}
 }
 
-TEST_F(vector, operator_eq_meta2)
+TEST_F(vector, operator_assignment_meta2)
 {
 	Vector v;
 	Vector v2;
@@ -125,7 +125,7 @@ TEST_F(vector, operator_eq_meta2)
 	}
 }
 
-TEST_F(vector, operator_eq_meta3)
+TEST_F(vector, operator_assignment_meta3)
 {
 	Vector v;
 	Vector v2;
@@ -140,7 +140,7 @@ TEST_F(vector, operator_eq_meta3)
 	ASSERT_NE(v.get_allocator().get_id(), v2.get_allocator().get_id());
 }
 
-TEST_F(vector, operator_eq_meta4)
+TEST_F(vector, operator_assignment_meta4)
 {
 	Vector v;
 	Vector v2;
@@ -154,7 +154,7 @@ TEST_F(vector, operator_eq_meta4)
 	ASSERT_NE(v.get_allocator().get_id(), v2.get_allocator().get_id());
 }
 
-TEST_F(vector, operator_eq_ret)
+TEST_F(vector, operator_assignment_ret)
 {
 	ftc::Data a1[]  = {1, 2, 3};
 	ftc::Data a2[]  = {4, 5, 6};
@@ -177,7 +177,7 @@ TEST_F(vector, operator_eq_ret)
 	}
 }
 
-TEST_F(vector, operator_eq_ret2)
+TEST_F(vector, operator_assignment_ret2)
 {
 	ftc::Data a1[]  = {1, 2, 3};
 	ftc::Data a2[]  = {4, 5, 6};
@@ -202,7 +202,7 @@ TEST_F(vector, operator_eq_ret2)
 	}
 }
 
-TEST_F(vector, operator_eq_ret_reserved1)
+TEST_F(vector, operator_assignment_ret_reserved1)
 {
 	ftc::Data a1[]  = {1, 2, 3};
 	ftc::Data a2[]  = {4, 5, 6};
@@ -227,7 +227,7 @@ TEST_F(vector, operator_eq_ret_reserved1)
 	}
 }
 
-TEST_F(vector, operator_eq_ret_reserved2)
+TEST_F(vector, operator_assignment_ret_reserved2)
 {
 	ftc::Data a1[]  = {1, 2, 3};
 	ftc::Data a2[]  = {4, 5, 6};
@@ -254,7 +254,7 @@ TEST_F(vector, operator_eq_ret_reserved2)
 	}
 }
 
-TEST_F(vector, operator_eq_val)
+TEST_F(vector, operator_assignment_val)
 {
 	ftc::Data a1[]  = {1, 2, 3};
 	ftc::Data a2[]  = {4, 5, 6};
@@ -273,7 +273,7 @@ TEST_F(vector, operator_eq_val)
 	}
 }
 
-TEST_F(vector, operator_eq_val2)
+TEST_F(vector, operator_assignment_val2)
 {
 	ftc::Data a1[]  = {1, 2, 3};
 	ftc::Data a2[]  = {4, 5, 6, 7};
@@ -293,7 +293,7 @@ TEST_F(vector, operator_eq_val2)
 	EXPECT_TRUE(ftc::Data::IsDestructed(v2.end(), v2.end() + ARRAY_SIZE(a2) - ARRAY_SIZE(a1)));
 }
 
-TEST_F(vector, operator_eq_val3)
+TEST_F(vector, operator_assignment_val3)
 {
 	ftc::Data a1[]  = {1, 2, 3};
 	ftc::Data a2[]  = {4, 5};
@@ -312,7 +312,7 @@ TEST_F(vector, operator_eq_val3)
 	}
 }
 
-TEST_F(vector, operator_eq_val_reserved)
+TEST_F(vector, operator_assignment_val_reserved)
 {
 	ftc::Data a1[]  = {1, 2, 3, 4};
 	ftc::Data a2[]  = {4, 5, 6};
@@ -332,7 +332,7 @@ TEST_F(vector, operator_eq_val_reserved)
 	}
 }
 
-TEST_F(vector, operator_eq_append)
+TEST_F(vector, operator_assignment_append)
 {
 	ftc::Data a1[]  = {1, 2, 3};
 	ftc::Data a2[]  = {4, 5, 6, 7};
@@ -355,7 +355,7 @@ TEST_F(vector, operator_eq_append)
 	EXPECT_TRUE(ftc::Data::IsDestructed(v2.end() - 1, v2.end()));
 }
 
-TEST_F(vector, operator_eq_append2)
+TEST_F(vector, operator_assignment_append2)
 {
 	ftc::Data a1[]  = {1, 2, 3};
 	ftc::Data a2[]  = {4, 5, 6, 7};
