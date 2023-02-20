@@ -1,10 +1,10 @@
 #include "gtest.h"
 
 #include <set>
-#include <stdexcept>
 #include <string>
 
 #include "data.hpp"
+#include "cmp.hpp"
 
 #ifdef FT_TEST
   #include "algorithm.hpp"
@@ -16,50 +16,6 @@ namespace ft = std;
 namespace ftc = ft_containers;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
-
-class Cmp
-{
-	bool b_;
-
-  public:
-	Cmp(bool b) : b_(b) {}
-
-	operator bool() const
-	{
-		return b_;
-	}
-	bool operator!() const
-	{
-		return true;
-	}
-};
-
-template <typename T>
-Cmp cmp(const T &a, const T &b)
-{
-	return a == b;
-}
-
-class CommaTest
-{
-  public:
-	CommaTest() {}
-	bool operator==(const CommaTest &c) const
-	{
-		(void)c;
-		return true;
-	}
-};
-
-std::vector<CommaTest>::iterator operator,(
-	std::vector<CommaTest>::iterator it1, std::vector<CommaTest>::iterator it2
-)
-{
-	(void)it2;
-	std::cout << "op comma" << std::endl;
-	throw std::runtime_error("");
-	return it1;
-}
 
 TEST(equal, basic)
 {
