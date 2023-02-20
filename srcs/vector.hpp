@@ -7,6 +7,8 @@
 #include <memory>
 #include <stdexcept>
 
+#include "algorithm.hpp"
+
 namespace ft
 {
 	template <class T, class Allocator = std::allocator<T> >
@@ -440,28 +442,20 @@ namespace ft
 			return std::max(new_size, capacity() * 2);
 		}
 	};
+
+	template <class T, class Alloc>
+	inline bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	{
+		return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+	}
+
+	template <class T, class Alloc>
+	bool operator!=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+	{
+		return !(lhs == rhs);
+	}
+
 } // namespace ft
-
-template <class T, class Alloc>
-bool operator==(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
-{
-	(void)lhs, (void)rhs;
-	return false;
-}
-
-template <class T, class Alloc>
-bool operator!=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
-{
-	(void)lhs, (void)rhs;
-	return false;
-}
-
-template <class T, class Alloc>
-bool operator<(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
-{
-	(void)lhs, (void)rhs;
-	return false;
-}
 
 template <class T, class Alloc>
 bool operator<=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
