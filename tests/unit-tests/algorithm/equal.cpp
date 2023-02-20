@@ -51,9 +51,12 @@ class CommaTest
 	}
 };
 
-std::vector<CommaTest>::iterator operator,(std::vector<CommaTest>::iterator it1, std::vector<CommaTest>::iterator it2)
+std::vector<CommaTest>::iterator operator,(
+	std::vector<CommaTest>::iterator it1, std::vector<CommaTest>::iterator it2
+)
 {
 	(void)it2;
+	std::cout << "op comma" << std::endl;
 	throw std::runtime_error("");
 	return it1;
 }
