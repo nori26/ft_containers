@@ -251,7 +251,7 @@ TEST_F(vector, at_const_exception)
 TEST_F(vector, operator_brackets_exception)
 {
 	ftc::Data        a[] = {0, 1, 2, 3};
-	Vector    v(a, a + ARRAY_SIZE(a));
+	Vector           v(a, a + ARRAY_SIZE(a));
 	AllocExceptionOn e(1);
 	ftc::ExceptionOn e2(1);
 
