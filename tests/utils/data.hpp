@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <set>
+#include <stdexcept>
 #include <string>
 
 namespace ft_containers
@@ -72,6 +73,32 @@ namespace ft_containers
 	std::ostream &operator<<(std::ostream &os, const Data &d);
 	bool          operator<(const Data &d1, const Data &d2);
 
+	template <class InputIt1, class InputIt2>
+	bool equal(InputIt1, InputIt1, InputIt2)
+	{
+		throw std::runtime_error("");
+		return false;
+	}
+	template <class InputIt1, class InputIt2, class BinaryPredicate>
+	bool equal(InputIt1, InputIt1, InputIt2, BinaryPredicate)
+	{
+		throw std::runtime_error("");
+		return false;
+	}
+
+	template <class InputIt1, class InputIt2>
+	bool lexicographical_compare(InputIt1, InputIt1, InputIt2, InputIt2)
+	{
+		throw std::runtime_error("");
+		return false;
+	}
+
+	template <class InputIt1, class InputIt2, class Compare>
+	bool lexicographical_compare(InputIt1, InputIt1, InputIt2, InputIt2, Compare)
+	{
+		throw std::runtime_error("");
+		return false;
+	}
 	typedef Data::PrintOn     PrintOn;
 	typedef Data::ExceptionOn ExceptionOn;
 } // namespace ft_containers
