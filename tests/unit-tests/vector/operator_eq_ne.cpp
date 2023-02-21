@@ -19,6 +19,8 @@ typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
 
+// TODO iterator 実装したらやる
+
 // class CommaTest
 // {
 //   public:
@@ -38,7 +40,7 @@ typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 // 	return it1;
 // }
 
-// TEST(vector, operator_eq_comma)
+// TEST_F(vector, operator_eq_comma)
 // {
 // 	ft::vector<CommaTest> v1(10);
 // 	ft::vector<CommaTest> v2(10);
