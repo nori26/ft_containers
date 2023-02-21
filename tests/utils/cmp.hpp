@@ -16,9 +16,15 @@ class Cmp
 };
 
 template <typename T>
-Cmp cmp(const T &a, const T &b)
+Cmp is_eq(const T &a, const T &b)
 {
 	return a == b;
+}
+
+template <typename T>
+Cmp cmp(const T &a, const T &b)
+{
+	return a < b;
 }
 
 class CommaTest
@@ -31,5 +37,7 @@ class CommaTest
 std::vector<CommaTest>::iterator operator,(
 	std::vector<CommaTest>::iterator it1, std::vector<CommaTest>::iterator it2
 );
+
+bool operator<(const CommaTest &, const CommaTest &);
 
 #endif

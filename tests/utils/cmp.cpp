@@ -1,5 +1,5 @@
-#include <stdexcept>
 #include <iostream>
+#include <stdexcept>
 
 #include "cmp.hpp"
 
@@ -31,4 +31,9 @@ std::vector<CommaTest>::iterator operator,(
 	std::cout << "op comma" << std::endl;
 	throw std::runtime_error("");
 	return it1;
+}
+
+bool operator<(const CommaTest &, const CommaTest &)
+{
+	return true;
 }
