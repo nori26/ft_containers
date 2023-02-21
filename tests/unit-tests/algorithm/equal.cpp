@@ -151,3 +151,146 @@ TEST(equal, comma)
 	EXPECT_TRUE(ft::equal(v1.begin(), v1.end(), v2.end()));
 	EXPECT_TRUE(ft::equal(v1.begin(), v1.end(), v2.end(), is_eq<CommaTest>));
 }
+
+TEST(equal, empty_const)
+{
+	const std::vector<int> v1;
+	const std::vector<int> v2;
+
+	EXPECT_TRUE(ft::equal(v1.begin(), v1.end(), v2.begin()));
+	EXPECT_TRUE(ft::equal(v1.begin(), v1.end(), v2.begin(), is_eq<int>));
+}
+
+TEST(equal, empty_empty_self_const)
+{
+	const std::vector<int> v1;
+
+	EXPECT_TRUE(ft::equal(v1.begin(), v1.end(), v1.begin()));
+	EXPECT_TRUE(ft::equal(v1.begin(), v1.end(), v1.begin(), is_eq<int>));
+}
+
+TEST(equal, basic_const)
+{
+	const ftc::Data a[] = {1, 2, 3};
+	const ftc::Data b[] = {1, 2, 3};
+
+	EXPECT_TRUE(ft::equal(a, a + ARRAY_SIZE(a), b));
+	EXPECT_FALSE(ft::equal(a + 1, a + ARRAY_SIZE(a), b));
+}
+
+TEST(equal, basic_self_const)
+{
+	const ftc::Data a[] = {1, 2, 3};
+
+	EXPECT_TRUE(ft::equal(a, a + ARRAY_SIZE(a), a));
+	EXPECT_FALSE(ft::equal(a + 1, a + ARRAY_SIZE(a), a));
+}
+
+TEST(equal, set_true_const)
+{
+	const int           a[] = {1, 2, 3};
+	const int           b[] = {1, 2, 3};
+	const std::set<int> s1(a, a + ARRAY_SIZE(a));
+	const std::set<int> s2(b, b + ARRAY_SIZE(b));
+
+	EXPECT_TRUE(ft::equal(s1.begin(), s1.end(), s2.begin()));
+	EXPECT_TRUE(ft::equal(s1.begin(), s1.end(), b));
+	EXPECT_TRUE(ft::equal(b, b + ARRAY_SIZE(b), s1.begin()));
+}
+
+TEST(equal, set_false_const)
+{
+	const int           a[] = {1, 2, 3};
+	const int           b[] = {1, 2, 4};
+	const std::set<int> s1(a, a + ARRAY_SIZE(a));
+	const std::set<int> s2(b, b + ARRAY_SIZE(b));
+
+	EXPECT_FALSE(ft::equal(s1.begin(), s1.end(), s2.begin()));
+	EXPECT_FALSE(ft::equal(s1.begin(), s1.end(), b));
+	EXPECT_FALSE(ft::equal(b, b + ARRAY_SIZE(b), s1.begin()));
+}
+
+TEST(equal, string_true_const)
+{
+	const std::string a = "{1, 2, 3}";
+	const std::string b = "{1, 2, 3}";
+
+	EXPECT_TRUE(ft::equal(a.begin(), a.end(), b.begin()));
+}
+
+TEST(equal, string_true_const2)
+{
+	std::string       a = "{1, 2, 3}";
+	const std::string b = "{1, 2, 3}";
+
+	EXPECT_TRUE(ft::equal(a.begin(), a.end(), b.begin()));
+	EXPECT_TRUE(ft::equal(b.begin(), b.end(), a.begin()));
+}
+
+TEST(equal, string_false_const)
+{
+	const std::string a = "{1, 2, 3}";
+	const std::string b = "{1, 2, 4}";
+
+	EXPECT_FALSE(ft::equal(a.begin(), a.end(), b.begin()));
+}
+
+TEST(equal, basic_cmp_const)
+{
+	const ftc::Data a[] = {1, 2, 3};
+	const ftc::Data b[] = {1, 2, 3};
+
+	EXPECT_TRUE(ft::equal(a, a + ARRAY_SIZE(a), b, is_eq<ftc::Data>));
+	EXPECT_FALSE(ft::equal(a + 1, a + ARRAY_SIZE(a), b, is_eq<ftc::Data>));
+}
+
+TEST(equal, set_cmp_true_const)
+{
+	const int           a[] = {1, 2, 3};
+	const int           b[] = {1, 2, 3};
+	const std::set<int> s1(a, a + ARRAY_SIZE(a));
+	const std::set<int> s2(b, b + ARRAY_SIZE(b));
+
+	EXPECT_TRUE(ft::equal(s1.begin(), s1.end(), s2.begin(), is_eq<int>));
+	EXPECT_TRUE(ft::equal(s1.begin(), s1.end(), b, is_eq<int>));
+	EXPECT_TRUE(ft::equal(b, b + ARRAY_SIZE(b), s1.begin(), is_eq<int>));
+}
+
+TEST(equal, set_cmp_false_const)
+{
+	const int           a[] = {1, 2, 3};
+	const int           b[] = {1, 2, 4};
+	const std::set<int> s1(a, a + ARRAY_SIZE(a));
+	const std::set<int> s2(b, b + ARRAY_SIZE(b));
+
+	EXPECT_FALSE(ft::equal(s1.begin(), s1.end(), s2.begin(), is_eq<int>));
+	EXPECT_FALSE(ft::equal(s1.begin(), s1.end(), b, is_eq<int>));
+	EXPECT_FALSE(ft::equal(b, b + ARRAY_SIZE(b), s1.begin(), is_eq<int>));
+}
+
+TEST(equal, string_cmp_true_const)
+{
+	const std::string a = "{1, 2, 3}";
+	const std::string b = "{1, 2, 3}";
+
+	EXPECT_TRUE(ft::equal(a.begin(), a.end(), b.begin(), is_eq<char>));
+}
+
+TEST(equal, string_cmp_false_const)
+{
+	const std::string a = "{1, 2, 3}";
+	const std::string b = "{1, 2, 4}";
+
+	EXPECT_FALSE(ft::equal(a.begin(), a.end(), b.begin(), is_eq<char>));
+}
+
+TEST(equal, comma_const)
+{
+	const std::vector<CommaTest> v1(10);
+	const std::vector<CommaTest> v2(10);
+
+	EXPECT_NO_THROW(ft::equal(v1.begin(), v1.end(), v2.end()));
+	EXPECT_NO_THROW(ft::equal(v1.begin(), v1.end(), v2.end(), is_eq<CommaTest>));
+	EXPECT_TRUE(ft::equal(v1.begin(), v1.end(), v2.end()));
+	EXPECT_TRUE(ft::equal(v1.begin(), v1.end(), v2.end(), is_eq<CommaTest>));
+}
