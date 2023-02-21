@@ -70,6 +70,7 @@ namespace ft_containers
 	};
 
 	std::ostream &operator<<(std::ostream &os, const Data &d);
+	bool          operator<(const Data &d1, const Data &d2);
 
 	typedef Data::PrintOn     PrintOn;
 	typedef Data::ExceptionOn ExceptionOn;

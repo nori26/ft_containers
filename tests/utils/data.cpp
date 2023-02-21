@@ -148,4 +148,10 @@ namespace ft_containers
 		os << d.p[0];
 		return os;
 	}
+
+	bool operator<(const Data &d1, const Data &d2)
+	{
+		return d1.p[0] < d2.p[0];
+	}
+
 } // namespace ft_containers
