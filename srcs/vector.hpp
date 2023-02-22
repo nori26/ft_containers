@@ -27,9 +27,6 @@ namespace ft
 		typedef const_pointer                            const_iterator;
 
 	  private:
-		typedef vector<value_type, allocator_type> instance_type;
-
-	  private:
 		pointer   first_;
 		pointer   last_;
 		pointer   reserved_last_;
@@ -85,7 +82,7 @@ namespace ft
 		void assign(size_type count, const value_type &value)
 		{
 			if (count > capacity()) {
-				instance_type v(allocator_, count);
+				vector v(allocator_, count);
 				v.construct_at_end(count, value);
 				swap(v);
 			} else if (count > size()) {
@@ -102,7 +99,7 @@ namespace ft
 		{
 			size_type len = std::distance(first, last);
 			if (len > capacity()) {
-				instance_type v(allocator_, len);
+				vector v(allocator_, len);
 				v.construct_at_end(first, last);
 				swap(v);
 			} else if (len > size()) {
@@ -149,7 +146,7 @@ namespace ft
 			if (new_cap <= capacity()) {
 				return;
 			}
-			instance_type v(allocator_, new_cap);
+			vector v(allocator_, new_cap);
 			v.construct_at_end(begin(), end());
 			swap(v);
 		}
@@ -171,7 +168,7 @@ namespace ft
 			}
 			if (count > capacity() - size()) {
 				size_type     new_cap = recommend_capacity(size() + count);
-				instance_type v(allocator_, new_cap);
+				vector v(allocator_, new_cap);
 				v.construct_at_end(begin(), pos);
 				v.construct_at_end(count, value);
 				v.construct_at_end(pos, end());
@@ -207,7 +204,7 @@ namespace ft
 			}
 			if (insert_size > reserved_last_ - last_) {
 				size_type     new_cap = recommend_capacity(size() + insert_size);
-				instance_type v(allocator_, new_cap);
+				vector v(allocator_, new_cap);
 				v.construct_at_end(begin(), pos);
 				v.construct_at_end(first, last);
 				v.construct_at_end(pos, end());
@@ -365,7 +362,7 @@ namespace ft
 			return std::min(alloc_max, difference_max);
 		}
 
-		void swap(instance_type &v)
+		void swap(vector &v)
 		{
 			std::swap(first_, v.first_);
 			std::swap(last_, v.last_);
