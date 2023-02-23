@@ -9,7 +9,7 @@ STLDIR           := $(BUILDDIR)/stl
 DEFAULTDIR       := $(FTDIR)
 OBJDIR           := $(DEFAULTDIR)/obj
 DEPSDIR          := $(DEFAULTDIR)/depends
-INCLUDES         := -I ../srcs/ -I utils/
+INCLUDES         := -I ../includes/ -I utils/
 
 VALGRIND         := $(shell type valgrind > /dev/null && echo valgrind)
 
