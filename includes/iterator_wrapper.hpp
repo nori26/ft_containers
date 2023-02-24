@@ -65,7 +65,7 @@ namespace ft
 	// template <typename T>
 	// bool operator==(const T &, const T &) {return true;}
 	// みたいな定義と衝突するので、
-	// 全ての2項演算子について2種類の関数テンプレートを定義した
+	// 全ての比較演算子について2種類の関数テンプレートを定義した
 	template <typename Iterator>
 	bool operator==(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
 	{
