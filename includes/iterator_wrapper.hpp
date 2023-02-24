@@ -67,73 +67,85 @@ namespace ft
 	// みたいな定義と衝突するので、
 	// 全ての比較演算子について2種類の関数テンプレートを定義した
 	template <typename Iterator>
-	bool operator==(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
+	inline bool
+	operator==(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
 	{
 		return lhs.base() == rhs.base();
 	}
 
 	template <typename Iterator1, typename Iterator2>
-	bool operator==(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
+	inline bool
+	operator==(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
 	{
 		return lhs.base() == rhs.base();
 	}
 
 	template <typename Iterator>
-	bool operator!=(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
+	inline bool
+	operator!=(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
 	{
 		return !(lhs == rhs);
 	}
 
 	template <typename Iterator1, typename Iterator2>
-	bool operator!=(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
+	inline bool
+	operator!=(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
 	{
 		return !(lhs == rhs);
 	}
 
 	template <typename Iterator>
-	bool operator<(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
+	inline bool
+	operator<(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
 	{
 		return lhs.base() < rhs.base();
 	}
 
 	template <typename Iterator1, typename Iterator2>
-	bool operator<(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
+	inline bool
+	operator<(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
 	{
 		return lhs.base() < rhs.base();
 	}
 
 	template <typename Iterator>
-	bool operator>(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
+	inline bool
+	operator>(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
 	{
 		return rhs < lhs;
 	}
 
 	template <typename Iterator1, typename Iterator2>
-	bool operator>(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
+	inline bool
+	operator>(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
 	{
 		return rhs < lhs;
 	}
 
 	template <typename Iterator>
-	bool operator<=(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
+	inline bool
+	operator<=(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
 	{
 		return !(lhs > rhs);
 	}
 
 	template <typename Iterator1, typename Iterator2>
-	bool operator<=(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
+	inline bool
+	operator<=(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
 	{
 		return !(lhs > rhs);
 	}
 
 	template <typename Iterator>
-	bool operator>=(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
+	inline bool
+	operator>=(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
 	{
 		return !(lhs < rhs);
 	}
 
 	template <typename Iterator1, typename Iterator2>
-	bool operator>=(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
+	inline bool
+	operator>=(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
 	{
 		return !(lhs < rhs);
 	}
