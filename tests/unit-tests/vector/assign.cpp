@@ -18,6 +18,16 @@ typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
 
+// TODO input itr
+TEST_F(vector, assign_ret_type)
+{
+	Vector v1;
+	Vector v2;
+
+	EXPECT_EQ(typeid(void), typeid(v1.assign(v2.begin(), v2.end())));
+	EXPECT_EQ(typeid(void), typeid(v1.assign(1U, 1)));
+}
+
 TEST_F(vector, assign_empty)
 {
 	Vector v;

@@ -1,5 +1,7 @@
 #include "gtest.h"
 
+#include <typeinfo>
+
 #include "allocator.hpp"
 #include "data.hpp"
 #include "init_vector.hpp"
@@ -17,6 +19,21 @@ typedef ft::vector<ftc::Data, ftc::Allocator<ftc::Data> > Vector;
 typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
+
+TEST_F(vector, push_back_ret_type)
+{
+	Vector v;
+
+	EXPECT_EQ(typeid(void), typeid(v.push_back(1)));
+}
+
+TEST_F(vector, pop_back_ret_type)
+{
+	Vector v;
+
+	v.push_back(1);
+	EXPECT_EQ(typeid(void), typeid(v.pop_back()));
+}
 
 TEST_F(vector, push_back)
 {

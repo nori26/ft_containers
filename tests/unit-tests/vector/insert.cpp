@@ -1,6 +1,7 @@
 #include "gtest.h"
 
 #include <limits>
+#include <typeinfo>
 
 #include "allocator.hpp"
 #include "data.hpp"
@@ -19,6 +20,16 @@ typedef ft::vector<ftc::Data, ftc::Allocator<ftc::Data> > Vector;
 typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
+
+TEST_F(vector, insert_ret_type)
+{
+	Vector v1;
+	Vector v2;
+
+	EXPECT_EQ(typeid(void), typeid(v1.insert(v1.begin(), v2.begin(), v2.end())));
+	EXPECT_EQ(typeid(void), typeid(v1.insert(v1.begin(), 1U, 1))); // TODO del U
+	EXPECT_EQ(typeid(Vector::iterator), typeid(v1.insert(v1.begin(), 1)));
+}
 
 TEST_F(vector, insert_size_t)
 {

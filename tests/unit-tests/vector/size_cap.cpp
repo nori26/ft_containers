@@ -1,5 +1,7 @@
 #include "gtest.h"
 
+#include <typeinfo>
+
 #include "allocator.hpp"
 #include "data.hpp"
 #include "init_vector.hpp"
@@ -17,6 +19,54 @@ typedef ft::vector<ftc::Data, ftc::Allocator<ftc::Data> > Vector;
 typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
+
+TEST_F(vector, states_ret_type)
+{
+	Vector v;
+
+	EXPECT_EQ(typeid(std::size_t), typeid(v.size()));
+	EXPECT_EQ(typeid(std::size_t), typeid(v.capacity()));
+	EXPECT_EQ(typeid(std::size_t), typeid(v.max_size()));
+	EXPECT_EQ(typeid(bool), typeid(v.empty()));
+
+	const std::size_t &s1 = v.size();
+	const std::size_t &s2 = v.size();
+	const std::size_t &c1 = v.capacity();
+	const std::size_t &c2 = v.capacity();
+	const std::size_t &m1 = v.max_size();
+	const std::size_t &m2 = v.max_size();
+	const bool        &b1 = v.empty();
+	const bool        &b2 = v.empty();
+
+	EXPECT_NE(&s1, &s2);
+	EXPECT_NE(&c1, &c2);
+	EXPECT_NE(&m1, &m2);
+	EXPECT_NE(&b1, &b2);
+}
+
+TEST_F(vector, states_ret_type_const)
+{
+	const Vector v;
+
+	EXPECT_EQ(typeid(std::size_t), typeid(v.size()));
+	EXPECT_EQ(typeid(std::size_t), typeid(v.capacity()));
+	EXPECT_EQ(typeid(std::size_t), typeid(v.max_size()));
+	EXPECT_EQ(typeid(bool), typeid(v.empty()));
+
+	const std::size_t &s1 = v.size();
+	const std::size_t &s2 = v.size();
+	const std::size_t &c1 = v.capacity();
+	const std::size_t &c2 = v.capacity();
+	const std::size_t &m1 = v.max_size();
+	const std::size_t &m2 = v.max_size();
+	const bool        &b1 = v.empty();
+	const bool        &b2 = v.empty();
+
+	EXPECT_NE(&s1, &s2);
+	EXPECT_NE(&c1, &c2);
+	EXPECT_NE(&m1, &m2);
+	EXPECT_NE(&b1, &b2);
+}
 
 TEST_F(vector, size_empty)
 {

@@ -1,5 +1,7 @@
 #include "gtest.h"
 
+#include <typeinfo>
+
 #include "allocator.hpp"
 #include "data.hpp"
 #include "init_vector.hpp"
@@ -17,6 +19,53 @@ typedef ft::vector<ftc::Data, ftc::Allocator<ftc::Data> > Vector;
 typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
+
+TEST_F(vector, elem_access_ret_type)
+{
+	Vector v;
+	v.push_back(1);
+
+	EXPECT_EQ(typeid(Vector::reference), typeid(v[0]));      // あんま意味ない
+	EXPECT_EQ(typeid(Vector::reference), typeid(v.at(0)));   // あんま意味ない
+	EXPECT_EQ(typeid(Vector::reference), typeid(v.back()));  // あんま意味ない
+	EXPECT_EQ(typeid(Vector::reference), typeid(v.front())); // あんま意味ない
+	EXPECT_EQ(typeid(Vector::pointer), typeid(v.data()));    // あんま意味ない
+
+	ftc::Data        &ref1 = v[0];
+	ftc::Data        &ref2 = v.at(0);
+	ftc::Data        &ref3 = v.back();
+	ftc::Data        &ref4 = v.front();
+	ftc::Data *const &p    = v.data();
+	ftc::Data *const &p2   = v.data();
+	EXPECT_EQ(&ref1, &v[0]);
+	EXPECT_EQ(&ref2, &v.at(0));
+	EXPECT_EQ(&ref3, &v.back());
+	EXPECT_EQ(&ref4, &v.front());
+	EXPECT_NE(&p, &p2);
+}
+
+TEST_F(vector, elem_access_ret_type_const)
+{
+	const Vector v(1U, 1);
+
+	EXPECT_EQ(typeid(Vector::const_reference), typeid(v[0]));      // あんま意味ない
+	EXPECT_EQ(typeid(Vector::const_reference), typeid(v.at(0)));   // あんま意味ない
+	EXPECT_EQ(typeid(Vector::const_reference), typeid(v.back()));  // あんま意味ない
+	EXPECT_EQ(typeid(Vector::const_reference), typeid(v.front())); // あんま意味ない
+	EXPECT_EQ(typeid(Vector::const_pointer), typeid(v.data()));    // あんま意味ない
+
+	const ftc::Data        &ref1 = v[0];
+	const ftc::Data        &ref2 = v.at(0);
+	const ftc::Data        &ref3 = v.back();
+	const ftc::Data        &ref4 = v.front();
+	const ftc::Data *const &p    = v.data();
+	const ftc::Data *const &p2   = v.data();
+	EXPECT_EQ(&ref1, &v[0]);
+	EXPECT_EQ(&ref2, &v.at(0));
+	EXPECT_EQ(&ref3, &v.back());
+	EXPECT_EQ(&ref4, &v.front());
+	EXPECT_NE(&p, &p2);
+}
 
 TEST_F(vector, at_empty)
 {
