@@ -94,6 +94,7 @@ namespace ft
 			}
 		}
 
+	  	// The behavior is undefined if either argument is an iterator into *this.
 		template <class InputIt>
 		void assign(InputIt first, InputIt last)
 		{
@@ -191,6 +192,8 @@ namespace ft
 				copy_n(pos, count, value);
 			}
 		}
+
+	  	// The behavior is undefined if either argument is an iterator into *this.
 
 		// sizeof(InputIt::difference_type) <= sizeof(difference_type) &&
 		// sizeof(inputIt::difference_type) <= sizeof(size_type)
