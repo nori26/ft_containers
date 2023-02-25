@@ -88,6 +88,25 @@ TEST_F(vector, swap)
 	}
 }
 
+TEST_F(vector, swap_self)
+{
+	ftc::Data         a1[] = {1, 2, 3};
+	Vector            v1(a1, a1 + ARRAY_SIZE(a1));
+	void             *v1_old_alloc = v1.get_allocator().get_id();
+	Vector::size_type v1_old_size  = v1.size();
+	Vector::size_type v1_old_cap   = v1.capacity();
+	ftc::Data        *v1_old_data  = v1.data();
+
+	v1.swap(v1);
+	EXPECT_EQ(v1.get_allocator().get_id(), v1_old_alloc);
+	EXPECT_EQ(v1.size(), v1_old_size);
+	EXPECT_EQ(v1.capacity(), v1_old_cap);
+	EXPECT_EQ(v1.data(), v1_old_data);
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		EXPECT_EQ(v1[i], a1[i]);
+	}
+}
+
 TEST_F(vector, swap2)
 {
 	ftc::Data         a1[] = {1, 2};
