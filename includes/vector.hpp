@@ -23,8 +23,8 @@ namespace ft
 		typedef typename allocator_type::const_reference const_reference;
 		typedef typename allocator_type::size_type       size_type;
 		typedef typename allocator_type::difference_type difference_type;
-		typedef pointer                                  iterator;
-		typedef const_pointer                            const_iterator;
+		typedef iterator_wrapper<pointer>                iterator;
+		typedef iterator_wrapper<const_pointer>          const_iterator;
 
 	  private:
 		pointer   first_;
