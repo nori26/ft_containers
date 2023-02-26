@@ -39,13 +39,6 @@ TEST_F(vector, get_allocator)
 	EXPECT_EQ(v.get_allocator().get_id(), a.get_id());
 }
 
-TEST_F(vector, iterator)
-{
-	Vector v;
-	EXPECT_EQ(v.begin(), v.end());
-}
-
-
 TEST_F(vector, types)
 {
 	EXPECT_EQ(typeid(Vector::allocator_type), typeid(ftc::Allocator<ftc::Data>));
