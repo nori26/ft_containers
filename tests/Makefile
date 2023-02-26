@@ -27,7 +27,7 @@ GTEST_LIBS		 := -lpthread
 
 PP_FLAGS         := -D FT_TEST
 
-CASE_DIR	     := unit-tests
+CASE_DIR	     := system_tests
 CASE_SRCS	      = $(shell find $(CASE_DIR) -name '*.cpp')
 CASE_OBJS	      = $(CASE_SRCS:%.cpp=$(OBJDIR)/%.o)
 CASE_DEPS	      = $(CASE_SRCS:%.cpp=$(DEPSDIR)/%.d)
