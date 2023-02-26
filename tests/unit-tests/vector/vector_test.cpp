@@ -52,8 +52,8 @@ TEST_F(vector, types)
 	EXPECT_EQ(typeid(Vector::pointer), typeid(ftc::Data *));
 	EXPECT_EQ(typeid(Vector::const_pointer), typeid(const ftc::Data *));
 	EXPECT_EQ(typeid(Vector::value_type), typeid(ftc::Data));
-	EXPECT_EQ(typeid(Vector::reference), typeid(ftc::Data &)); //あんま意味ない
-	EXPECT_EQ(typeid(Vector::const_reference), typeid(const ftc::Data &)); //あんま意味ない
+	EXPECT_EQ(typeid(Vector::reference), typeid(ftc::Data &));             // あんま意味ない
+	EXPECT_EQ(typeid(Vector::const_reference), typeid(const ftc::Data &)); // あんま意味ない
 	EXPECT_EQ(typeid(Vector::size_type), typeid(std::size_t));
 	EXPECT_EQ(typeid(Vector::difference_type), typeid(std::ptrdiff_t));
 }

@@ -341,8 +341,8 @@ TEST(lexicographical_compare, string_same_const2)
 
 TEST(lexicographical_compare, string_same_const3)
 {
-	const std::string       s1 = "123";
-	std::string s2 = "123";
+	const std::string s1 = "123";
+	std::string       s2 = "123";
 
 	EXPECT_FALSE(ft::lexicographical_compare(s1.begin(), s1.end(), s2.begin(), s2.end()));
 	EXPECT_FALSE(ft::lexicographical_compare(s1.begin(), s1.end(), s2.begin(), --s2.end()));

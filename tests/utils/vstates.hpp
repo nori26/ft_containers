@@ -24,7 +24,7 @@ class VStates
 
 	bool HasSameState(const T &v)
 	{
-		void *key          = (void *)(&v);
+		void *key = (void *)(&v);
 
 		return ExpectEq(old_states[key].size, v.size()) &&
 			   ExpectEq(old_states[key].cap, v.capacity()) &&

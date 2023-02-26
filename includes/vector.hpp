@@ -94,7 +94,7 @@ namespace ft
 			}
 		}
 
-	  	// The behavior is undefined if either argument is an iterator into *this.
+		// The behavior is undefined if either argument is an iterator into *this.
 		template <class InputIt>
 		void assign(InputIt first, InputIt last)
 		{
@@ -168,8 +168,8 @@ namespace ft
 				return;
 			}
 			if (count > capacity() - size()) {
-				size_type     new_cap = recommend_capacity(size() + count);
-				vector v(allocator_, new_cap);
+				size_type new_cap = recommend_capacity(size() + count);
+				vector    v(allocator_, new_cap);
 				v.construct_at_end(begin(), pos);
 				v.construct_at_end(count, value);
 				v.construct_at_end(pos, end());
@@ -193,7 +193,7 @@ namespace ft
 			}
 		}
 
-	  	// The behavior is undefined if either argument is an iterator into *this.
+		// The behavior is undefined if either argument is an iterator into *this.
 
 		// sizeof(InputIt::difference_type) <= sizeof(difference_type) &&
 		// sizeof(inputIt::difference_type) <= sizeof(size_type)
@@ -206,8 +206,8 @@ namespace ft
 				return;
 			}
 			if (insert_size > reserved_last_ - last_) {
-				size_type     new_cap = recommend_capacity(size() + insert_size);
-				vector v(allocator_, new_cap);
+				size_type new_cap = recommend_capacity(size() + insert_size);
+				vector    v(allocator_, new_cap);
 				v.construct_at_end(begin(), pos);
 				v.construct_at_end(first, last);
 				v.construct_at_end(pos, end());

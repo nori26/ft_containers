@@ -17,7 +17,6 @@ namespace ftc = ft_containers;
 typedef ft::vector<ftc::Data, ftc::Allocator<ftc::Data> > Vector;
 typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 
-
 TEST_F(vector, reserve_ret_type)
 {
 	Vector v;
