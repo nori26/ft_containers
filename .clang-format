@@ -20,7 +20,9 @@ BreakBeforeBraces: Custom
 BraceWrapping:
   AfterClass: true
   AfterFunction: true
+  AfterStruct: true
   SplitEmptyFunction: false
+  SplitEmptyRecord: false
   AfterNamespace: true
 AlignConsecutiveBitFields: true
 PPIndentWidth: 2
