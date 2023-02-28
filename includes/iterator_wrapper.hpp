@@ -29,8 +29,6 @@ namespace ft
 		// TODO enable_if for non-const ptr -> const ptr?
 		iterator_wrapper(const iterator_wrapper &other) : itr_(other.itr_) {}
 
-		~iterator_wrapper() {}
-
 		iterator_type base() const
 		{
 			return itr_;
