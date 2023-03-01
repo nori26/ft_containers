@@ -32,6 +32,26 @@ TEST_F(vector, operator_cmp_empty)
 	EXPECT_FALSE(v2 > v1);
 	EXPECT_TRUE(v1 >= v2);
 	EXPECT_TRUE(v2 >= v1);
+
+	EXPECT_FALSE(v1 < Vector());
+	EXPECT_FALSE(v2 < Vector());
+	EXPECT_TRUE(v1 <= Vector());
+	EXPECT_TRUE(v2 <= Vector());
+
+	EXPECT_FALSE(v1 > Vector());
+	EXPECT_FALSE(v2 > Vector());
+	EXPECT_TRUE(v1 >= Vector());
+	EXPECT_TRUE(v2 >= Vector());
+
+	EXPECT_FALSE(Vector() < v2);
+	EXPECT_FALSE(Vector() < v1);
+	EXPECT_TRUE(Vector() <= v2);
+	EXPECT_TRUE(Vector() <= v1);
+
+	EXPECT_FALSE(Vector() > v2);
+	EXPECT_FALSE(Vector() > v1);
+	EXPECT_TRUE(Vector() >= v2);
+	EXPECT_TRUE(Vector() >= v1);
 }
 
 TEST_F(vector, operator_cmp_empty2)

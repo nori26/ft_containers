@@ -100,6 +100,15 @@ TEST_F(vector, operator_assignment_empty3)
 	EXPECT_TRUE(ftc::Data::IsDestructed(v2.end(), v2.end() + ARRAY_SIZE(a)));
 }
 
+TEST_F(vector, operator_assignment_empty4)
+{
+	Vector v2;
+
+	v2 = Vector();
+	EXPECT_EQ(v2.size(), 0U);
+	EXPECT_EQ(v2.capacity(), 0U);
+}
+
 TEST_F(vector, operator_assignment_meta)
 {
 	Vector v;

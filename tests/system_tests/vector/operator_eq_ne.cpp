@@ -95,6 +95,26 @@ TEST_F(vector, operator_eq_empty2)
 	EXPECT_TRUE(vs.HasSameState(v2));
 }
 
+TEST_F(vector, operator_eq_empty3)
+{
+	Vector          v1;
+	VStates<Vector> vs;
+
+	vs.SaveState(v1);
+
+	EXPECT_EQ(v1, Vector());
+	EXPECT_TRUE(vs.HasSameState(v1));
+
+	EXPECT_TRUE(v1 == Vector());
+	EXPECT_TRUE(vs.HasSameState(v1));
+
+	EXPECT_EQ(Vector(), v1);
+	EXPECT_TRUE(vs.HasSameState(v1));
+
+	EXPECT_TRUE(Vector() == v1);
+	EXPECT_TRUE(vs.HasSameState(v1));
+}
+
 TEST_F(vector, operator_eq)
 {
 	ftc::Data       a1[] = {1, 2, 3};
@@ -206,6 +226,26 @@ TEST_F(vector, operator_ne_empty2)
 	EXPECT_TRUE(v2 != v1);
 	EXPECT_TRUE(vs.HasSameState(v1));
 	EXPECT_TRUE(vs.HasSameState(v2));
+}
+
+TEST_F(vector, operator_ne_empty3)
+{
+	Vector          v1;
+	VStates<Vector> vs;
+
+	vs.SaveState(v1);
+
+	EXPECT_NE(v1, Vector(1U, 1));
+	EXPECT_TRUE(vs.HasSameState(v1));
+
+	EXPECT_TRUE(v1 != Vector(1U, 1));
+	EXPECT_TRUE(vs.HasSameState(v1));
+
+	EXPECT_NE(Vector(1U, 1), v1);
+	EXPECT_TRUE(vs.HasSameState(v1));
+
+	EXPECT_TRUE(Vector(1U, 1) != v1);
+	EXPECT_TRUE(vs.HasSameState(v1));
 }
 
 TEST_F(vector, operator_ne)
