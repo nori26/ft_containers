@@ -8,6 +8,7 @@
 #include <stdexcept>
 
 #include "algorithm.hpp"
+#include "iterator_wrapper.hpp"
 
 namespace ft
 {
