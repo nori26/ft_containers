@@ -7,7 +7,8 @@ template <typename T>
 class VStates
 {
   public:
-	struct State {
+	struct State
+	{
 		size_t      size;
 		size_t      cap;
 		const void *data;

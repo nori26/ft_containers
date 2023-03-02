@@ -12,7 +12,8 @@ namespace ft_containers
 	{
 	  public:
 		template <typename U>
-		struct rebind {
+		struct rebind
+		{
 			typedef Allocator<U> other;
 		};
 		class ExceptionOn
