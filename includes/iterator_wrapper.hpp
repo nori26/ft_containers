@@ -23,8 +23,9 @@ namespace ft
 		iterator_type itr_;
 
 	  public:
-		// TODO explicit ?
-		iterator_wrapper(const iterator_type &itr = iterator_type()) : itr_(itr) {}
+		iterator_wrapper() : itr_() {}
+
+		explicit iterator_wrapper(const iterator_type &itr) : itr_(itr) {}
 
 		// TODO enable_if for non-const ptr -> const ptr?
 		iterator_wrapper(const iterator_wrapper &other) : itr_(other.itr_) {}
@@ -96,13 +97,13 @@ namespace ft
 		// TODO signed test
 		iterator_wrapper operator+(difference_type n) const
 		{
-			return itr_ + n;
+			return iterator_wrapper(itr_ + n);
 		}
 
 		// TODO signed test
 		iterator_wrapper operator-(difference_type n) const
 		{
-			return itr_ - n;
+			return iterator_wrapper(itr_ - n);
 		}
 	};
 
@@ -200,7 +201,7 @@ namespace ft
 		typename iterator_wrapper<Iterator>::difference_type n, const iterator_wrapper<Iterator> &it
 	)
 	{
-		return it.base() + n;
+		return iterator_wrapper<Iterator>(it.base() + n);
 	}
 
 	template <typename Iterator>

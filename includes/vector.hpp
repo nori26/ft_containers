@@ -341,22 +341,22 @@ namespace ft
 
 		iterator begin()
 		{
-			return first_;
+			return iterator(first_);
 		}
 
 		const_iterator begin() const
 		{
-			return first_;
+			return const_iterator(first_);
 		}
 
 		iterator end()
 		{
-			return last_;
+			return iterator(last_);
 		}
 
 		const_iterator end() const
 		{
-			return last_;
+			return const_iterator(last_);
 		}
 
 		size_type max_size() const
