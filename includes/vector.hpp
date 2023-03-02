@@ -257,6 +257,13 @@ namespace ft
 			erase(begin(), end());
 		}
 
+		void swap(vector &v)
+		{
+			std::swap(first_, v.first_);
+			std::swap(last_, v.last_);
+			std::swap(reserved_last_, v.reserved_last_);
+		}
+
 		vector &operator=(const vector &other)
 		{
 			if (&other == this) {
@@ -364,13 +371,6 @@ namespace ft
 			const size_type alloc_max      = allocator_.max_size();
 			const size_type difference_max = std::numeric_limits<difference_type>::max();
 			return std::min(alloc_max, difference_max);
-		}
-
-		void swap(vector &v)
-		{
-			std::swap(first_, v.first_);
-			std::swap(last_, v.last_);
-			std::swap(reserved_last_, v.reserved_last_);
 		}
 
 	  private:
