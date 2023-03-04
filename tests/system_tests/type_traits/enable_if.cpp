@@ -31,3 +31,10 @@ TEST(enable_if, basic)
 	EXPECT_EQ(enable_if_func<char>(), 1);
 }
 
+TEST(is_convertible, basic)
+{
+	EXPECT_TRUE((ft::is_convertible<char *, char *>::value));
+	EXPECT_TRUE((ft::is_convertible<const char *, const char *>::value));
+	EXPECT_TRUE((ft::is_convertible<char *, const char *>::value));
+	EXPECT_FALSE((ft::is_convertible<const char *, char *>::value));
+}
