@@ -5,7 +5,7 @@
 
 namespace ft
 {
-	template <typename Itr>
+	template <typename Itr, typename Container>
 	class iterator_wrapper
 	{
 	  private:
@@ -112,108 +112,137 @@ namespace ft
 	// みたいな定義と衝突するので、
 	// 全ての比較演算子、operator-について2種類の関数テンプレートをこのスコープに定義する必要がある
 	// template引数を2つ取る方は、constとnon-constの演算に使用される
-	template <typename Iterator>
-	inline bool
-	operator==(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
-	{
-		return lhs.base() == rhs.base();
-	}
-
-	template <typename Iterator1, typename Iterator2>
-	inline bool
-	operator==(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
-	{
-		return lhs.base() == rhs.base();
-	}
-
-	template <typename Iterator>
-	inline bool
-	operator!=(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
-	{
-		return !(lhs == rhs);
-	}
-
-	template <typename Iterator1, typename Iterator2>
-	inline bool
-	operator!=(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
-	{
-		return !(lhs == rhs);
-	}
-
-	template <typename Iterator>
-	inline bool
-	operator<(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
-	{
-		return lhs.base() < rhs.base();
-	}
-
-	template <typename Iterator1, typename Iterator2>
-	inline bool
-	operator<(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
-	{
-		return lhs.base() < rhs.base();
-	}
-
-	template <typename Iterator>
-	inline bool
-	operator>(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
-	{
-		return rhs < lhs;
-	}
-
-	template <typename Iterator1, typename Iterator2>
-	inline bool
-	operator>(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
-	{
-		return rhs < lhs;
-	}
-
-	template <typename Iterator>
-	inline bool
-	operator<=(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
-	{
-		return !(lhs > rhs);
-	}
-
-	template <typename Iterator1, typename Iterator2>
-	inline bool
-	operator<=(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
-	{
-		return !(lhs > rhs);
-	}
-
-	template <typename Iterator>
-	inline bool
-	operator>=(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
-	{
-		return !(lhs < rhs);
-	}
-
-	template <typename Iterator1, typename Iterator2>
-	inline bool
-	operator>=(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
-	{
-		return !(lhs < rhs);
-	}
-
-	template <typename Iterator>
-	inline iterator_wrapper<Iterator> operator+(
-		typename iterator_wrapper<Iterator>::difference_type n, const iterator_wrapper<Iterator> &it
+	template <typename Iterator, typename Container>
+	inline bool operator==(
+		const iterator_wrapper<Iterator, Container> &lhs,
+		const iterator_wrapper<Iterator, Container> &rhs
 	)
 	{
-		return iterator_wrapper<Iterator>(it.base() + n);
+		return lhs.base() == rhs.base();
 	}
 
-	template <typename Iterator>
-	inline typename iterator_wrapper<Iterator>::difference_type
-	operator-(const iterator_wrapper<Iterator> &lhs, const iterator_wrapper<Iterator> &rhs)
+	template <typename Iterator1, typename Iterator2, typename Container>
+	inline bool operator==(
+		const iterator_wrapper<Iterator1, Container> &lhs,
+		const iterator_wrapper<Iterator2, Container> &rhs
+	)
+	{
+		return lhs.base() == rhs.base();
+	}
+
+	template <typename Iterator, typename Container>
+	inline bool operator!=(
+		const iterator_wrapper<Iterator, Container> &lhs,
+		const iterator_wrapper<Iterator, Container> &rhs
+	)
+	{
+		return !(lhs == rhs);
+	}
+
+	template <typename Iterator1, typename Iterator2, typename Container>
+	inline bool operator!=(
+		const iterator_wrapper<Iterator1, Container> &lhs,
+		const iterator_wrapper<Iterator2, Container> &rhs
+	)
+	{
+		return !(lhs == rhs);
+	}
+
+	template <typename Iterator, typename Container>
+	inline bool operator<(
+		const iterator_wrapper<Iterator, Container> &lhs,
+		const iterator_wrapper<Iterator, Container> &rhs
+	)
+	{
+		return lhs.base() < rhs.base();
+	}
+
+	template <typename Iterator1, typename Iterator2, typename Container>
+	inline bool operator<(
+		const iterator_wrapper<Iterator1, Container> &lhs,
+		const iterator_wrapper<Iterator2, Container> &rhs
+	)
+	{
+		return lhs.base() < rhs.base();
+	}
+
+	template <typename Iterator, typename Container>
+	inline bool operator>(
+		const iterator_wrapper<Iterator, Container> &lhs,
+		const iterator_wrapper<Iterator, Container> &rhs
+	)
+	{
+		return rhs < lhs;
+	}
+
+	template <typename Iterator1, typename Iterator2, typename Container>
+	inline bool operator>(
+		const iterator_wrapper<Iterator1, Container> &lhs,
+		const iterator_wrapper<Iterator2, Container> &rhs
+	)
+	{
+		return rhs < lhs;
+	}
+
+	template <typename Iterator, typename Container>
+	inline bool operator<=(
+		const iterator_wrapper<Iterator, Container> &lhs,
+		const iterator_wrapper<Iterator, Container> &rhs
+	)
+	{
+		return !(lhs > rhs);
+	}
+
+	template <typename Iterator1, typename Iterator2, typename Container>
+	inline bool operator<=(
+		const iterator_wrapper<Iterator1, Container> &lhs,
+		const iterator_wrapper<Iterator2, Container> &rhs
+	)
+	{
+		return !(lhs > rhs);
+	}
+
+	template <typename Iterator, typename Container>
+	inline bool operator>=(
+		const iterator_wrapper<Iterator, Container> &lhs,
+		const iterator_wrapper<Iterator, Container> &rhs
+	)
+	{
+		return !(lhs < rhs);
+	}
+
+	template <typename Iterator1, typename Iterator2, typename Container>
+	inline bool operator>=(
+		const iterator_wrapper<Iterator1, Container> &lhs,
+		const iterator_wrapper<Iterator2, Container> &rhs
+	)
+	{
+		return !(lhs < rhs);
+	}
+
+	template <typename Iterator, typename Container>
+	inline iterator_wrapper<Iterator, Container> operator+(
+		typename iterator_wrapper<Iterator, Container>::difference_type n,
+		const iterator_wrapper<Iterator, Container>                    &it
+	)
+	{
+		return iterator_wrapper<Iterator, Container>(it.base() + n);
+	}
+
+	template <typename Iterator, typename Container>
+	inline typename iterator_wrapper<Iterator, Container>::difference_type operator-(
+		const iterator_wrapper<Iterator, Container> &lhs,
+		const iterator_wrapper<Iterator, Container> &rhs
+	)
 	{
 		return lhs.base() - rhs.base();
 	}
 
-	template <typename Iterator1, typename Iterator2>
-	inline typename iterator_wrapper<Iterator1>::difference_type
-	operator-(const iterator_wrapper<Iterator1> &lhs, const iterator_wrapper<Iterator2> &rhs)
+	template <typename Iterator1, typename Iterator2, typename Container>
+	inline typename iterator_wrapper<Iterator1, Container>::difference_type operator-(
+		const iterator_wrapper<Iterator1, Container> &lhs,
+		const iterator_wrapper<Iterator2, Container> &rhs
+	)
 	{
 		return lhs.base() - rhs.base();
 	}
