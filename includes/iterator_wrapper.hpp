@@ -2,6 +2,7 @@
 #define ITERATOR_WRAPPER_HPP
 
 #include "iterator.hpp"
+#include "type_traits.hpp"
 
 namespace ft
 {
@@ -27,8 +28,23 @@ namespace ft
 
 		explicit iterator_wrapper(const iterator_type &itr) : itr_(itr) {}
 
-		// TODO enable_if for non-const ptr -> const ptr?
-		iterator_wrapper(const iterator_wrapper &other) : itr_(other.itr_) {}
+		// clang-format off
+		// for T* -> const T*
+		template <typename T>
+		iterator_wrapper(
+			const iterator_wrapper
+			<
+				T,
+				typename enable_if
+				<
+					is_convertible<T, Itr>::value,
+					Container
+				>::type
+			> &other
+		)
+			: itr_(other.base())
+		{}
+		// clang-format on
 
 		iterator_type base() const
 		{
