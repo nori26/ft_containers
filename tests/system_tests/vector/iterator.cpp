@@ -105,8 +105,7 @@ TEST_F(vector, iterator_types_const2)
 
 TEST_F(vector, iterator_constructor)
 {
-	Vector v(1U, 1);
-	// const Vector     v(1U, 1); // TODO it(const_it)
+	Vector                 v(1U, 1);
 	Vector::iterator       it(v.begin());
 	Vector::iterator       it2;
 	Vector::iterator       it3;
@@ -117,6 +116,17 @@ TEST_F(vector, iterator_constructor)
 	(void)it5;
 	EXPECT_EQ(it, v.begin());
 	EXPECT_EQ(it2, it3);
+
+	Vector::const_iterator       cit(v.begin());
+	Vector::const_iterator       cit2;
+	Vector::const_iterator       cit3;
+	const Vector::const_iterator cit4 = v.begin();
+	const Vector::const_iterator cit5 = it2;
+
+	(void)cit4;
+	(void)cit5;
+	EXPECT_EQ(cit, v.begin());
+	EXPECT_EQ(cit2, cit3);
 }
 
 TEST_F(vector, iterator_op_assign)
@@ -245,9 +255,8 @@ TEST_F(vector, iterator_empty)
 TEST_F(vector, iterator_op_indirection)
 {
 	Vector                 v(1U, 1);
-	const Vector          &cv = v; // TODO 不要 enableifあれば
 	Vector::iterator       b  = v.begin();
-	Vector::const_iterator cb = cv.begin();
+	Vector::const_iterator cb = v.begin();
 
 	EXPECT_EQ(typeid(*b), typeid(ftc::Data));
 	EXPECT_EQ(typeid(*cb), typeid(const ftc::Data));
@@ -269,9 +278,8 @@ TEST_F(vector, iterator_op_indirection)
 TEST_F(vector, iterator_op_indirection_const)
 {
 	Vector                       v(1U, 1);
-	const Vector                &cv = v; // TODO 不要 enableifあれば
 	const Vector::iterator       b  = v.begin();
-	const Vector::const_iterator cb = cv.begin();
+	const Vector::const_iterator cb = v.begin();
 
 	EXPECT_EQ(typeid(*b), typeid(ftc::Data));
 	EXPECT_EQ(typeid(*cb), typeid(const ftc::Data));
@@ -294,9 +302,8 @@ TEST_F(vector, iterator_op_subscript)
 {
 	ftc::Data                    a[] = {1, 2, 3};
 	Vector                       v(a, a + ARRAY_SIZE(a));
-	const Vector                &cv = v; // TODO 不要 enableifあれば
 	const Vector::iterator       b  = v.begin() + 1;
-	const Vector::const_iterator cb = cv.begin() + 1;
+	const Vector::const_iterator cb = v.begin() + 1;
 
 	EXPECT_EQ(typeid(b[0]), typeid(ftc::Data));
 	EXPECT_EQ(typeid(cb[0]), typeid(const ftc::Data));
@@ -323,9 +330,8 @@ TEST_F(vector, iterator_op_subscript_const)
 {
 	ftc::Data              a[] = {1, 2, 3};
 	Vector                 v(a, a + ARRAY_SIZE(a));
-	const Vector          &cv = v; // TODO 不要 enableifあれば
 	Vector::iterator       b  = v.begin() + 1;
-	Vector::const_iterator cb = cv.begin() + 1;
+	Vector::const_iterator cb = v.begin() + 1;
 
 	EXPECT_EQ(typeid(b[0]), typeid(ftc::Data));
 	EXPECT_EQ(typeid(cb[0]), typeid(const ftc::Data));
@@ -351,9 +357,8 @@ TEST_F(vector, iterator_op_subscript_const)
 TEST_F(vector, iterator_op_allow)
 {
 	Vector                 v(1U, 1);
-	const Vector          &cv = v; // TODO 不要 enableifあれば
 	Vector::iterator       b  = v.begin();
-	Vector::const_iterator cb = cv.begin();
+	Vector::const_iterator cb = v.begin();
 
 	EXPECT_EQ(typeid(b->p), typeid(int *));
 
@@ -366,9 +371,8 @@ TEST_F(vector, iterator_op_allow)
 TEST_F(vector, iterator_op_allow_const)
 {
 	Vector                       v(1U, 1);
-	const Vector                &cv = v; // TODO 不要 enableifあれば
 	const Vector::iterator       b  = v.begin();
-	const Vector::const_iterator cb = cv.begin();
+	const Vector::const_iterator cb = v.begin();
 
 	EXPECT_EQ(typeid(b->p), typeid(int *));
 
@@ -415,7 +419,7 @@ TEST_F(vector, iterator_op_dec)
 TEST_F(vector, iterator_op_plus)
 {
 	Vector                       v(1U, 1);
-	const Vector                &cv = v; // TODO 不要 enableifあれば
+	const Vector                &cv = v;
 	const Vector::iterator       b  = v.begin();
 	const Vector::const_iterator cb = cv.begin();
 
@@ -452,7 +456,7 @@ TEST_F(vector, iterator_op_plus)
 TEST_F(vector, iterator_op_minus)
 {
 	Vector                       v(1U, 1);
-	const Vector                &cv = v; // TODO 不要 beginnd()
+	const Vector                &cv = v;
 	const Vector::iterator       b  = v.end();
 	const Vector::const_iterator cb = cv.end();
 
