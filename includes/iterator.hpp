@@ -3,7 +3,8 @@
 
 #include <iterator>
 
-// TODO test
+#include "type_traits.hpp"
+
 namespace ft
 {
 	template <typename Iter>
@@ -38,6 +39,26 @@ namespace ft
 		typedef const T                        &reference;
 		typedef std::random_access_iterator_tag iterator_category;
 	};
+
+	// clang-format off
+	template <typename T>
+	struct is_forward_iterator : public
+		is_convertible
+		<
+			typename ft::iterator_traits<T>::iterator_category,
+			std::forward_iterator_tag
+		>
+	{};
+
+	template <typename T>
+	struct is_input_iterator : public
+		is_convertible
+		<
+			typename iterator_traits<T>::iterator_category,
+			std::input_iterator_tag
+		>
+	{};
+	// clang-format on
 } // namespace ft
 
 #endif
