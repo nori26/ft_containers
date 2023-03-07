@@ -28,7 +28,7 @@ namespace ft
 		static no   test(...);
 
 	  public:
-	  	// sizeofはオペランドの式を評価しない
+		// sizeofはオペランドの式を評価しない
 		static const bool value = sizeof(test(f)) == sizeof(yes);
 	};
 	template <typename From, typename To>
