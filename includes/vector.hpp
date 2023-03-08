@@ -99,7 +99,8 @@ namespace ft
 
 		// The behavior is undefined if either argument is an iterator into *this.
 		template <class InputIt>
-		void assign(InputIt first, InputIt last)
+		typename enable_if<is_forward_iterator<InputIt>::value>::type
+		assign(InputIt first, InputIt last)
 		{
 			size_type len = std::distance(first, last);
 			if (len > capacity()) {
