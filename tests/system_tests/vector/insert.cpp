@@ -34,10 +34,15 @@ TEST_F(vector, insert_ret_type)
 TEST_F(vector, insert_size_t)
 {
 	ft::vector<size_t> v;
-	// size_t ary[1] = {0};
+	size_t ary[] = {3, 3, 3, 1, 2};
 	size_t i = 3;
 	// v.insert(v.end(), &ary, &ary + 1);
 	v.insert(v.end(), i, i);
+	v.insert(v.end(), 1U, 1U);
+	v.insert(v.end(), 1, 2);
+	for (size_t i = 0; i < ARRAY_SIZE(ary); i++) {
+		EXPECT_EQ(v[i], ary[i]);
+	}
 }
 
 // TEST_F(vector, insert_best_viable)
