@@ -3,6 +3,17 @@
 
 namespace ft
 {
+	template <typename T, T v>
+	struct bool_type
+	{
+		static const T value = v;
+	};
+
+	template <typename T, T v>
+	const T bool_type<T, v>::value;
+
+	typedef bool_type<bool, true>  true_type;
+	typedef bool_type<bool, false> false_type;
 
 	typedef char yes_type;
 	typedef struct
