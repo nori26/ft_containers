@@ -47,6 +47,18 @@ namespace ft
 
 	template <typename From, typename To>
 	const bool is_convertible<From, To>::value;
+
+	template <typename T>
+	struct remove_reference
+	{
+		typedef T type;
+	};
+
+	template <typename T>
+	struct remove_reference<T &>
+	{
+		typedef T type;
+	};
 } // namespace ft
 
 #endif
