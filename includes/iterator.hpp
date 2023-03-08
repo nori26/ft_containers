@@ -3,12 +3,16 @@
 
 #include <iterator>
 
+#include "iterator_traits_impl.hpp"
 #include "type_traits.hpp"
 
 namespace ft
 {
+	template <typename Iter, bool = has_iterator_typedefs<Iter>::value>
+	class iterator_traits;
+
 	template <typename Iter>
-	class iterator_traits
+	class iterator_traits<Iter, true>
 	{
 	  public:
 		typedef typename Iter::difference_type   difference_type;
@@ -19,7 +23,7 @@ namespace ft
 	};
 
 	template <typename T>
-	class iterator_traits<T *>
+	class iterator_traits<T *, false>
 	{
 	  public:
 		typedef std::ptrdiff_t                  difference_type;
@@ -30,7 +34,7 @@ namespace ft
 	};
 
 	template <typename T>
-	class iterator_traits<const T *>
+	class iterator_traits<const T *, false>
 	{
 	  public:
 		typedef std::ptrdiff_t                  difference_type;
@@ -39,108 +43,6 @@ namespace ft
 		typedef const T                        &reference;
 		typedef std::random_access_iterator_tag iterator_category;
 	};
-
-	template <class T>
-	struct has_difference_type
-	{
-	  private:
-		template <class U>
-		static yes_type f(typename U::difference_type *);
-		template <class U>
-		static no_type f(...);
-
-	  public:
-		static const bool value = sizeof(f<T>(NULL)) == sizeof(yes_type);
-	};
-	template <class T>
-	struct has_value_type
-	{
-	  private:
-		template <class U>
-		static yes_type f(typename U::value_type *);
-		template <class U>
-		static no_type f(...);
-
-	  public:
-		static const bool value = sizeof(f<T>(NULL)) == sizeof(yes_type);
-	};
-	template <class T>
-	struct has_pointer
-	{
-	  private:
-		template <class U>
-		static yes_type f(typename U::pointer *);
-		template <class U>
-		static no_type f(...);
-
-	  public:
-		static const bool value = sizeof(f<T>(NULL)) == sizeof(yes_type);
-	};
-	template <class T>
-	struct has_reference
-	{
-	  private:
-		template <class U>
-		static yes_type f(typename ft::remove_reference<typename U::reference>::type *);
-		template <class U>
-		static no_type f(...);
-
-	  public:
-		static const bool value = sizeof(f<T>(NULL)) == sizeof(yes_type);
-	};
-	template <class T>
-	struct has_iterator_category
-	{
-	  private:
-		template <class U>
-		static yes_type f(typename U::iterator_category *);
-		template <class U>
-		static no_type f(...);
-
-	  public:
-		static const bool value = sizeof(f<T>(NULL)) == sizeof(yes_type);
-	};
-
-	// clang-format off
-	template
-	<
-		typename From,
-		typename To,
-		bool = has_difference_type<From>::value &&
-				has_value_type<From>::value &&
-				has_pointer<From>::value &&
-				has_reference<From>::value &&
-				has_iterator_category<From>::value
-	>
-	struct is_convertible_iterator : public
-		is_convertible
-		<
-			typename iterator_traits<From>::iterator_category,
-			To
-		>
-	{};
-
-	template <typename From, typename To>
-	struct is_convertible_iterator<From *, To, false> : public
-		is_convertible
-		<
-			typename iterator_traits<From *>::iterator_category,
-			To
-		>
-	{};
-
-	template <typename From, typename To>
-	struct is_convertible_iterator<From, To, false>
-	{
-		enum {value = 0};
-	};
-
-	template <typename T>
-	struct is_forward_iterator : public is_convertible_iterator<T, std::forward_iterator_tag> {};
-
-	template <typename T>
-	struct is_input_iterator : public is_convertible_iterator<T, std::input_iterator_tag> {};
-	// clang-format on
 } // namespace ft
 
 #endif
