@@ -46,7 +46,7 @@ TEST_F(vector, elem_access_ret_type)
 
 TEST_F(vector, elem_access_ret_type_const)
 {
-	const Vector v(1U, 1);
+	const Vector v(1, 1);
 
 	EXPECT_EQ(typeid(Vector::const_reference), typeid(v[0]));      // あんま意味ない
 	EXPECT_EQ(typeid(Vector::const_reference), typeid(v.at(0)));   // あんま意味ない

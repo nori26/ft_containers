@@ -105,7 +105,7 @@ TEST_F(vector, iterator_types_const2)
 
 TEST_F(vector, iterator_constructor)
 {
-	Vector                 v(1U, 1);
+	Vector                 v(1, 1);
 	Vector::iterator       it(v.begin());
 	Vector::iterator       it2;
 	Vector::iterator       it3;
@@ -131,7 +131,7 @@ TEST_F(vector, iterator_constructor)
 
 TEST_F(vector, iterator_op_assign)
 {
-	Vector                 v(1U, 1);
+	Vector                 v(1, 1);
 	Vector::iterator       it;
 	Vector::iterator       it2;
 	const Vector::iterator it3 = v.begin();
@@ -158,7 +158,7 @@ TEST_F(vector, iterator_op_assign)
 
 TEST_F(vector, iterator_op_assign_plus)
 {
-	Vector           v(1U, 1);
+	Vector           v(1, 1);
 	Vector::iterator it  = v.begin();
 	Vector::iterator it2 = v.begin();
 
@@ -189,7 +189,7 @@ TEST_F(vector, iterator_op_assign_plus)
 
 TEST_F(vector, iterator_op_assign_minus)
 {
-	Vector           v(1U, 1);
+	Vector           v(1, 1);
 	Vector::iterator it  = v.end();
 	Vector::iterator it2 = v.end();
 
@@ -254,7 +254,7 @@ TEST_F(vector, iterator_empty)
 
 TEST_F(vector, iterator_op_indirection)
 {
-	Vector                 v(1U, 1);
+	Vector                 v(1, 1);
 	Vector::iterator       b  = v.begin();
 	Vector::const_iterator cb = v.begin();
 
@@ -277,7 +277,7 @@ TEST_F(vector, iterator_op_indirection)
 
 TEST_F(vector, iterator_op_indirection_const)
 {
-	Vector                       v(1U, 1);
+	Vector                       v(1, 1);
 	const Vector::iterator       b  = v.begin();
 	const Vector::const_iterator cb = v.begin();
 
@@ -356,7 +356,7 @@ TEST_F(vector, iterator_op_subscript_const)
 
 TEST_F(vector, iterator_op_allow)
 {
-	Vector                 v(1U, 1);
+	Vector                 v(1, 1);
 	Vector::iterator       b  = v.begin();
 	Vector::const_iterator cb = v.begin();
 
@@ -370,7 +370,7 @@ TEST_F(vector, iterator_op_allow)
 
 TEST_F(vector, iterator_op_allow_const)
 {
-	Vector                       v(1U, 1);
+	Vector                       v(1, 1);
 	const Vector::iterator       b  = v.begin();
 	const Vector::const_iterator cb = v.begin();
 
@@ -384,7 +384,7 @@ TEST_F(vector, iterator_op_allow_const)
 
 TEST_F(vector, iterator_op_inc)
 {
-	Vector           v(1U, 1);
+	Vector           v(1, 1);
 	Vector::iterator b = v.begin();
 
 	const Vector::iterator &pre1  = ++b;
@@ -401,7 +401,7 @@ TEST_F(vector, iterator_op_inc)
 
 TEST_F(vector, iterator_op_dec)
 {
-	Vector           v(1U, 1);
+	Vector           v(1, 1);
 	Vector::iterator b = v.begin();
 
 	const Vector::iterator &pre1  = --b;
@@ -418,7 +418,7 @@ TEST_F(vector, iterator_op_dec)
 
 TEST_F(vector, iterator_op_plus)
 {
-	Vector                       v(1U, 1);
+	Vector                       v(1, 1);
 	const Vector                &cv = v;
 	const Vector::iterator       b  = v.begin();
 	const Vector::const_iterator cb = cv.begin();
@@ -455,7 +455,7 @@ TEST_F(vector, iterator_op_plus)
 
 TEST_F(vector, iterator_op_minus)
 {
-	Vector                       v(1U, 1);
+	Vector                       v(1, 1);
 	const Vector                &cv = v;
 	const Vector::iterator       b  = v.end();
 	const Vector::const_iterator cb = cv.end();
@@ -500,7 +500,7 @@ TEST_F(vector, iterator_op_minus)
 
 TEST_F(vector, iterator_op_eq)
 {
-	Vector                 v(1U, 1);
+	Vector                 v(1, 1);
 	const Vector::iterator b = v.begin();
 	const Vector::iterator e = v.end();
 
@@ -541,7 +541,7 @@ TEST_F(vector, iterator_op_eq)
 
 TEST_F(vector, iterator_op_ne)
 {
-	Vector                 v(1U, 1);
+	Vector                 v(1, 1);
 	const Vector::iterator b = v.begin();
 	const Vector::iterator e = v.end();
 
@@ -582,7 +582,7 @@ TEST_F(vector, iterator_op_ne)
 
 TEST_F(vector, iterator_op_less)
 {
-	Vector        v(1U, 1);
+	Vector        v(1, 1);
 	const Vector &cv = v;
 
 	EXPECT_EQ(typeid(bool), typeid(v.begin() < v.end()));
@@ -608,7 +608,7 @@ TEST_F(vector, iterator_op_less)
 
 TEST_F(vector, iterator_op_less_eq)
 {
-	Vector        v(1U, 1);
+	Vector        v(1, 1);
 	const Vector &cv = v;
 
 	EXPECT_EQ(typeid(bool), typeid(v.begin() <= v.end()));
@@ -634,7 +634,7 @@ TEST_F(vector, iterator_op_less_eq)
 
 TEST_F(vector, iterator_op_greater)
 {
-	Vector        v(1U, 1);
+	Vector        v(1, 1);
 	const Vector &cv = v;
 
 	EXPECT_EQ(typeid(bool), typeid(v.begin() > v.end()));
@@ -660,7 +660,7 @@ TEST_F(vector, iterator_op_greater)
 
 TEST_F(vector, iterator_op_greater_eq)
 {
-	Vector        v(1U, 1);
+	Vector        v(1, 1);
 	const Vector &cv = v;
 
 	EXPECT_EQ(typeid(bool), typeid(v.begin() >= v.end()));

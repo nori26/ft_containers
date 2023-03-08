@@ -25,7 +25,7 @@ TEST_F(vector, assign_ret_type)
 	Vector v2;
 
 	EXPECT_EQ(typeid(void), typeid(v1.assign(v2.begin(), v2.end())));
-	EXPECT_EQ(typeid(void), typeid(v1.assign(1U, 1)));
+	EXPECT_EQ(typeid(void), typeid(v1.assign(1, 1)));
 }
 
 TEST_F(vector, assign_empty)

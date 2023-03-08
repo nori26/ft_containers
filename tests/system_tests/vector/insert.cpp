@@ -27,7 +27,7 @@ TEST_F(vector, insert_ret_type)
 	Vector v2;
 
 	EXPECT_EQ(typeid(void), typeid(v1.insert(v1.begin(), v2.begin(), v2.end())));
-	EXPECT_EQ(typeid(void), typeid(v1.insert(v1.begin(), 1U, 1))); // TODO del U
+	EXPECT_EQ(typeid(void), typeid(v1.insert(v1.begin(), 1, 1))); // TODO del U
 	EXPECT_EQ(typeid(Vector::iterator), typeid(v1.insert(v1.begin(), 1)));
 }
 
@@ -45,21 +45,20 @@ TEST_F(vector, insert_size_t)
 	}
 }
 
-// TEST_F(vector, insert_best_viable)
-// {
-// 	ft::vector<size_t> v;
-// 	Vector             v2;
+TEST_F(vector, insert_best_viable)
+{
+	ft::vector<size_t> v;
+	Vector             v2;
 
-// 	v.insert(v.end(), 10, 1);
-// 	EXPECT_EQ(v.size(), 10U);
+	v.insert(v.end(), 10, 1);
+	EXPECT_EQ(v.size(), 10U);
 
-// 	v2.insert(v2.end(), 1, 1);
-// 	v2.insert(v2.end(), 1U, 1U);
-// 	v2.insert(v2.end(), 1, 1U);
-// 	v2.insert(v2.end(), 1U, 1);
-// 	EXPECT_EQ(v2.size(), 4U);
-// 	// v.insert(v.end(), a + 3, a);
-// }
+	v2.insert(v2.end(), 1, 1);
+	v2.insert(v2.end(), 1U, 1U);
+	v2.insert(v2.end(), 1, 1U);
+	v2.insert(v2.end(), 1U, 1);
+	EXPECT_EQ(v2.size(), 4U);
+}
 // // TODO input itr, except, copy conut
 
 TEST_F(vector, insert_empty)
@@ -694,13 +693,13 @@ TEST_F(vector, insert_n_cap)
 {
 	Vector v;
 
-	v.insert(v.end(), 1U, 1);
+	v.insert(v.end(), 1, 1);
 	EXPECT_EQ(v.size(), 1U);
 	EXPECT_EQ(v.capacity(), 1U);
-	v.insert(v.end(), 4U, 1);
+	v.insert(v.end(), 4, 1);
 	EXPECT_EQ(v.size(), 5U);
 	EXPECT_EQ(v.capacity(), 5U);
-	v.insert(v.end(), 1U, 1);
+	v.insert(v.end(), 1, 1);
 	EXPECT_EQ(v.size(), 6U);
 	EXPECT_EQ(v.capacity(), 10U);
 }
@@ -930,7 +929,7 @@ TEST_F(vector, insert_one_cap)
 {
 	Vector v;
 
-	Vector::iterator it = v.insert(v.end(), 1U);
+	Vector::iterator it = v.insert(v.end(), 1);
 	EXPECT_EQ(it, v.end() - 1);
 	EXPECT_EQ(v.size(), 1U);
 	EXPECT_EQ(v.capacity(), 1U);
@@ -938,7 +937,7 @@ TEST_F(vector, insert_one_cap)
 	EXPECT_EQ(it, v.end() - 1);
 	EXPECT_EQ(v.size(), 2U);
 	EXPECT_EQ(v.capacity(), 2U);
-	it = v.insert(v.end(), 1U);
+	it = v.insert(v.end(), 1);
 	EXPECT_EQ(it, v.end() - 1);
 	EXPECT_EQ(v.size(), 3U);
 	EXPECT_EQ(v.capacity(), 4U);

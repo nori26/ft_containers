@@ -235,16 +235,16 @@ TEST_F(vector, operator_ne_empty3)
 
 	vs.SaveState(v1);
 
-	EXPECT_NE(v1, Vector(1U, 1));
+	EXPECT_NE(v1, Vector(1, 1));
 	EXPECT_TRUE(vs.HasSameState(v1));
 
-	EXPECT_TRUE(v1 != Vector(1U, 1));
+	EXPECT_TRUE(v1 != Vector(1, 1));
 	EXPECT_TRUE(vs.HasSameState(v1));
 
-	EXPECT_NE(Vector(1U, 1), v1);
+	EXPECT_NE(Vector(1, 1), v1);
 	EXPECT_TRUE(vs.HasSameState(v1));
 
-	EXPECT_TRUE(Vector(1U, 1) != v1);
+	EXPECT_TRUE(Vector(1, 1) != v1);
 	EXPECT_TRUE(vs.HasSameState(v1));
 }
 
