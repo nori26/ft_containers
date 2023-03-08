@@ -40,6 +40,67 @@ namespace ft
 		typedef std::random_access_iterator_tag iterator_category;
 	};
 
+	template <class T>
+	struct has_difference_type
+	{
+	  private:
+		template <class U>
+		static yes_type f(typename U::difference_type *);
+		template <class U>
+		static no_type f(...);
+
+	  public:
+		static const bool value = sizeof(f<T>(NULL)) == sizeof(yes_type);
+	};
+	template <class T>
+	struct has_value_type
+	{
+	  private:
+		template <class U>
+		static yes_type f(typename U::value_type *);
+		template <class U>
+		static no_type f(...);
+
+	  public:
+		static const bool value = sizeof(f<T>(NULL)) == sizeof(yes_type);
+	};
+	template <class T>
+	struct has_pointer
+	{
+	  private:
+		template <class U>
+		static yes_type f(typename U::pointer *);
+		template <class U>
+		static no_type f(...);
+
+	  public:
+		static const bool value = sizeof(f<T>(NULL)) == sizeof(yes_type);
+	};
+	template <class T>
+	struct has_reference
+	{
+	  private:
+		template <class U>
+		static yes_type f(typename ft::remove_reference<typename U::reference>::type *);
+		template <class U>
+		static no_type f(...);
+
+	  public:
+		static const bool value = sizeof(f<T>(NULL)) == sizeof(yes_type);
+	};
+	template <class T>
+	struct has_iterator_category
+	{
+	  private:
+		template <class U>
+		static yes_type f(typename U::iterator_category *);
+		template <class U>
+		static no_type f(...);
+
+	  public:
+		static const bool value = sizeof(f<T>(NULL)) == sizeof(yes_type);
+	};
+
 	// clang-format off
 	template <typename T>
 	struct is_forward_iterator : public
