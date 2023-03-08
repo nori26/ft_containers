@@ -27,4 +27,8 @@ int main()
 	// ft::vector<char>       v;
 	// ft::vector<const char> v2;
 	// v == v2;
+
+	// char *p = NULL;
+	// ft::vector<char>::iterator it = p;
+	//(void)p;
 }
