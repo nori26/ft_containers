@@ -9,8 +9,8 @@
 
 #include "algorithm.hpp"
 #include "iterator.hpp"
-#include "iterator_wrapper.hpp"
 #include "iterator_meta_funcs.hpp"
+#include "iterator_wrapper.hpp"
 
 namespace ft
 {
@@ -50,12 +50,22 @@ namespace ft
 			assign(count, value);
 		}
 
+		// clang-format off
 		template <class InputIt>
-		vector(InputIt first, InputIt last, const Allocator &alloc = Allocator())
+		vector(
+			InputIt first,
+			InputIt last,
+			typename enable_if
+			<
+				is_input_iterator<InputIt>::value,
+				const Allocator&
+			>::type alloc = Allocator()
+		)
 			: first_(NULL), last_(NULL), reserved_last_(NULL), allocator_(alloc)
 		{
 			assign(first, last);
 		}
+		// clang-format on
 
 		vector(const vector &other)
 			: first_(NULL), last_(NULL), reserved_last_(NULL), allocator_(other.allocator_)
