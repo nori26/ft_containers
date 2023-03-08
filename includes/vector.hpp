@@ -8,7 +8,9 @@
 #include <stdexcept>
 
 #include "algorithm.hpp"
+#include "iterator.hpp"
 #include "iterator_wrapper.hpp"
+#include "iterator_meta_funcs.hpp"
 
 namespace ft
 {
@@ -200,7 +202,8 @@ namespace ft
 		// sizeof(inputIt::difference_type) <= sizeof(size_type)
 		// を期待しているが、STLもそうなっているように見えたので諦めた
 		template <class InputIt>
-		void insert(iterator pos, InputIt first, InputIt last)
+		typename enable_if<is_forward_iterator<InputIt>::value>::type
+		insert(iterator pos, InputIt first, InputIt last)
 		{
 			difference_type insert_size = std::distance(first, last);
 			if (insert_size <= 0) {
