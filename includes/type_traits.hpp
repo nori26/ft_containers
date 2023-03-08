@@ -3,6 +3,12 @@
 
 namespace ft
 {
+
+	typedef char yes_type;
+	typedef struct
+	{
+		char a[2];
+	} no_type;
 	template <bool, typename T = void>
 	struct enable_if
 	{};
@@ -17,19 +23,13 @@ namespace ft
 	struct is_convertible
 	{
 	  private:
-		typedef struct
-		{
-			char a[2];
-		} no;
-		typedef char yes;
-
-		static From f;
-		static yes  test(To);
-		static no   test(...);
+		static From     f;
+		static yes_type test(To);
+		static no_type  test(...);
 
 	  public:
 		// sizeofはオペランドの式を評価しない
-		static const bool value = sizeof(test(f)) == sizeof(yes);
+		static const bool value = sizeof(test(f)) == sizeof(yes_type);
 	};
 	template <typename From, typename To>
 	From is_convertible<From, To>::f;
