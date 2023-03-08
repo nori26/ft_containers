@@ -102,23 +102,44 @@ namespace ft
 	};
 
 	// clang-format off
-	template <typename T>
-	struct is_forward_iterator : public
+	template
+	<
+		typename From,
+		typename To,
+		bool = has_difference_type<From>::value &&
+				has_value_type<From>::value &&
+				has_pointer<From>::value &&
+				has_reference<From>::value &&
+				has_iterator_category<From>::value
+	>
+	struct is_convertible_iterator : public
 		is_convertible
 		<
-			typename ft::iterator_traits<T>::iterator_category,
-			std::forward_iterator_tag
+			typename iterator_traits<From>::iterator_category,
+			To
 		>
 	{};
 
-	template <typename T>
-	struct is_input_iterator : public
+	template <typename From, typename To>
+	struct is_convertible_iterator<From *, To, false> : public
 		is_convertible
 		<
-			typename iterator_traits<T>::iterator_category,
-			std::input_iterator_tag
+			typename iterator_traits<From *>::iterator_category,
+			To
 		>
 	{};
+
+	template <typename From, typename To>
+	struct is_convertible_iterator<From, To, false>
+	{
+		enum {value = 0};
+	};
+
+	template <typename T>
+	struct is_forward_iterator : public is_convertible_iterator<T, std::forward_iterator_tag> {};
+
+	template <typename T>
+	struct is_input_iterator : public is_convertible_iterator<T, std::input_iterator_tag> {};
 	// clang-format on
 } // namespace ft
 
