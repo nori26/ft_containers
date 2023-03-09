@@ -15,6 +15,7 @@ namespace ft = std;
 namespace ftc = ft_containers;
 typedef ft::vector<ftc::Data, ftc::Allocator<ftc::Data> > Vector;
 typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
+typedef std::istream_iterator<size_t>                     InputIter;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
 
@@ -276,4 +277,61 @@ TEST_F(vector, fill_constructor3)
 			ASSERT_EQ(v2[i], d);
 		}
 	}
+}
+
+static void init_ss(std::stringstream &ss, size_t *ary, size_t size)
+{
+	for (size_t i = 0; i < size; i++) {
+		ss << ary[i] << " ";
+	}
+}
+
+TEST_F(vector, range_constructor_input_iter_empty)
+{
+	Vector v2 = Vector(InputIter(), InputIter());
+
+	EXPECT_EQ(v2.size(), 0U);
+	EXPECT_EQ(v2.capacity(), 0U);
+	EXPECT_EQ(v2.data(), (ftc::Data *)NULL);
+}
+
+TEST_F(vector, range_constructor_input_iter_empty2)
+{
+	const ftc::Allocator<ftc::Data> a;
+	Vector                          v2(InputIter(), InputIter(), a);
+
+	EXPECT_EQ(v2.size(), 0U);
+	EXPECT_EQ(v2.capacity(), 0U);
+	EXPECT_EQ(v2.data(), (ftc::Data *)NULL);
+	EXPECT_EQ(v2.get_allocator().get_id(), a.get_id());
+}
+
+TEST_F(vector, range_constructor_input_iter4)
+{
+	size_t            a1[] = {1, 2, 3};
+	std::stringstream ss;
+
+	init_ss(ss, a1, ARRAY_SIZE(a1));
+	InputIter it(ss);
+	Vector    v2(it, InputIter());
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		ASSERT_EQ(v2[i], a1[i]);
+	}
+	EXPECT_EQ(v2.size(), ARRAY_SIZE(a1));
+	EXPECT_EQ(v2.capacity(), 4U);
+}
+
+TEST_F(vector, range_constructor_input_iter5)
+{
+	size_t            a1[256] = {1, 2, 3};
+	std::stringstream ss;
+
+	init_ss(ss, a1, ARRAY_SIZE(a1));
+	InputIter it(ss);
+	Vector    v2(it, InputIter());
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		ASSERT_EQ(v2[i], a1[i]);
+	}
+	EXPECT_EQ(v2.size(), ARRAY_SIZE(a1));
+	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(a1));
 }
