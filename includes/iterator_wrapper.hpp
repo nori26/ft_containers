@@ -94,7 +94,6 @@ namespace ft
 			return iterator_wrapper(itr_--);
 		}
 
-		// TODO signed test
 		reference operator[](difference_type n) const
 		{
 			return itr_[n];
@@ -110,13 +109,11 @@ namespace ft
 			return itr_;
 		}
 
-		// TODO signed test
 		iterator_wrapper operator+(difference_type n) const
 		{
 			return iterator_wrapper(itr_ + n);
 		}
 
-		// TODO signed test
 		iterator_wrapper operator-(difference_type n) const
 		{
 			return iterator_wrapper(itr_ - n);
