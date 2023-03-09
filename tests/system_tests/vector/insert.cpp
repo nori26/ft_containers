@@ -28,7 +28,7 @@ TEST_F(vector, insert_ret_type)
 	Vector v2;
 
 	EXPECT_EQ(typeid(void), typeid(v1.insert(v1.begin(), v2.begin(), v2.end())));
-	EXPECT_EQ(typeid(void), typeid(v1.insert(v1.begin(), 1, 1))); // TODO del U
+	EXPECT_EQ(typeid(void), typeid(v1.insert(v1.begin(), InputIter(), InputIter())));
 	EXPECT_EQ(typeid(Vector::iterator), typeid(v1.insert(v1.begin(), 1)));
 }
 
@@ -944,7 +944,7 @@ TEST_F(vector, insert_one_cap)
 	EXPECT_EQ(v.capacity(), 4U);
 }
 
-void init_ss(std::stringstream &ss, size_t *ary, size_t size)
+static void init_ss(std::stringstream &ss, size_t *ary, size_t size)
 {
 	for (size_t i = 0; i < size; i++) {
 		ss << ary[i] << " ";
@@ -1291,7 +1291,7 @@ TEST_F(vector, insert_input_iter_backward_reserved)
 
 TEST_F(vector, insert_input_iter_cap)
 {
- // llvm or gnuの判定わからんからとりあえずapple
+	// llvm or gnuの判定わからんからとりあえずapple
 #if defined(FT_TEST) || defined(__APPLE__)
 	Vector            v;
 	size_t            a[] = {0, 1, 2, 3};
