@@ -208,6 +208,19 @@ namespace ft
 		}
 
 		// The behavior is undefined if either argument is an iterator into *this.
+		template <class InputIt>
+		typename enable_if
+		<
+			is_input_iterator<InputIt>::value && !is_forward_iterator<InputIt>::value
+		>::type insert(iterator pos, InputIt first, InputIt last)
+		{
+			vector v(allocator_);
+
+			for (; first != last; first++) {
+				v.push_back(*first);
+			}
+			insert(pos, v.begin(), v.end());
+		}
 
 		// sizeof(InputIt::difference_type) <= sizeof(difference_type) &&
 		// sizeof(inputIt::difference_type) <= sizeof(size_type)
