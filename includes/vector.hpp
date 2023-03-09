@@ -207,6 +207,7 @@ namespace ft
 			}
 		}
 
+		// clang-format off
 		// The behavior is undefined if either argument is an iterator into *this.
 		template <class InputIt>
 		typename enable_if
@@ -261,6 +262,7 @@ namespace ft
 				std::copy(first, last, pos);
 			}
 		}
+		// clang-format on
 
 		// The iterator pos must be valid and dereferenceable.
 		// Thus the end() iterator (which is valid, but is not dereferenceable)
