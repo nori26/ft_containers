@@ -107,10 +107,23 @@ namespace ft
 			}
 		}
 
+		// clang-format off
 		// The behavior is undefined if either argument is an iterator into *this.
+		template <class InputIt>
+		typename enable_if
+		<
+			is_input_iterator<InputIt>::value && !is_forward_iterator<InputIt>::value
+		>::type assign(InputIt first, InputIt last)
+		{
+			clear();
+			push_back(first, last);
+		}
+
 		template <class ForwardIt>
-		typename enable_if<is_forward_iterator<ForwardIt>::value>::type
-		assign(ForwardIt first, ForwardIt last)
+		typename enable_if
+		<
+			is_forward_iterator<ForwardIt>::value
+		>::type assign(ForwardIt first, ForwardIt last)
 		{
 			size_type len = std::distance(first, last);
 			if (len > capacity()) {
@@ -126,6 +139,7 @@ namespace ft
 				erase(new_end, end());
 			}
 		}
+		// clang-format on
 
 		allocator_type get_allocator() const
 		{
@@ -138,6 +152,16 @@ namespace ft
 			construct_at_end(value);
 		}
 
+	  private:
+		template <class InputIt>
+		void push_back(InputIt first, InputIt last)
+		{
+			for (; first != last; first++) {
+				push_back(*first);
+			}
+		}
+
+	  public:
 		void pop_back()
 		{
 			destroy_at_end();
