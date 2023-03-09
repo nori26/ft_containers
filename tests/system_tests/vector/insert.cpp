@@ -1,6 +1,7 @@
 #include "gtest.h"
 
 #include <limits>
+#include <list>
 #include <typeinfo>
 
 #include "allocator.hpp"
@@ -24,11 +25,13 @@ typedef std::istream_iterator<size_t>                     InputIter;
 
 TEST_F(vector, insert_ret_type)
 {
-	Vector v1;
-	Vector v2;
+	std::list<int> l;
+	Vector         v1;
+	Vector         v2;
 
 	EXPECT_EQ(typeid(void), typeid(v1.insert(v1.begin(), v2.begin(), v2.end())));
 	EXPECT_EQ(typeid(void), typeid(v1.insert(v1.begin(), InputIter(), InputIter())));
+	EXPECT_EQ(typeid(void), typeid(v1.insert(v1.begin(), l.begin(), l.begin())));
 	EXPECT_EQ(typeid(Vector::iterator), typeid(v1.insert(v1.begin(), 1)));
 }
 
@@ -1308,4 +1311,308 @@ TEST_F(vector, insert_input_iter_cap)
 	EXPECT_EQ(v.size(), 6U);
 	EXPECT_EQ(v.capacity(), 10U);
 #endif
+}
+
+TEST_F(vector, insert_bidirectional_iter_empty)
+{
+	size_t            a[] = {0, 1, 2, 3};
+	std::list<size_t> v1(a, a + ARRAY_SIZE(a));
+	Vector            v2;
+
+	v2.insert(v2.end(), a, a + ARRAY_SIZE(a));
+	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(a));
+	for (size_t i = 0; i < ARRAY_SIZE(a); i++) {
+		EXPECT_EQ(v2[i], i);
+	}
+}
+
+TEST_F(vector, insert_bidirectional_iter_forward)
+{
+	size_t            c[] = {2, 3};
+	size_t            d[] = {0, 1};
+	std::list<size_t> a(c, c + ARRAY_SIZE(c));
+	std::list<size_t> b(d, d + ARRAY_SIZE(d));
+	Vector            v;
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), a.begin(), a.end());
+	v.insert(v.begin(), b.begin(), b.end());
+
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(c) + ARRAY_SIZE(d));
+	for (size_t i = 0; i < ARRAY_SIZE(c) + ARRAY_SIZE(d); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_bidirectional_iter_between)
+{
+	size_t            a[] = {0, 3};
+	size_t            b[] = {1, 2};
+	std::list<size_t> c(a, a + ARRAY_SIZE(a));
+	std::list<size_t> d(b, b + ARRAY_SIZE(b));
+	Vector            v;
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), c.begin(), c.end());
+	v.insert(v.begin() + 1, d.begin(), d.end());
+
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_bidirectional_iter_between2)
+{
+	size_t            a[] = {0, 3, 4};
+	size_t            b[] = {1, 2};
+	std::list<size_t> c(a, a + ARRAY_SIZE(a));
+	std::list<size_t> d(b, b + ARRAY_SIZE(b));
+	Vector            v;
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), c.begin(), c.end());
+	v.insert(v.begin() + 1, d.begin(), d.end());
+
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_bidirectional_iter_between3)
+{
+	size_t            a[] = {0, 3, 4, 5};
+	size_t            b[] = {1, 2};
+	std::list<size_t> c(a, a + ARRAY_SIZE(a));
+	std::list<size_t> d(b, b + ARRAY_SIZE(b));
+	Vector            v;
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), c.begin(), c.end());
+	v.insert(v.begin() + 1, d.begin(), d.end());
+
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_bidirectional_iter_between4)
+{
+	size_t            a[] = {0, 4};
+	size_t            b[] = {1, 2, 3};
+	std::list<size_t> c(a, a + ARRAY_SIZE(a));
+	std::list<size_t> d(b, b + ARRAY_SIZE(b));
+	Vector            v;
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), c.begin(), c.end());
+	v.insert(v.begin() + 1, d.begin(), d.end());
+
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_bidirectional_iter_backward)
+{
+	size_t            a[] = {0, 1};
+	size_t            b[] = {2, 3};
+	std::list<size_t> c(a, a + ARRAY_SIZE(a));
+	std::list<size_t> d(b, b + ARRAY_SIZE(b));
+	Vector            v;
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), c.begin(), c.end());
+	v.insert(v.end(), d.begin(), d.end());
+
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_bidirectional_iter_forward_reserved)
+{
+	size_t            a[] = {2, 3};
+	size_t            b[] = {0, 1};
+	std::list<size_t> c(a, a + ARRAY_SIZE(a));
+	std::list<size_t> d(b, b + ARRAY_SIZE(b));
+	Vector            v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), c.begin(), c.end());
+	v.insert(v.begin(), d.begin(), d.end());
+
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_bidirectional_iter_forward_reserved2)
+{
+	size_t            a[] = {1, 2, 3};
+	size_t            b[] = {0};
+	std::list<size_t> c(a, a + ARRAY_SIZE(a));
+	std::list<size_t> d(b, b + ARRAY_SIZE(b));
+	Vector            v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), c.begin(), c.end());
+	v.insert(v.begin(), d.begin(), d.end());
+
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_bidirectional_iter_forward_reserved3)
+{
+	size_t            a[] = {3};
+	size_t            b[] = {0, 1, 2};
+	std::list<size_t> c(a, a + ARRAY_SIZE(a));
+	std::list<size_t> d(b, b + ARRAY_SIZE(b));
+	Vector            v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), c.begin(), c.end());
+	v.insert(v.begin(), d.begin(), d.end());
+
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_bidirectional_iter_between_reserved)
+{
+	size_t            a[] = {0, 3};
+	size_t            b[] = {1, 2};
+	std::list<size_t> c(a, a + ARRAY_SIZE(a));
+	std::list<size_t> d(b, b + ARRAY_SIZE(b));
+	Vector            v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), c.begin(), c.end());
+	v.insert(v.begin() + 1, d.begin(), d.end());
+
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_bidirectional_iter_between_reserved2)
+{
+	size_t            a[] = {0, 3, 4};
+	size_t            b[] = {1, 2};
+	std::list<size_t> c(a, a + ARRAY_SIZE(a));
+	std::list<size_t> d(b, b + ARRAY_SIZE(b));
+	Vector            v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), c.begin(), c.end());
+	v.insert(v.begin() + 1, d.begin(), d.end());
+
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_bidirectional_iter_between_reserved3)
+{
+	size_t            a[] = {0, 3, 4, 5};
+	size_t            b[] = {1, 2};
+	std::list<size_t> c(a, a + ARRAY_SIZE(a));
+	std::list<size_t> d(b, b + ARRAY_SIZE(b));
+	Vector            v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), c.begin(), c.end());
+	v.insert(v.begin() + 1, d.begin(), d.end());
+
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_bidirectional_iter_between_reserved4)
+{
+	size_t            a[] = {0, 4};
+	size_t            b[] = {1, 2, 3};
+	std::list<size_t> c(a, a + ARRAY_SIZE(a));
+	std::list<size_t> d(b, b + ARRAY_SIZE(b));
+	Vector            v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), c.begin(), c.end());
+	v.insert(v.begin() + 1, d.begin(), d.end());
+
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_bidirectional_iter_backward_reserved)
+{
+	size_t            a[] = {0, 1};
+	size_t            b[] = {2, 3};
+	std::list<size_t> c(a, a + ARRAY_SIZE(a));
+	std::list<size_t> d(b, b + ARRAY_SIZE(b));
+	Vector            v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), c.begin(), c.end());
+	v.insert(v.end(), d.begin(), d.end());
+
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_bidirectional_iter_cap)
+{
+	Vector            v;
+	size_t            a[] = {0, 1, 2, 3};
+	std::list<size_t> l(a, a + ARRAY_SIZE(a));
+
+	v.insert(v.end(), a, a + 1);
+	EXPECT_EQ(v.size(), 1U);
+	EXPECT_EQ(v.capacity(), 1U);
+	v.insert(v.end(), l.begin(), l.end());
+	EXPECT_EQ(v.size(), 5U);
+	EXPECT_EQ(v.capacity(), 5U);
+	v.insert(v.end(), a, a + 1);
+	EXPECT_EQ(v.size(), 6U);
+	EXPECT_EQ(v.capacity(), 10U);
 }
