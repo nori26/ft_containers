@@ -108,9 +108,9 @@ namespace ft
 		}
 
 		// The behavior is undefined if either argument is an iterator into *this.
-		template <class InputIt>
-		typename enable_if<is_forward_iterator<InputIt>::value>::type
-		assign(InputIt first, InputIt last)
+		template <class ForwardIt>
+		typename enable_if<is_forward_iterator<ForwardIt>::value>::type
+		assign(ForwardIt first, ForwardIt last)
 		{
 			size_type len = std::distance(first, last);
 			if (len > capacity()) {
@@ -118,7 +118,7 @@ namespace ft
 				v.construct_at_end(first, last);
 				swap(v);
 			} else if (len > size()) {
-				InputIt initialized_last = first + size();
+				ForwardIt initialized_last = first + size();
 				std::copy(first, initialized_last, begin());
 				construct_at_end(initialized_last, last);
 			} else {
@@ -212,9 +212,11 @@ namespace ft
 		// sizeof(InputIt::difference_type) <= sizeof(difference_type) &&
 		// sizeof(inputIt::difference_type) <= sizeof(size_type)
 		// を期待しているが、STLもそうなっているように見えたので諦めた
-		template <class InputIt>
-		typename enable_if<is_forward_iterator<InputIt>::value>::type
-		insert(iterator pos, InputIt first, InputIt last)
+		template <class ForwardIt>
+		typename enable_if
+		<
+			is_forward_iterator<ForwardIt>::value
+		>::type insert(iterator pos, ForwardIt first, ForwardIt last)
 		{
 			difference_type insert_size = std::distance(first, last);
 			if (insert_size <= 0) {
@@ -234,7 +236,7 @@ namespace ft
 			// = は無くてもいいが、insert_size == 0 が事前にreturnされていないと、
 			// std::copy_backward(pos, old_end, old_end); となって未定義
 			if (insert_size >= initialized_size_from_pos) {
-				InputIt uninitialized_first_of_insert = first;
+				ForwardIt uninitialized_first_of_insert = first;
 				std::advance(uninitialized_first_of_insert, initialized_size_from_pos);
 				construct_at_end(uninitialized_first_of_insert, last);
 				construct_at_end(pos, old_end);
