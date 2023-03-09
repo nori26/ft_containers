@@ -241,9 +241,7 @@ namespace ft
 		{
 			vector v(allocator_);
 
-			for (; first != last; first++) {
-				v.push_back(*first);
-			}
+			v.push_back(first, last);
 			insert(pos, v.begin(), v.end());
 		}
 
