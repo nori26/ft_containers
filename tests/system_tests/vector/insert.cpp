@@ -18,6 +18,7 @@ namespace ft = std;
 namespace ftc = ft_containers;
 typedef ft::vector<ftc::Data, ftc::Allocator<ftc::Data> > Vector;
 typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
+typedef std::istream_iterator<size_t>                     InputIter;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
 
@@ -34,8 +35,8 @@ TEST_F(vector, insert_ret_type)
 TEST_F(vector, insert_size_t)
 {
 	ft::vector<size_t> v;
-	size_t ary[] = {3, 3, 3, 1, 2};
-	size_t i = 3;
+	size_t             ary[] = {3, 3, 3, 1, 2};
+	size_t             i     = 3;
 	// v.insert(v.end(), &ary, &ary + 1);
 	v.insert(v.end(), i, i);
 	v.insert(v.end(), 1U, 1U);
@@ -941,4 +942,370 @@ TEST_F(vector, insert_one_cap)
 	EXPECT_EQ(it, v.end() - 1);
 	EXPECT_EQ(v.size(), 3U);
 	EXPECT_EQ(v.capacity(), 4U);
+}
+
+void init_ss(std::stringstream &ss, size_t *ary, size_t size)
+{
+	for (size_t i = 0; i < size; i++) {
+		ss << ary[i] << " ";
+	}
+}
+
+TEST_F(vector, insert_input_iter_empty)
+{
+	Vector            v1;
+	Vector            v2;
+	size_t            a[] = {0, 1, 2, 3};
+	std::stringstream ss;
+	std::stringstream ss2;
+	init_ss(ss, a, ARRAY_SIZE(a));
+	init_ss(ss2, a, ARRAY_SIZE(a));
+
+	v1.insert(v1.begin(), InputIter(ss), InputIter());
+	v2.insert(v2.end(), InputIter(ss2), InputIter());
+	EXPECT_EQ(v1.size(), ARRAY_SIZE(a));
+	EXPECT_EQ(v2.size(), ARRAY_SIZE(a));
+	EXPECT_EQ(v1.capacity(), ARRAY_SIZE(a));
+	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(a));
+	for (size_t i = 0; i < ARRAY_SIZE(a); i++) {
+		EXPECT_EQ(v1[i], i);
+		EXPECT_EQ(v2[i], i);
+	}
+}
+
+TEST_F(vector, insert_input_iter_forward)
+{
+	size_t            a[] = {2, 3};
+	size_t            b[] = {0, 1};
+	Vector            v;
+	std::stringstream ss;
+	std::stringstream ss2;
+
+	init_ss(ss, a, ARRAY_SIZE(a));
+	init_ss(ss2, b, ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), InputIter(ss), InputIter());
+	v.insert(v.begin(), InputIter(ss2), InputIter());
+
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_input_iter_between)
+{
+	size_t            a[] = {0, 3};
+	size_t            b[] = {1, 2};
+	Vector            v;
+	std::stringstream ss;
+	std::stringstream ss2;
+
+	init_ss(ss, a, ARRAY_SIZE(a));
+	init_ss(ss2, b, ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), InputIter(ss), InputIter());
+	v.insert(v.begin() + 1, InputIter(ss2), InputIter());
+
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_input_iter_between2)
+{
+	size_t            a[] = {0, 3, 4};
+	size_t            b[] = {1, 2};
+	Vector            v;
+	std::stringstream ss;
+	std::stringstream ss2;
+
+	init_ss(ss, a, ARRAY_SIZE(a));
+	init_ss(ss2, b, ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), InputIter(ss), InputIter());
+	v.insert(v.begin() + 1, InputIter(ss2), InputIter());
+
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_input_iter_between3)
+{
+	size_t            a[] = {0, 3, 4, 5};
+	size_t            b[] = {1, 2};
+	Vector            v;
+	std::stringstream ss;
+	std::stringstream ss2;
+
+	init_ss(ss, a, ARRAY_SIZE(a));
+	init_ss(ss2, b, ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), InputIter(ss), InputIter());
+	v.insert(v.begin() + 1, InputIter(ss2), InputIter());
+
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_input_iter_between4)
+{
+	size_t            a[] = {0, 4};
+	size_t            b[] = {1, 2, 3};
+	Vector            v;
+	std::stringstream ss;
+	std::stringstream ss2;
+
+	init_ss(ss, a, ARRAY_SIZE(a));
+	init_ss(ss2, b, ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), InputIter(ss), InputIter());
+	v.insert(v.begin() + 1, InputIter(ss2), InputIter());
+
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_input_iter_backward)
+{
+	size_t            a[] = {0, 1};
+	size_t            b[] = {2, 3};
+	Vector            v;
+	std::stringstream ss;
+	std::stringstream ss2;
+
+	init_ss(ss, a, ARRAY_SIZE(a));
+	init_ss(ss2, b, ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), InputIter(ss), InputIter());
+	v.insert(v.end(), InputIter(ss2), InputIter());
+
+	EXPECT_NE(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_input_iter_forward_reserved)
+{
+	size_t a[] = {2, 3};
+	size_t b[] = {0, 1};
+	Vector v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	std::stringstream ss;
+	std::stringstream ss2;
+
+	init_ss(ss, a, ARRAY_SIZE(a));
+	init_ss(ss2, b, ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), InputIter(ss), InputIter());
+	v.insert(v.begin(), InputIter(ss2), InputIter());
+
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_input_iter_forward_reserved2)
+{
+	size_t a[] = {1, 2, 3};
+	size_t b[] = {0};
+	Vector v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	std::stringstream ss;
+	std::stringstream ss2;
+
+	init_ss(ss, a, ARRAY_SIZE(a));
+	init_ss(ss2, b, ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), InputIter(ss), InputIter());
+	v.insert(v.begin(), InputIter(ss2), InputIter());
+
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_input_iter_forward_reserved3)
+{
+	size_t a[] = {3};
+	size_t b[] = {0, 1, 2};
+	Vector v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	std::stringstream ss;
+	std::stringstream ss2;
+
+	init_ss(ss, a, ARRAY_SIZE(a));
+	init_ss(ss2, b, ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), InputIter(ss), InputIter());
+	v.insert(v.begin(), InputIter(ss2), InputIter());
+
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_input_iter_between_reserved)
+{
+	size_t a[] = {0, 3};
+	size_t b[] = {1, 2};
+	Vector v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	std::stringstream ss;
+	std::stringstream ss2;
+
+	init_ss(ss, a, ARRAY_SIZE(a));
+	init_ss(ss2, b, ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), InputIter(ss), InputIter());
+	v.insert(v.begin() + 1, InputIter(ss2), InputIter());
+
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_input_iter_between_reserved2)
+{
+	size_t a[] = {0, 3, 4};
+	size_t b[] = {1, 2};
+	Vector v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	std::stringstream ss;
+	std::stringstream ss2;
+
+	init_ss(ss, a, ARRAY_SIZE(a));
+	init_ss(ss2, b, ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), InputIter(ss), InputIter());
+	v.insert(v.begin() + 1, InputIter(ss2), InputIter());
+
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_input_iter_between_reserved3)
+{
+	size_t a[] = {0, 3, 4, 5};
+	size_t b[] = {1, 2};
+	Vector v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	std::stringstream ss;
+	std::stringstream ss2;
+
+	init_ss(ss, a, ARRAY_SIZE(a));
+	init_ss(ss2, b, ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), InputIter(ss), InputIter());
+	v.insert(v.begin() + 1, InputIter(ss2), InputIter());
+
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_input_iter_between_reserved4)
+{
+	size_t a[] = {0, 4};
+	size_t b[] = {1, 2, 3};
+	Vector v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	std::stringstream ss;
+	std::stringstream ss2;
+
+	init_ss(ss, a, ARRAY_SIZE(a));
+	init_ss(ss2, b, ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), InputIter(ss), InputIter());
+	v.insert(v.begin() + 1, InputIter(ss2), InputIter());
+
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_input_iter_backward_reserved)
+{
+	size_t a[] = {0, 1};
+	size_t b[] = {2, 3};
+	Vector v;
+	v.reserve(ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	std::stringstream ss;
+	std::stringstream ss2;
+
+	init_ss(ss, a, ARRAY_SIZE(a));
+	init_ss(ss2, b, ARRAY_SIZE(b));
+
+	ftc::Data *p = v.data();
+	v.insert(v.end(), InputIter(ss), InputIter());
+	v.insert(v.end(), InputIter(ss2), InputIter());
+
+	EXPECT_EQ(v.data(), p);
+	EXPECT_EQ(v.size(), ARRAY_SIZE(a) + ARRAY_SIZE(b));
+	for (size_t i = 0; i < ARRAY_SIZE(a) + ARRAY_SIZE(b); i++) {
+		EXPECT_EQ(v[i], i);
+	}
+}
+
+TEST_F(vector, insert_input_iter_cap)
+{
+ // llvm or gnuの判定わからんからとりあえずapple
+#if defined(FT_TEST) || defined(__APPLE__)
+	Vector            v;
+	size_t            a[] = {0, 1, 2, 3};
+	std::stringstream ss;
+	init_ss(ss, a, ARRAY_SIZE(a));
+
+	v.insert(v.end(), a, a + 1);
+	EXPECT_EQ(v.size(), 1U);
+	EXPECT_EQ(v.capacity(), 1U);
+	v.insert(v.end(), InputIter(ss), InputIter());
+	EXPECT_EQ(v.size(), 5U);
+	EXPECT_EQ(v.capacity(), 5U);
+	v.insert(v.end(), a, a + 1);
+	EXPECT_EQ(v.size(), 6U);
+	EXPECT_EQ(v.capacity(), 10U);
+#endif
 }
