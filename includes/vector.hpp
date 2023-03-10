@@ -60,8 +60,7 @@ namespace ft
 		vector(
 			InputIt first,
 			InputIt last,
-			typename enable_if
-			<
+			typename enable_if <
 				is_input_iterator<InputIt>::value,
 				const Allocator&
 			>::type alloc = Allocator()
@@ -115,9 +114,9 @@ namespace ft
 		// clang-format off
 		// The behavior is undefined if either argument is an iterator into *this.
 		template <class InputIt>
-		typename enable_if
-		<
-			is_input_iterator<InputIt>::value && !is_forward_iterator<InputIt>::value
+		typename enable_if <
+			is_input_iterator<InputIt>::value &&
+			!is_forward_iterator<InputIt>::value
 		>::type assign(InputIt first, InputIt last)
 		{
 			clear();
@@ -125,8 +124,7 @@ namespace ft
 		}
 
 		template <class ForwardIt>
-		typename enable_if
-		<
+		typename enable_if <
 			is_forward_iterator<ForwardIt>::value
 		>::type assign(ForwardIt first, ForwardIt last)
 		{
@@ -240,9 +238,9 @@ namespace ft
 		// clang-format off
 		// The behavior is undefined if either argument is an iterator into *this.
 		template <class InputIt>
-		typename enable_if
-		<
-			is_input_iterator<InputIt>::value && !is_forward_iterator<InputIt>::value
+		typename enable_if <
+			is_input_iterator<InputIt>::value &&
+			!is_forward_iterator<InputIt>::value
 		>::type insert(iterator pos, InputIt first, InputIt last)
 		{
 			vector v(allocator_);
@@ -255,8 +253,7 @@ namespace ft
 		// sizeof(inputIt::difference_type) <= sizeof(size_type)
 		// を期待しているが、STLもそうなっているように見えたので諦めた
 		template <class ForwardIt>
-		typename enable_if
-		<
+		typename enable_if <
 			is_forward_iterator<ForwardIt>::value
 		>::type insert(iterator pos, ForwardIt first, ForwardIt last)
 		{
