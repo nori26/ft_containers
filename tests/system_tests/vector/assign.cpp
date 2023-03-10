@@ -1,5 +1,7 @@
 #include "gtest.h"
 
+#include <list>
+
 #include "allocator.hpp"
 #include "data.hpp"
 #include "init_vector.hpp"
@@ -19,14 +21,15 @@ typedef std::istream_iterator<size_t>                     InputIter;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
 
-// TODO input itr
 TEST_F(vector, assign_ret_type)
 {
-	Vector v1;
-	Vector v2;
+	std::list<int> l;
+	Vector         v1;
+	Vector         v2;
 
 	EXPECT_EQ(typeid(void), typeid(v1.assign(v2.begin(), v2.end())));
 	EXPECT_EQ(typeid(void), typeid(v1.assign(InputIter(), InputIter())));
+	EXPECT_EQ(typeid(void), typeid(v1.assign(l.begin(), l.begin())));
 	EXPECT_EQ(typeid(void), typeid(v1.assign(1, 1)));
 }
 
@@ -599,6 +602,143 @@ TEST_F(vector, assign_input_iter_append2)
 	init_ss(ss, a1, ARRAY_SIZE(a1));
 	ftc::initv(v2, a2, a2 + ARRAY_SIZE(a2));
 	v2.assign(InputIter(ss), InputIter());
+	v2.push_back(9);
+	v2.push_back(10);
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		ASSERT_EQ(v2[i], res[i]);
+	}
+	EXPECT_EQ(v2.size(), ARRAY_SIZE(res));
+}
+
+TEST_F(vector, assign_bidirectional_iter_empty)
+{
+	std::list<size_t> v;
+	Vector            v2;
+
+	v2.assign(v.begin(), v.end());
+	EXPECT_EQ(v2.size(), 0U);
+	EXPECT_EQ(v2.capacity(), 0U);
+}
+
+TEST_F(vector, assign_bidirectional_iter_empty2)
+{
+	size_t            a[] = {1, 2, 3};
+	std::list<size_t> v(a, a + ARRAY_SIZE(a));
+	Vector            v2;
+
+	v2.assign(v.begin(), v.end());
+	EXPECT_EQ(v2.size(), ARRAY_SIZE(a));
+	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(a));
+}
+
+TEST_F(vector, assign_bidirectional_iter_empty3)
+{
+	size_t            a[] = {1, 2, 3};
+	std::list<size_t> v;
+	Vector            v2;
+
+	ftc::initv(v2, a, a + ARRAY_SIZE(a));
+	v2.assign(v.begin(), v.end());
+	EXPECT_EQ(v2.size(), 0U);
+	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(a));
+	EXPECT_TRUE(ftc::Data::IsDestructed(v2.end(), v2.end() + ARRAY_SIZE(a)));
+}
+
+TEST_F(vector, assign_bidirectional_iter_val)
+{
+	size_t            a1[]  = {1, 2, 3};
+	size_t            a2[]  = {4, 5, 6};
+	size_t            res[] = {1, 2, 3};
+	std::list<size_t> v1(a1, a1 + ARRAY_SIZE(a1));
+	Vector            v2;
+
+	ftc::initv(v2, a2, a2 + ARRAY_SIZE(a2));
+	v2.assign(v1.begin(), v1.end());
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		ASSERT_EQ(v2[i], res[i]);
+	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v2.end(), v2.end() + ARRAY_SIZE(a2) - ARRAY_SIZE(a1)));
+}
+
+TEST_F(vector, assign_bidirectional_iter_val2)
+{
+	size_t            a1[]  = {1, 2, 3};
+	size_t            a2[]  = {4, 5, 6, 7};
+	size_t            res[] = {1, 2, 3};
+	std::list<size_t> v1(a1, a1 + ARRAY_SIZE(a1));
+	Vector            v2;
+
+	ftc::initv(v2, a2, a2 + ARRAY_SIZE(a2));
+	v2.assign(v1.begin(), v1.end());
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		ASSERT_EQ(v2[i], res[i]);
+	}
+	EXPECT_TRUE(ftc::Data::IsDestructed(v2.end(), v2.end() + ARRAY_SIZE(a2) - ARRAY_SIZE(a1)));
+}
+
+TEST_F(vector, assign_bidirectional_iter_val3)
+{
+	size_t            a1[]  = {1, 2, 3};
+	size_t            a2[]  = {4, 5};
+	size_t            res[] = {1, 2, 3};
+	std::list<size_t> v1(a1, a1 + ARRAY_SIZE(a1));
+	Vector            v2;
+
+	ftc::initv(v2, a2, a2 + ARRAY_SIZE(a2));
+	v2.assign(v1.begin(), v1.end());
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		ASSERT_EQ(v2[i], res[i]);
+	}
+}
+
+TEST_F(vector, assign_bidirectional_iter_val_reserved)
+{
+	size_t            a1[]  = {1, 2, 3, 4};
+	size_t            a2[]  = {4, 5, 6};
+	size_t            res[] = {1, 2, 3, 4};
+	std::list<size_t> v1(a1, a1 + ARRAY_SIZE(a1));
+	Vector            v2;
+
+	v2.reserve(ARRAY_SIZE(a1));
+	ftc::initv_no_reserve(v2, a2, a2 + ARRAY_SIZE(a2));
+	// ftc::PrintOn _;
+	v2.assign(v1.begin(), v1.end());
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		ASSERT_EQ(v2[i], res[i]);
+	}
+}
+
+TEST_F(vector, assign_bidirectional_iter_append)
+{
+	size_t            a1[]  = {1, 2, 3};
+	size_t            a2[]  = {4, 5, 6, 7};
+	size_t            res[] = {1, 2, 3, 9};
+	std::list<size_t> v1(a1, a1 + ARRAY_SIZE(a1));
+	Vector            v2;
+
+	ftc::initv(v2, a2, a2 + ARRAY_SIZE(a2));
+	v2.assign(v1.begin(), v1.end());
+	ftc::Data *p = v2.data();
+	v2.push_back(9);
+	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
+		ASSERT_EQ(v2[i], res[i]);
+	}
+	EXPECT_EQ(v2.size(), ARRAY_SIZE(res));
+	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(res));
+	EXPECT_EQ(v2.data(), p);
+	EXPECT_TRUE(ftc::Data::IsDestructed(v2.end() - 1, v2.end()));
+}
+
+TEST_F(vector, assign_bidirectional_iter_append2)
+{
+	size_t            a1[]  = {1, 2, 3};
+	size_t            a2[]  = {4, 5, 6, 7};
+	size_t            res[] = {1, 2, 3, 9, 10};
+	std::list<size_t> v1(a1, a1 + ARRAY_SIZE(a1));
+	Vector            v2;
+
+	ftc::initv(v2, a2, a2 + ARRAY_SIZE(a2));
+	v2.assign(v1.begin(), v1.end());
 	v2.push_back(9);
 	v2.push_back(10);
 	for (size_t i = 0; i < ARRAY_SIZE(res); i++) {
