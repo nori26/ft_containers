@@ -29,6 +29,11 @@ namespace ft
 		typedef iterator_wrapper<pointer, vector>        iterator;
 		typedef iterator_wrapper<const_pointer, vector>  const_iterator;
 
+		// iteratorで初期化可能 && pointerでは初期化不可能を満たすためにiteratorで特殊化
+		// ft::がないとg++ではエラー ISO/IEC 14882:1998 [basic.scope.class] p1.2
+		typedef ft::reverse_iterator<iterator>       reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+
 	  private:
 		pointer   first_;
 		pointer   last_;
@@ -418,6 +423,26 @@ namespace ft
 		const_iterator end() const
 		{
 			return const_iterator(last_);
+		}
+
+		reverse_iterator rbegin()
+		{
+			return reverse_iterator(end());
+		}
+
+		const_reverse_iterator rbegin() const
+		{
+			return const_reverse_iterator(end());
+		}
+
+		reverse_iterator rend()
+		{
+			return reverse_iterator(begin());
+		}
+
+		const_reverse_iterator rend() const
+		{
+			return const_reverse_iterator(begin());
 		}
 
 		size_type max_size() const
