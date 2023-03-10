@@ -1,8 +1,9 @@
 #ifndef ITERATOR_TRAITS_IMPL_HPP
 #define ITERATOR_TRAITS_IMPL_HPP
 
-#include "type_traits.hpp"
 #include <cstddef>
+
+#include "type_traits.hpp"
 
 namespace ft
 {
