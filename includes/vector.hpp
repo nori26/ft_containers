@@ -131,7 +131,8 @@ namespace ft
 				v.construct_at_end(first, last);
 				swap(v);
 			} else if (len > size()) {
-				ForwardIt initialized_last = first + size();
+				ForwardIt initialized_last = first;
+				std::advance(initialized_last, size());
 				std::copy(first, initialized_last, begin());
 				construct_at_end(initialized_last, last);
 			} else {
