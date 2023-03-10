@@ -1,5 +1,7 @@
 #include "gtest.h"
 
+#include <list>
+
 #include "allocator.hpp"
 #include "data.hpp"
 #include "init_vector.hpp"
@@ -329,6 +331,54 @@ TEST_F(vector, range_constructor_input_iter5)
 	init_ss(ss, a1, ARRAY_SIZE(a1));
 	InputIter it(ss);
 	Vector    v2(it, InputIter());
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		ASSERT_EQ(v2[i], a1[i]);
+	}
+	EXPECT_EQ(v2.size(), ARRAY_SIZE(a1));
+	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(a1));
+}
+
+TEST_F(vector, range_constructor_bidirectional_iter_empty)
+{
+	std::list<size_t> v;
+	Vector            v2(v.begin(), v.end());
+
+	EXPECT_EQ(v2.size(), 0U);
+	EXPECT_EQ(v2.capacity(), 0U);
+	EXPECT_EQ(v2.data(), (ftc::Data *)NULL);
+}
+
+TEST_F(vector, range_constructor_bidirectional_iter_empty2)
+{
+	const ftc::Allocator<ftc::Data> a;
+	std::list<size_t>               v;
+	Vector                          v2(v.begin(), v.end(), a);
+
+	EXPECT_EQ(v2.size(), 0U);
+	EXPECT_EQ(v2.capacity(), 0U);
+	EXPECT_EQ(v2.data(), (ftc::Data *)NULL);
+	EXPECT_EQ(v2.get_allocator().get_id(), a.get_id());
+}
+
+TEST_F(vector, range_constructor_bidirectional_iter4)
+{
+	std::size_t       a1[] = {1, 2, 3};
+	std::list<size_t> v1(a1, a1 + ARRAY_SIZE(a1));
+
+	Vector v2(v1.begin(), v1.end());
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		ASSERT_EQ(v2[i], a1[i]);
+	}
+	EXPECT_EQ(v2.size(), ARRAY_SIZE(a1));
+	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(a1));
+}
+
+TEST_F(vector, range_constructor_bidirectional_iter5)
+{
+	std::size_t       a1[256] = {1, 2, 3};
+	std::list<size_t> v1(a1, a1 + ARRAY_SIZE(a1));
+
+	Vector v2(v1.begin(), v1.end());
 	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
 		ASSERT_EQ(v2[i], a1[i]);
 	}
