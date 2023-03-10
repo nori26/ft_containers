@@ -20,6 +20,7 @@ namespace ft
 		typedef typename traits::reference         reference;
 		typedef typename traits::iterator_category iterator_category;
 
+		// stlはprotectedだけどなんでわからん
 	  private:
 		iterator_type itr_;
 
