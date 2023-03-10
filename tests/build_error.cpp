@@ -31,4 +31,7 @@ int main()
 	// char *p = NULL;
 	// ft::vector<char>::iterator it = p;
 	//(void)p;
+
+	// int *p = NULL;
+	// ft::vector<int>::reverse_iterator rit(p);
 }
