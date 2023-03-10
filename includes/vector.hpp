@@ -9,8 +9,8 @@
 
 #include "algorithm.hpp"
 #include "iterator.hpp"
-#include "iterator/iterator_meta_funcs.hpp"
-#include "iterator/iterator_wrapper.hpp"
+#include "iterator_meta_funcs.hpp"
+#include "iterator_wrapper.hpp"
 
 namespace ft
 {
