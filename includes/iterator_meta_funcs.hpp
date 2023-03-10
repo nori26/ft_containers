@@ -4,8 +4,7 @@
 #include <iterator>
 
 #include "type_traits.hpp"
-#include "iterator_traits_impl.hpp"
-#include "iterator.hpp"
+#include "iterator_traits.hpp"
 
 namespace ft
 {
