@@ -101,7 +101,7 @@ namespace ft
 
 		pointer operator->() const
 		{
-			return current_;
+			return &operator*();
 		}
 
 		reverse_iterator operator+(difference_type n) const
