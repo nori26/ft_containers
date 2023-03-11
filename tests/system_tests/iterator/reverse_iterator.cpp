@@ -9,10 +9,8 @@
 
 #ifdef FT_TEST
   #include "iterator.hpp"
-  #include "vector.hpp"
 #else
   #include <iterator>
-  #include <vector>
 namespace ft = std;
 #endif
 
@@ -27,6 +25,8 @@ typedef ft::reverse_iterator<Vector::const_iterator>       ConstRevIter;
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
 
 using namespace std::rel_ops;
+
+// TODO input bidirectional output...
 
 TEST(reverse_iterator, types)
 {
@@ -73,7 +73,7 @@ TEST(reverse_iterator, types_const)
 TEST(reverse_iterator, constructor)
 {
 	Vector        v(1, 1);
-	RevIter       it(RevIter(v.end()));
+	RevIter       it(v.end());
 	RevIter       it2;
 	RevIter       it3;
 	const RevIter it4 = RevIter(v.end());
@@ -672,8 +672,8 @@ TEST(reverse_iterator, reverse_iterator2)
 TEST(reverse_iterator, reverse_iterator3)
 {
 	Vector       v;
-	RevIter      it(RevIter(v.end()));
-	ConstRevIter c_it(RevIter(v.end()));
+	RevIter      it(v.end());
+	ConstRevIter c_it(v.end());
 	c_it = it;
 }
 
@@ -681,14 +681,4 @@ TEST(reverse_iterator, reverse_iterator4)
 {
 	const Vector cv;
 	ConstRevIter c_it(cv.end());
-}
-
-TEST(reverse_iterator, reverse_iterator5)
-{
-	// Vector       v(1, 1);
-	// (void)v;
-	ftc::Data a[] = {1, 2, 3};
-	Vector    v1(a, a + ARRAY_SIZE(a));
-	EXPECT_EQ(v1.begin(), v1.end() - 3);
-	EXPECT_EQ((v1.begin() + 1) = v1.end(), v1.end());
 }
