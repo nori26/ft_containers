@@ -684,22 +684,21 @@ TEST_F(vector, iterator_op_greater_eq)
 	EXPECT_TRUE(cv.end() >= v.end());
 }
 
-// TODO
-// TEST_F(vector, iterator3)
-// {
-// 	Vector                 v;
-// 	Vector::const_iterator it = v.begin();
-// 	EXPECT_TRUE(v.begin() == it);
-// 	it = v.end();
-// 	EXPECT_TRUE(v.end() == it);
-// }
+TEST_F(vector, iterator3)
+{
+	Vector                 v;
+	Vector::const_iterator it = v.begin();
+	EXPECT_TRUE(v.begin() == it);
+	it = v.end();
+	EXPECT_TRUE(v.end() == it);
+}
 
-// TEST_F(vector, iterator6)
-// {
-// 	Vector::iterator it;
-// 	Vector::const_iterator c_it;
-// 	c_it = it;
-// }
+TEST_F(vector, iterator6)
+{
+	Vector::iterator it;
+	Vector::const_iterator c_it;
+	c_it = it;
+}
 
 TEST_F(vector, iterator1)
 {
