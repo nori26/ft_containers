@@ -49,6 +49,17 @@ namespace IsIntegralTest
 	};
 } // namespace IsIntegralTest
 
+TEST(is_integral, integral_constant)
+{
+	ft::is_integral<int>               i;
+	ft::integral_constant<bool, true> &p = i;
+
+	EXPECT_TRUE(i);
+	EXPECT_TRUE(p);
+	EXPECT_EQ(typeid(ft::is_integral<int>::value_type), typeid(bool));
+	EXPECT_EQ(typeid(ft::is_integral<int>::type), typeid(ft::integral_constant<bool, true>));
+}
+
 TEST(is_integral, unqualified_true)
 {
 	EXPECT_TRUE(ft::is_integral<bool>::value);
