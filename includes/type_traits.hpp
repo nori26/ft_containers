@@ -4,16 +4,24 @@
 namespace ft
 {
 	template <typename T, T v>
-	struct bool_type
+	struct integral_constant
 	{
 		static const T value = v;
+
+		typedef T                 value_type;
+		typedef integral_constant type;
+
+		operator value_type() const
+		{
+			return value;
+		}
 	};
 
 	template <typename T, T v>
-	const T bool_type<T, v>::value;
+	const T integral_constant<T, v>::value;
 
-	typedef bool_type<bool, true>  true_type;
-	typedef bool_type<bool, false> false_type;
+	typedef integral_constant<bool, true>  true_type;
+	typedef integral_constant<bool, false> false_type;
 
 	typedef char yes_type;
 	typedef struct
