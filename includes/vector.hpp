@@ -80,7 +80,7 @@ namespace ft
 		~vector()
 		{
 			destroy_at_end(size());
-			deallocate(first_, size());
+			deallocate(first_, capacity());
 		}
 
 	  private:
