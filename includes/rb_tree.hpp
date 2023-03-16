@@ -93,22 +93,53 @@ namespace ft
 	  public:
 		void print()
 		{
-			node_type *n = root_;
-			switch (root_->color) {
-			case node_type::RED:
-				std::cout << "\033[1;31m";
-				break;
-			case node_type::BLACK:
-				break;
-			default:
-				std::cerr << "invalid color" << std::endl;
-				abort();
+			if (!root_) {
+				return;
 			}
-			std::cout << "key  : " << n->key << std::endl;
-			std::cout << "value: " << n->value << std::endl;
-			std::cout << "\033[0m";
+			size_t                  height      = 0;
+			size_t                  prev_height = 0;
+			std::queue<node_type *> q;
+
+			q.push(root_);
+			while (!q.empty()) {
+				node_type *n = q.front();
+				height       = get_height(n);
+				if (height != prev_height) {
+					std::cout << std::endl;
+				}
+				prev_height = height;
+				switch (n->color) {
+				case node_type::RED:
+					std::cout << "\033[1;31m";
+					break;
+				case node_type::BLACK:
+					break;
+				default:
+					std::cerr << "invalid color" << std::endl;
+					abort();
+				}
+				std::cout << n->key << " "
+						  << "\033[0m";
+				if (n->left != NULL) {
+					q.push(n->left);
+				}
+				if (n->right != NULL) {
+					q.push(n->right);
+				}
+				q.pop();
+			}
+			std::cout << std::endl;
 		}
 
+	  private:
+		size_t get_height(node_type *n)
+		{
+			size_t i = 0;
+			for (; n->parent; n = n->parent) {
+				i++;
+			}
+			return i;
+		}
 	};
 } // namespace ft
 
