@@ -65,22 +65,28 @@ namespace ft
 
 		void insert(const T &key, const U &value)
 		{
-			insert_recursive(root_, key, value);
+			insert_recursive(NULL, root_, key, value);
 			root_->color = node_type::BLACK;
 		}
 
 	  private:
-		void insert_recursive(node_type *&node, const T &key, const U &value)
+		void insert_recursive(node_type *parent, node_type *&node, const T &key, const U &value)
 		{
 			if (node == NULL) {
-				node = new_node(key, value);
+				node = new_node(parent, key, value);
+			} else if (key > node->key) {
+				insert_recursive(node, node->right, key, value);
+			} else if (key < node->key) {
+				insert_recursive(node, node->left, key, value);
+			} else {
+				node->value = value;
 			}
 		}
 
-		node_type *new_node(const T &key, const U &value)
+		node_type *new_node(node_type *parent, const T &key, const U &value)
 		{
 			node_type *p = allocator_.allocate(1);
-			*p           = node_type(key, value);
+			*p           = node_type(parent, key, value);
 			return p;
 		}
 
