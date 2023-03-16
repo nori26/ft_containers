@@ -20,10 +20,13 @@ namespace ft
 		key_type      key;
 		value_type    value;
 		color_type    color;
+		rb_tree_node *parent;
 		rb_tree_node *left;
 		rb_tree_node *right;
 
-		rb_tree_node(const key_type &k, const value_type &v) : key(k), value(v), left(), right() {}
+		rb_tree_node(rb_tree_node *p, const key_type &k, const value_type &v)
+			: key(k), value(v), color(RED), parent(p), left(), right()
+		{}
 	};
 
 	template <typename T, typename U>
