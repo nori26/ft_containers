@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <memory>
+#include <queue>
 
 namespace ft
 {
@@ -40,7 +41,24 @@ namespace ft
 		std::allocator<node_type> allocator_;
 
 	  public:
-		rb_tree() : root_() {}
+		// TODO 例外安全
+		~rb_tree()
+		{
+			std::queue<node_type *> q;
+
+			q.push(root_);
+			while (!q.empty()) {
+				node_type *nd = q.front();
+				if (nd->left != NULL) {
+					q.push(nd->left);
+				}
+				if (nd->right != NULL) {
+					q.push(nd->right);
+				}
+				allocator_.deallocate(nd, 1);
+				q.pop();
+			}
+		}
 
 		void insert(const T &key, const U &value)
 		{
