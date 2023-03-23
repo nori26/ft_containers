@@ -87,6 +87,9 @@ namespace ft
 		{
 			std::queue<node_type *> q;
 
+			if (root_ == NULL) {
+				return ;
+			}
 			q.push(root_);
 			while (!q.empty()) {
 				node_type *nd = q.front();
