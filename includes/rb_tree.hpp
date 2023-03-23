@@ -96,7 +96,7 @@ namespace ft
 				if (nd->right != NULL) {
 					q.push(nd->right);
 				}
-				allocator_.deallocate(nd, 1);
+				delete_node(nd);
 				q.pop();
 			}
 		}
@@ -206,10 +206,10 @@ namespace ft
 
 		void delete_node(node_type *node)
 		{
-			if (node = NULL) {
+			if (node == NULL) {
 				return;
 			}
-			allocator_.destroy(*node);
+			allocator_.destroy(node);
 			allocator_.deallocate(node, 1);
 		}
 
