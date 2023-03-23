@@ -27,6 +27,34 @@ namespace ft
 		rb_tree_node(rb_tree_node *p, const key_type &k, const value_type &v)
 			: key(k), value(v), color(RED), parent(p), left(), right()
 		{}
+
+		void link_parent(rb_tree_node *new_parent)
+		{
+			parent = new_parent;
+			if (parent) {
+				if (key < parent->key) {
+					parent->left = this;
+				} else {
+					parent->right = this;
+				}
+			}
+		}
+
+		void link_left(rb_tree_node *new_left)
+		{
+			left = new_left;
+			if (new_left) {
+				new_left->parent = this;
+			}
+		}
+
+		void link_right(rb_tree_node *new_right)
+		{
+			right = new_right;
+			if (new_right) {
+				new_right->parent = this;
+			}
+		}
 	};
 
 	template <typename T, typename U>
@@ -167,48 +195,36 @@ namespace ft
 			return !is_black(n);
 		}
 
-	  public:
-		void print()
+		node_type *rotate_left(node_type *top)
 		{
-			if (!root_) {
-				return;
+			if (top == NULL || top->right == NULL) {
+				return top;
 			}
-			size_t                  height      = 0;
-			size_t                  prev_height = 0;
-			std::queue<node_type *> q;
+			node_type *parent   = top->parent;
+			node_type *new_top  = top->right;
+			node_type *new_left = top;
+			node_type *isolated = new_top->left;
 
-		node_type *rotate_left(node_type *n)
-		{
-			if (n == NULL || n->right == NULL) {
-				return n;
-			}
-			node_type *parent = n->parent;
-			node_type *right  = n->right;
-			n->parent         = right;
-			n->right          = right->left;
-			if (n->right) {
-				n->right->parent = n;
-			}
-			right->parent = parent;
-			right->left   = n;
-			return right;
+			new_top->link_parent(parent);
+			new_top->link_left(new_left);
+			new_left->link_right(isolated);
+			return new_top;
 		}
 
-		node_type *rotate_right(node_type *n)
+		node_type *rotate_right(node_type *top)
 		{
-			if (n == NULL || n->left == NULL) {
-				return n;
+			if (top == NULL || top->left == NULL) {
+				return top;
 			}
-			node_type *parent = n->parent;
-			node_type *left   = n->left;
-			n->parent         = left;
-			n->left           = left->right;
-			if (n->left) {
-				n->left->parent = n;
-			}
-			left->parent = parent;
-			left->right  = n;
-			return left;
+			node_type *parent    = top->parent;
+			node_type *new_top   = top->left;
+			node_type *new_right = top;
+			node_type *isolated  = new_top->right;
+
+			new_top->link_parent(parent);
+			new_top->link_right(new_right);
+			new_right->link_left(isolated);
+			return new_top;
 		}
 
 		node_type *double_rotate_left(node_type *n)
