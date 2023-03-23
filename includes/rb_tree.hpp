@@ -24,8 +24,10 @@ namespace ft
 		rb_tree_node *left;
 		rb_tree_node *right;
 
-		rb_tree_node(rb_tree_node *p, const key_type &k, const value_type &v)
-			: key(k), value(v), color(RED), parent(p), left(), right()
+		rb_tree_node() : key(), value(), color(BLACK), parent(), left(), right() {}
+
+		rb_tree_node(const key_type &k, const value_type &v)
+			: key(k), value(v), color(RED), parent(), left(), right()
 		{}
 
 		void link_parent(rb_tree_node *new_parent)
@@ -65,18 +67,20 @@ namespace ft
 		typedef rb_tree_node<T, U> node_type;
 
 	  public:
-		typedef T key_type;
-		typedef U value_type;
+		typedef T                                   key_type;
+		typedef U                                   value_type;
+		typedef std::pair<node_type *, node_type *> pos_and_parent;
 
 	  protected:
-		node_type *root_;
+		node_type   end_;
+		node_type *&root_;
 
 	  private:
 		std::allocator<node_type> allocator_; // TODO tempalte
 		bool                      is_balanced_;
 
 	  public:
-		rb_tree() : root_(), is_balanced_(true) {}
+		rb_tree() : end_(), root_(end_.left), is_balanced_(true) {}
 
 		// TODO 例外安全
 		~rb_tree()
@@ -99,38 +103,57 @@ namespace ft
 
 		void insert(const T &key, const U &value)
 		{
+			pos_and_parent nodes  = find_pos(key);
+			node_type     *pos    = nodes.first;
+			node_type     *parent = nodes.second;
+
+			if (pos) {
+				pos->value = value;
+				return;
+			}
+			pos = new_node(key, value);
+			link_parent(pos, parent);
+			is_balanced_ = false;
+			for (node_type *top = pos; !is_balanced_ && top != &end_; top = top->parent) {
+				top = balance_for_insert(top);
+			}
+			root_->color = node_type::BLACK;
+		}
+
 			is_balanced_ = true;
 			root_        = insert_recursive(NULL, root_, key, value);
 			root_->color = node_type::BLACK;
 		}
 
-	  private:
-		node_type *
-		insert_recursive(node_type *parent, node_type *&node, const T &key, const U &value)
+
+		pos_and_parent find_pos(const T &key)
 		{
-			if (node == NULL) {
-				is_balanced_ = false;
-				return new_node(parent, key, value);
-			} else if (key > node->key) {
-				node->right = insert_recursive(node, node->right, key, value);
-				return balance_insert(node);
-			} else if (key < node->key) {
-				node->left = insert_recursive(node, node->left, key, value);
-				return balance_insert(node);
-			} else {
-				node->value = value;
-				return node;
+			node_type *parent = &end_;
+			node_type *pos    = root_;
+
+			while (pos) {
+				if (key > pos->key) {
+					parent = pos;
+					pos    = pos->right;
+				} else if (key < pos->key) {
+					parent = pos;
+					pos    = pos->left;
+				} else {
+					break;
+				}
 			}
+			return std::make_pair(pos, parent);
 		}
 
-		node_type *new_node(node_type *parent, const T &key, const U &value)
+	  private:
+		node_type *new_node(const T &key, const U &value)
 		{
 			node_type *p = allocator_.allocate(1);
-			allocator_.construct(p, node_type(parent, key, value));
+			allocator_.construct(p, node_type(key, value));
 			return p;
 		}
 
-		node_type *balance_insert(node_type *top)
+		node_type *balance_for_insert(node_type *top)
 		{
 			if (is_balanced_ == true || top == NULL || is_red(top)) {
 				return top;
@@ -195,6 +218,15 @@ namespace ft
 			return !is_black(n);
 		}
 
+		void link_parent(node_type *n, node_type *parent)
+		{
+			if (parent == &end_) {
+				parent->link_left(n);
+			} else {
+				n->link_parent(parent);
+			}
+		}
+
 		node_type *rotate_left(node_type *top)
 		{
 			if (top == NULL || top->right == NULL) {
@@ -205,7 +237,7 @@ namespace ft
 			node_type *new_left = top;
 			node_type *isolated = new_top->left;
 
-			new_top->link_parent(parent);
+			link_parent(new_top, parent);
 			new_top->link_left(new_left);
 			new_left->link_right(isolated);
 			return new_top;
@@ -221,7 +253,7 @@ namespace ft
 			node_type *new_right = top;
 			node_type *isolated  = new_top->right;
 
-			new_top->link_parent(parent);
+			link_parent(new_top, parent);
 			new_top->link_right(new_right);
 			new_right->link_left(isolated);
 			return new_top;
