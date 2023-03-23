@@ -203,6 +203,16 @@ namespace ft
 			return top;
 		}
 
+
+		void delete_node(node_type *node)
+		{
+			if (node = NULL) {
+				return;
+			}
+			allocator_.destroy(*node);
+			allocator_.deallocate(node, 1);
+		}
+
 		bool has_red_child(node_type *n)
 		{
 			return is_red(n->left) || is_red(n->right);
