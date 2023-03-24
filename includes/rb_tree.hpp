@@ -193,18 +193,8 @@ namespace ft
 				top->right->color = node_type::BLACK;
 				return top;
 			}
-			/*
-				  2B            2B
-				  / \           / \
-				0R   3B  =>   1R   3B
-				 \           /
-				  1R       0R
-			*/
-			if (is_red(top->left) && is_red(top->left->right)) {
-				top->left = rotate_left(top->left);
-			} else if (is_red(top->right) && is_red(top->right->left)) {
-				top->right = rotate_left(top->right);
-			}
+			linearize_red_red(top);
+
 			/*
 				   2B         1R           1B
 				   / \        / \          / \
@@ -222,6 +212,22 @@ namespace ft
 			top->color   = node_type::BLACK;
 			is_balanced_ = true;
 			return top;
+		}
+
+		/*
+			  2B            2B
+			  / \           / \
+			0R   3B  =>   1R   3B
+			 \           /
+			  1R       0R
+		*/
+		void linearize_red_red(node_type *top)
+		{
+			if (is_red(top->left) && is_red(top->left->right)) {
+				rotate_left(top->left);
+			} else if (is_red(top->right) && is_red(top->right->left)) {
+				rotate_left(top->right);
+			}
 		}
 
 		// childがNULLの場合もあるのでparentを受け取る
