@@ -1,6 +1,7 @@
 #ifndef RB_TREE_HPP
 #define RB_TREE_HPP
 
+#include <cassert>
 #include <iostream>
 #include <memory>
 #include <queue>
@@ -123,9 +124,26 @@ namespace ft
 			root_->color = node_type::BLACK;
 		}
 
-			is_balanced_ = true;
-			root_        = insert_recursive(NULL, root_, key, value);
-			root_->color = node_type::BLACK;
+		void erase(const T &key)
+		{
+			node_type *pos = find_pos(key).first;
+			node_type *parent;
+			node_type *child;
+
+			if (pos == NULL) {
+				return;
+			}
+			if (pos->left) {
+				swap_node(pos, get_max(pos->left));
+				child  = pos->left;
+				parent = pos->parent;
+			} else {
+				child  = pos->right;
+				parent = pos->parent;
+			}
+			promote_child(pos, child);
+			balance_for_erase(parent, child, pos);
+			delete_node(pos);
 		}
 
 
@@ -206,6 +224,61 @@ namespace ft
 			return top;
 		}
 
+		// childがNULLの場合もあるのでparentを受け取る
+		// grand_parentがend_の可能性もあるのでポインタで比較
+		void promote_child(node_type *parent, node_type *child)
+		{
+			assert(parent && parent->parent);
+			node_type *grand_parent = parent->parent;
+
+			if (grand_parent->left == parent) {
+				grand_parent->link_left(child);
+			} else {
+				grand_parent->link_right(child);
+			}
+		}
+
+		void balance_for_erase(node_type *parent, node_type *target, node_type *detached)
+		{
+			if (is_red(detached)) {
+				return;
+			} else if (is_red(target)) {
+				target->color = node_type::BLACK;
+				return;
+			}
+			if (root_) {
+				root_->color = node_type::BLACK;
+			}
+		}
+
+		node_type *get_max(node_type *node)
+		{
+			if (node == NULL) {
+				return NULL;
+			}
+			while (node->right) {
+				node = node->right;
+			}
+			return node;
+		}
+
+		void swap_node(node_type *a, node_type *b)
+		{
+			node_type *parent = a->parent;
+			node_type *left   = a->left;
+			node_type *right  = a->right;
+			color_type color  = a->color;
+
+			link_parent(a, b->parent);
+			a->link_left(b->left);
+			a->link_right(b->right);
+			a->color = b->color;
+
+			link_parent(b, parent);
+			b->link_left(left);
+			b->link_right(right);
+			b->color = color;
+		}
 
 		void delete_node(node_type *node)
 		{
