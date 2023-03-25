@@ -242,11 +242,12 @@ namespace ft
 			if (is_red(detached)) {
 				return;
 			}
-			for (bool is_balanced = false; parent != &end_ && !is_balanced;) {
+			for (bool is_balanced = false; parent != &end_ && !is_balanced;
+				 target = parent, parent = parent->parent) {
 				if (target == parent->left) {
-					is_balanced = balance_left_for_erase(&parent, &target);
+					is_balanced = balance_left_for_erase(parent);
 				} else {
-					is_balanced = balance_right_for_erase(&parent, &target);
+					is_balanced = balance_right_for_erase(parent);
 				}
 			}
 			if (root_) {
@@ -254,21 +255,20 @@ namespace ft
 			}
 		}
 
-		// 部分木targetの黒高さが低い状態なので(parentがend_でない場合)、
+		// 左部分木の黒高さが低い状態なので(topがend_でない場合)、
 		// 暗黙的に右部分木には一つ以上の黒があると期待できる
-		bool balance_left_for_erase(node_type **parent, node_type **target)
+		bool balance_left_for_erase(node_type *top)
 		{
-			assert(*parent != &end_ && (*parent)->right);
-			node_type *top   = *parent;
+			assert(top != &end_ && top->right);
 			node_type *right = top->right;
 
-			if (is_red(*target)) {
-				(*target)->color = node_type::BLACK;
+			if (is_red(top->left)) {
+				top->left->color = node_type::BLACK;
 				return true;
 			}
 			if (is_red(top) && !has_red_child(right)) {
-				top->color        = node_type::BLACK;
-				top->right->color = node_type::RED;
+				top->color   = node_type::BLACK;
+				right->color = node_type::RED;
 				return true;
 			}
 			if (is_red(right)) {
@@ -292,25 +292,22 @@ namespace ft
 				return true;
 			} else {
 				right->color = node_type::RED;
-				*parent      = top->parent;
-				*target      = top;
 				return false;
 			}
 		}
 
-		bool balance_right_for_erase(node_type **parent, node_type **target)
+		bool balance_right_for_erase(node_type *top)
 		{
-			assert((*parent)->left);
-			node_type *top  = *parent;
+			assert(top->left);
 			node_type *left = top->left;
 
-			if (is_red(*target)) {
-				(*target)->color = node_type::BLACK;
+			if (is_red(top->right)) {
+				top->right->color = node_type::BLACK;
 				return true;
 			}
 			if (is_red(top) && !has_red_child(left)) {
-				top->color       = node_type::BLACK;
-				top->left->color = node_type::RED;
+				top->color  = node_type::BLACK;
+				left->color = node_type::RED;
 				return true;
 			}
 			if (is_red(left)) {
@@ -334,8 +331,6 @@ namespace ft
 				return true;
 			} else {
 				left->color = node_type::RED;
-				*parent     = top->parent;
-				*target     = top;
 				return false;
 			}
 		}
