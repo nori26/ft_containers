@@ -79,10 +79,9 @@ namespace ft
 
 	  private:
 		std::allocator<node_type> allocator_; // TODO tempalte
-		bool                      is_balanced_;
 
 	  public:
-		rb_tree() : end_(), root_(end_.left), is_balanced_(true)
+		rb_tree() : end_(), root_(end_.left)
 		{
 			end_.right = reinterpret_cast<node_type *>(-1);
 		}
@@ -121,13 +120,67 @@ namespace ft
 			}
 			pos = new_node(key, value);
 			link_parent(pos, parent);
-			is_balanced_ = false;
-			for (node_type *top = pos; !is_balanced_ && top != &end_; top = top->parent) {
-				top = balance_for_insert(top);
+			balance_for_insert(pos);
+		}
+
+	  private:
+		node_type *new_node(const T &key, const U &value)
+		{
+			node_type *p = allocator_.allocate(1);
+			allocator_.construct(p, node_type(key, value));
+			return p;
+		}
+
+		void balance_for_insert(node_type *top)
+		{
+			for (; top != &end_; top = top->parent) {
+				if (is_red(top)) {
+					continue;
+				}
+				node_type *left  = top->left;
+				node_type *right = top->right;
+				if (is_red(left) && is_red(right) &&
+					(has_red_child(left) || has_red_child(right))) {
+					top->color   = node_type::RED;
+					left->color  = node_type::BLACK;
+					right->color = node_type::BLACK;
+					continue;
+				}
+				if (is_red(left)) {
+					balance_left_for_insert(top);
+				} else {
+					balance_right_for_insert(top);
+				}
+				break;
 			}
 			root_->color = node_type::BLACK;
 		}
 
+		void balance_left_for_insert(node_type *top)
+		{
+			if (is_red(top->left->right)) {
+				rotate_left(top->left);
+			}
+			if (is_red(top->left->left)) {
+				top               = rotate_right(top);
+				top->right->color = node_type::RED;
+				top->color        = node_type::BLACK;
+			}
+		}
+
+		void balance_right_for_insert(node_type *top)
+		{
+			if (is_red(top->right->left)) {
+				rotate_left(top->right);
+			}
+			if (is_red(top->right->right)) {
+				top              = rotate_left(top);
+				top->left->color = node_type::RED;
+				top->color       = node_type::BLACK;
+			}
+		}
+
+	public:
 		void erase(const T &key)
 		{
 			node_type *pos = find_pos(key).first;
@@ -150,7 +203,6 @@ namespace ft
 			delete_node(pos);
 		}
 
-
 		pos_and_parent find_pos(const T &key)
 		{
 			node_type *parent = &end_;
@@ -171,69 +223,6 @@ namespace ft
 		}
 
 	  private:
-		node_type *new_node(const T &key, const U &value)
-		{
-			node_type *p = allocator_.allocate(1);
-			allocator_.construct(p, node_type(key, value));
-			return p;
-		}
-
-		node_type *balance_for_insert(node_type *top)
-		{
-			if (is_balanced_ == true || top == NULL || is_red(top)) {
-				return top;
-			}
-			/*
-				   2B          2R
-				   / \         / \
-				 1R   3R  => 1B   3B
-				 /           /
-				0R          2R
-			*/
-			if (is_red(top->left) && is_red(top->right) &&
-				(has_red_child(top->left) || has_red_child(top->right))) {
-				top->color        = node_type::RED;
-				top->left->color  = node_type::BLACK;
-				top->right->color = node_type::BLACK;
-				return top;
-			}
-			linearize_red_red(top);
-
-			/*
-				   2B         1R           1B
-				   / \        / \          / \
-				 1R   3B => 0R   2B   => 0R   2R
-				 /                \            \
-				0R                 3B           3B
-			*/
-			if (is_red(top->left) && is_red(top->left->left)) {
-				top               = rotate_right(top);
-				top->right->color = node_type::RED;
-			} else if (is_red(top->right) && is_red(top->right->right)) {
-				top              = rotate_left(top);
-				top->left->color = node_type::RED;
-			}
-			top->color   = node_type::BLACK;
-			is_balanced_ = true;
-			return top;
-		}
-
-		/*
-			  2B            2B
-			  / \           / \
-			0R   3B  =>   1R   3B
-			 \           /
-			  1R       0R
-		*/
-		void linearize_red_red(node_type *top)
-		{
-			if (is_red(top->left) && is_red(top->left->right)) {
-				rotate_left(top->left);
-			} else if (is_red(top->right) && is_red(top->right->left)) {
-				rotate_left(top->right);
-			}
-		}
-
 		// childがNULLの場合もあるのでparentを受け取る
 		// grand_parentがend_の可能性もあるのでポインタで比較
 		void promote_child(node_type *parent, node_type *child)
