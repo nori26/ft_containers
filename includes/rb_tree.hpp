@@ -180,7 +180,7 @@ namespace ft
 			}
 		}
 
-	public:
+	  public:
 		void erase(const T &key)
 		{
 			node_type *pos = find_pos(key).first;
@@ -432,25 +432,6 @@ namespace ft
 			new_top->link_right(new_right);
 			new_right->link_left(isolated);
 			return new_top;
-		}
-
-		node_type *double_rotate_left(node_type *n)
-		{
-			n->right = rotate_right(n->right);
-			return rotate_left(n);
-		}
-
-		node_type *double_rotate_right(node_type *n)
-		{
-			n->left = rotate_left(n->left);
-			return rotate_right(n);
-		}
-
-		void unlink(node_type *n)
-		{
-			n->parent = NULL;
-			n->left   = NULL;
-			n->right  = NULL;
 		}
 	};
 } // namespace ft
