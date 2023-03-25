@@ -252,12 +252,102 @@ namespace ft
 		{
 			if (is_red(detached)) {
 				return;
-			} else if (is_red(target)) {
-				target->color = node_type::BLACK;
-				return;
+			}
+			for (bool is_balanced = false; parent != &end_ && !is_balanced;) {
+				if (target == parent->left) {
+					is_balanced = balance_left_for_erase(&parent, &target);
+				} else {
+					is_balanced = balance_right_for_erase(&parent, &target);
+				}
 			}
 			if (root_) {
 				root_->color = node_type::BLACK;
+			}
+		}
+
+		// 部分木targetの黒高さが低い状態なので(parentがend_でない場合)、
+		// 暗黙的に右部分木には一つ以上の黒があると期待できる
+		bool balance_left_for_erase(node_type **parent, node_type **target)
+		{
+			assert(*parent != &end_ && (*parent)->right);
+			node_type *top   = *parent;
+			node_type *right = top->right;
+
+			if (is_red(*target)) {
+				(*target)->color = node_type::BLACK;
+				return true;
+			}
+			if (is_red(top) && !has_red_child(right)) {
+				top->color        = node_type::BLACK;
+				top->right->color = node_type::RED;
+				return true;
+			}
+			if (is_red(right)) {
+				top              = rotate_left(top);
+				top->color       = node_type::BLACK;
+				top->left->color = node_type::RED;
+				top              = top->left;
+				right            = top->right;
+			}
+			if (is_red(right->left) && is_black(right->right)) {
+				right               = rotate_right(right);
+				right->color        = node_type::BLACK;
+				right->right->color = node_type::RED;
+			}
+			if (is_red(right->right)) {
+				color_type old    = top->color;
+				top               = rotate_left(top);
+				top->color        = old;
+				top->left->color  = node_type::BLACK;
+				top->right->color = node_type::BLACK;
+				return true;
+			} else {
+				right->color = node_type::RED;
+				*parent      = top->parent;
+				*target      = top;
+				return false;
+			}
+		}
+
+		bool balance_right_for_erase(node_type **parent, node_type **target)
+		{
+			assert((*parent)->left);
+			node_type *top  = *parent;
+			node_type *left = top->left;
+
+			if (is_red(*target)) {
+				(*target)->color = node_type::BLACK;
+				return true;
+			}
+			if (is_red(top) && !has_red_child(left)) {
+				top->color       = node_type::BLACK;
+				top->left->color = node_type::RED;
+				return true;
+			}
+			if (is_red(left)) {
+				top               = rotate_right(top);
+				top->color        = node_type::BLACK;
+				top->right->color = node_type::RED;
+				top               = top->right;
+				left              = top->left;
+			}
+			if (is_red(left->right) && is_black(left->left)) {
+				left               = rotate_left(left);
+				left->color        = node_type::BLACK;
+				left->right->color = node_type::RED;
+			}
+			if (is_red(left->left)) {
+				color_type old    = top->color;
+				top               = rotate_right(top);
+				top->color        = old;
+				top->left->color  = node_type::BLACK;
+				top->right->color = node_type::BLACK;
+				return true;
+			} else {
+				left->color = node_type::RED;
+				*parent     = top->parent;
+				*target     = top;
+				return false;
 			}
 		}
 
