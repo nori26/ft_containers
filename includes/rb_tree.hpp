@@ -81,7 +81,10 @@ namespace ft
 		bool                      is_balanced_;
 
 	  public:
-		rb_tree() : end_(), root_(end_.left), is_balanced_(true) {}
+		rb_tree() : end_(), root_(end_.left), is_balanced_(true)
+		{
+			end_.right = reinterpret_cast<node_type *>(-1);
+		}
 
 		// TODO 例外安全
 		~rb_tree()
