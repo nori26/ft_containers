@@ -71,6 +71,7 @@ namespace ft
 		typedef T                                   key_type;
 		typedef U                                   value_type;
 		typedef std::pair<node_type *, node_type *> pos_and_parent;
+		typedef typename node_type::color_type      color_type;
 
 	  protected:
 		node_type   end_;
