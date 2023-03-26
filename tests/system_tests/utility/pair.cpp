@@ -1531,7 +1531,16 @@ TEST(pair, operator_greater_eq)
 	}
 }
 
+TEST(make_pair, basic)
+{
+	EXPECT_EQ(ft::make_pair(1, 3).first, 1);
+	EXPECT_EQ(ft::make_pair(1, 3).second, 3);
+}
+
 TEST(make_pair, LWG181)
 {
-	ft::make_pair("abc", 3);
+	ft::pair<const char *, int> p = ft::make_pair("abc", 3);
+
+	EXPECT_EQ(std::string(p.first), std::string("abc"));
+	EXPECT_EQ(p.second, 3);
 }
