@@ -33,6 +33,16 @@ TEST(pair, copy)
 	(void)p;
 }
 
+TEST(pair, operator_assign)
+{
+	ft::pair<int, int> p = ft::pair<int, int>(1, 2);
+	ft::pair<int, int> p2;
+
+	p2 = p;
+	EXPECT_EQ(p.first, p2.first);
+	EXPECT_EQ(p.second, p2.second);
+}
+
 TEST(pair, operator_eq)
 {
 	{
