@@ -36,6 +36,31 @@ namespace ft
 		// 	typedef typename tree_type::size_type       size_type;
 		// 	typedef typename tree_type::difference_type difference_type;
 
+	  public:
+		class value_compare
+		{
+			// mapからはインスタンス化可能
+			friend class map;
+
+		  public:
+			// 関数アダプタが要求する型
+			typedef value_type first_argument_type;
+			typedef value_type second_argument_type;
+			typedef bool       result_type;
+
+		  protected:
+			key_compare comp;
+
+			// コピー初期化以外のインスタン化を制限
+			value_compare(key_compare c) : comp(c) {}
+
+		  public:
+			bool operator()(const value_type &a, const value_type &b) const
+			{
+				return comp(a.first, b.first);
+			}
+		};
+
 	  private:
 		rb_tree<key_type, mapped_type> tree;
 
