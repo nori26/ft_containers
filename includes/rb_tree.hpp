@@ -50,7 +50,7 @@ namespace ft
 		}
 	};
 
-	template <typename T, typename U>
+	template <typename T, typename U, typename Compare, typename Allocator>
 	class rb_tree
 	{
 		// protected for visualize
@@ -58,17 +58,20 @@ namespace ft
 		typedef rb_tree_node<T, U> node_type;
 
 	  public:
-		typedef T                                  key_type;
-		typedef U                                  value_type;
-		typedef ft::pair<node_type *, node_type *> pos_and_parent;
-		typedef typename node_type::color_type     color_type;
+		typedef T                                                     key_type;
+		typedef U                                                     value_type;
+		typedef ft::pair<node_type *, node_type *>                    pos_and_parent;
+		typedef typename node_type::color_type                        color_type;
+		typedef typename Allocator::template rebind<node_type>::other node_allocator;
+		// template 曖昧青解消子でrebindがテンプレートクラスであることを明示する
+		// template がない場合、< は小なり演算子として解釈される
 
 	  protected:
 		node_type   end_;
 		node_type *&root_;
 
 	  private:
-		std::allocator<node_type> allocator_; // TODO tempalte
+		node_allocator allocator_;
 
 	  public:
 		rb_tree() : end_(), root_(end_.left)
