@@ -392,12 +392,11 @@ namespace ft
 			if (top == NULL || top->right == NULL) {
 				return top;
 			}
-			node_type *parent   = top->parent;
 			node_type *new_top  = top->right;
 			node_type *new_left = top;
 			node_type *isolated = new_top->left;
 
-			link_parent(new_top, parent);
+			promote_child(top, new_top);
 			new_top->link_left(new_left);
 			new_left->link_right(isolated);
 			return new_top;
@@ -408,12 +407,11 @@ namespace ft
 			if (top == NULL || top->left == NULL) {
 				return top;
 			}
-			node_type *parent    = top->parent;
 			node_type *new_top   = top->left;
 			node_type *new_right = top;
 			node_type *isolated  = new_top->right;
 
-			link_parent(new_top, parent);
+			promote_child(top, new_top);
 			new_top->link_right(new_right);
 			new_right->link_left(isolated);
 			return new_top;
