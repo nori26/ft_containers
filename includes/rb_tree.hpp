@@ -338,20 +338,49 @@ namespace ft
 
 		void swap_node(node_type *a, node_type *b)
 		{
-			node_type *parent = a->parent;
-			node_type *left   = a->left;
-			node_type *right  = a->right;
-			color_type color  = a->color;
+			if (a == b->parent) {
+				swap_adjacent_node(a, b);
+			} else if (b == a->parent) {
+				swap_adjacent_node(b, a);
+			} else {
+				node_type *a_parent = a->parent;
+				node_type *a_left   = a->left;
+				node_type *a_right  = a->right;
 
-			link_parent(a, b->parent);
-			a->link_left(b->left);
-			a->link_right(b->right);
-			a->color = b->color;
+				if (b->parent->left == b) {
+					b->parent->link_left(a);
+				} else {
+					b->parent->link_right(a);
+				}
+				if (a_parent->left == a) {
+					a_parent->link_left(b);
+				} else {
+					a_parent->link_right(b);
+				}
+				a->link_left(b->left);
+				a->link_right(b->right);
+				b->link_left(a_left);
+				b->link_right(a_right);
+				std::swap(a->color, b->color);
+			}
+		}
 
-			link_parent(b, parent);
-			b->link_left(left);
-			b->link_right(right);
-			b->color = color;
+		void swap_adjacent_node(node_type *parent, node_type *child)
+		{
+			node_type *left  = child->left;
+			node_type *right = child->right;
+
+			promote_child(parent, child);
+			if (parent->left == child) {
+				child->link_left(parent);
+				child->link_right(parent->right);
+			} else if (parent->right == child) {
+				child->link_right(parent);
+				child->link_left(parent->left);
+			}
+			parent->link_left(left);
+			parent->link_right(right);
+			std::swap(parent->color, child->color);
 		}
 
 		void delete_node(node_type *node)
