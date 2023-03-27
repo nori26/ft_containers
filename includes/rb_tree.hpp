@@ -6,6 +6,8 @@
 #include <memory>
 #include <queue>
 
+#include "utility.hpp"
+
 namespace ft
 {
 	template <typename T, typename U>
@@ -68,10 +70,10 @@ namespace ft
 		typedef rb_tree_node<T, U> node_type;
 
 	  public:
-		typedef T                                   key_type;
-		typedef U                                   value_type;
-		typedef std::pair<node_type *, node_type *> pos_and_parent;
-		typedef typename node_type::color_type      color_type;
+		typedef T                                  key_type;
+		typedef U                                  value_type;
+		typedef ft::pair<node_type *, node_type *> pos_and_parent;
+		typedef typename node_type::color_type     color_type;
 
 	  protected:
 		node_type   end_;
@@ -219,7 +221,7 @@ namespace ft
 					break;
 				}
 			}
-			return std::make_pair(pos, parent);
+			return ft::make_pair(pos, parent);
 		}
 
 	  private:
