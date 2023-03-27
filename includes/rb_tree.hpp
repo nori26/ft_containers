@@ -33,18 +33,6 @@ namespace ft
 			: key(k), value(v), color(RED), parent(), left(), right()
 		{}
 
-		void link_parent(rb_tree_node *new_parent)
-		{
-			parent = new_parent;
-			if (parent) {
-				if (key < parent->key) {
-					parent->left = this;
-				} else {
-					parent->right = this;
-				}
-			}
-		}
-
 		void link_left(rb_tree_node *new_left)
 		{
 			left = new_left;
@@ -390,12 +378,12 @@ namespace ft
 			return !is_black(n);
 		}
 
-		void link_parent(node_type *n, node_type *parent)
+		void link_parent(node_type *n, node_type *new_parent)
 		{
-			if (parent == &end_) {
-				parent->link_left(n);
+			if (new_parent == &end_ || n->key < new_parent->key) {
+				new_parent->link_left(n);
 			} else {
-				n->link_parent(parent);
+				new_parent->link_right(n);
 			}
 		}
 
