@@ -11,6 +11,9 @@ namespace ft
 {
 	template <typename Key, typename Mapped, typename Compare>
 	class map_value_compare;
+	template <typename Key, typename Value>
+	class map_key_of_value;
+
 	template <
 		typename Key,
 		typename Mapped,
@@ -107,6 +110,17 @@ namespace ft
 			return cmp_(a, b.first);
 		}
 	};
+
+	template <typename Key, typename Value>
+	class map_key_of_value
+	{
+	  public:
+		const Key &operator()(const Value &v) const
+		{
+			return v.first;
+		}
+	};
+
 } // namespace ft
 
 #endif
