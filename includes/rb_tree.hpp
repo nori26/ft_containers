@@ -108,7 +108,6 @@ namespace ft
 			node_type     *parent = nodes.second;
 
 			if (pos) {
-				pos->value = value;
 				return;
 			}
 			pos = new_node(key, value);
