@@ -9,6 +9,8 @@
 
 namespace ft
 {
+	template <typename Key, typename Mapped, typename Compare>
+	class map_value_compare;
 	template <
 		typename Key,
 		typename Mapped,
@@ -28,13 +30,17 @@ namespace ft
 		typedef typename allocator_type::const_reference const_reference;
 
 	  private:
-		typedef rb_tree<key_type, mapped_type> tree_type;
+		typedef map_value_compare<key_type, mapped_type, key_compare>        tree_compare;
+		typedef rb_tree<key_type, mapped_type, tree_compare, allocator_type> tree_type;
 
 		//   public:
 		// 	typedef typename tree_type::iterator        iterator;
 		// 	typedef typename tree_type::const_iterator  const_iterator;
 		// 	typedef typename tree_type::size_type       size_type;
 		// 	typedef typename tree_type::difference_type difference_type;
+
+	  private:
+		tree_type tree;
 
 	  public:
 		class value_compare
@@ -61,11 +67,39 @@ namespace ft
 			}
 		};
 
+	};
+
+	template <typename Key, typename Mapped, typename Compare>
+	class map_value_compare
+	{
 	  private:
-		rb_tree<key_type, mapped_type> tree;
+		typedef Key                                   key_type;
+		typedef Mapped                                mapped_type;
+		typedef ft::pair<const key_type, mapped_type> value_type;
+		typedef Compare                               key_compare;
+
+	  private:
+		key_compare cmp_;
 
 	  public:
-		map() : tree() {}
+		map_value_compare() : cmp_() {}
+
+		explicit map_value_compare(const key_compare &c) : cmp_(c) {}
+
+		bool operator()(const value_type &a, const value_type &b) const
+		{
+			return cmp_(a.first, b.first);
+		}
+
+		bool operator()(const value_type &a, const key_type &b) const
+		{
+			return cmp_(a.first, b);
+		}
+
+		bool operator()(const key_type &a, const value_type &b) const
+		{
+			return cmp_(a, b.first);
+		}
 	};
 } // namespace ft
 
