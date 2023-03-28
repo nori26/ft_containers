@@ -67,6 +67,12 @@ namespace ft
 			}
 		};
 
+	  public:
+		map() : tree() {}
+
+		// explicit map(const key_compare &comp, const allocator_type &alloc = allocator_type())
+		// 	: tree(comp, alloc)
+		// {}
 	};
 
 	template <typename Key, typename Mapped, typename Compare>
