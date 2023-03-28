@@ -10,28 +10,24 @@
 
 namespace ft
 {
-	template <typename T, typename U>
+	template <typename Value>
 	struct rb_tree_node
 	{
 		enum color_type {
 			RED,
 			BLACK,
 		};
-		typedef T key_type;
-		typedef U value_type;
+		typedef Value value_type;
 
-		key_type      key;
 		value_type    value;
 		color_type    color;
 		rb_tree_node *parent;
 		rb_tree_node *left;
 		rb_tree_node *right;
 
-		rb_tree_node() : key(), value(), color(BLACK), parent(), left(), right() {}
+		rb_tree_node() : value(), color(BLACK), parent(), left(), right() {}
 
-		rb_tree_node(const key_type &k, const value_type &v)
-			: key(k), value(v), color(RED), parent(), left(), right()
-		{}
+		rb_tree_node(const value_type &v) : value(v), color(RED), parent(), left(), right() {}
 
 		void link_left(rb_tree_node *new_left)
 		{
@@ -50,17 +46,25 @@ namespace ft
 		}
 	};
 
-	template <typename T, typename U, typename Compare, typename Allocator>
+	template <
+		typename Key,
+		typename Value,
+		typename KeyOfValue,
+		typename Compare,
+		typename Allocator>
 	class rb_tree
 	{
 		// protected for visualize
 	  protected:
-		typedef rb_tree_node<T, U> node_type;
+		typedef rb_tree_node<Value>                node_type;
+		typedef Compare                            value_compare;
+		typedef ft::pair<node_type *, node_type *> pos_and_parent;
+		typedef KeyOfValue                         key_of_value;
 
 	  public:
-		typedef T                                                     key_type;
-		typedef U                                                     value_type;
-		typedef ft::pair<node_type *, node_type *>                    pos_and_parent;
+		typedef Key                                                   key_type;
+		typedef Value                                                 value_type;
+		typedef Allocator                                             allocator_type;
 		typedef typename node_type::color_type                        color_type;
 		typedef typename Allocator::template rebind<node_type>::other node_allocator;
 		// template 曖昧青解消子でrebindがテンプレートクラスであることを明示する
@@ -72,9 +76,17 @@ namespace ft
 
 	  private:
 		node_allocator allocator_;
+		value_compare  cmp_;
+		key_of_value   get_key_;
 
 	  public:
-		rb_tree() : end_(), root_(end_.left)
+		rb_tree() : end_(), root_(end_.left), allocator_(), cmp_(), get_key_()
+		{
+			end_.right = reinterpret_cast<node_type *>(-1);
+		}
+
+		rb_tree(const value_compare &cmp, const allocator_type &alloc)
+			: end_(), root_(end_.left), allocator_(alloc), cmp_(cmp), get_key_()
 		{
 			end_.right = reinterpret_cast<node_type *>(-1);
 		}
@@ -101,25 +113,30 @@ namespace ft
 			}
 		}
 
-		void insert(const T &key, const U &value)
+		value_compare &value_cmp()
 		{
-			pos_and_parent nodes  = find_pos(key);
+			return cmp_;
+		}
+
+		void insert(const value_type &value)
+		{
+			pos_and_parent nodes  = find_pos(get_key_(value));
 			node_type     *pos    = nodes.first;
 			node_type     *parent = nodes.second;
 
 			if (pos) {
 				return;
 			}
-			pos = new_node(key, value);
+			pos = new_node(value);
 			link_parent(pos, parent);
 			balance_for_insert(pos);
 		}
 
 	  private:
-		node_type *new_node(const T &key, const U &value)
+		node_type *new_node(const value_type &value)
 		{
 			node_type *p = allocator_.allocate(1);
-			allocator_.construct(p, node_type(key, value));
+			allocator_.construct(p, node_type(value));
 			return p;
 		}
 
@@ -173,7 +190,7 @@ namespace ft
 		}
 
 	  public:
-		void erase(const T &key)
+		void erase(const key_type &key)
 		{
 			node_type *pos = find_pos(key).first;
 			node_type *parent;
@@ -195,18 +212,18 @@ namespace ft
 			delete_node(pos);
 		}
 
-		pos_and_parent find_pos(const T &key)
+		pos_and_parent find_pos(const key_type &key)
 		{
 			node_type *parent = &end_;
 			node_type *pos    = root_;
 
 			while (pos) {
-				if (key > pos->key) {
-					parent = pos;
-					pos    = pos->right;
-				} else if (key < pos->key) {
+				if (value_cmp()(key, pos->value)) {
 					parent = pos;
 					pos    = pos->left;
+				} else if (!value_cmp()(key, pos->value)) {
+					parent = pos;
+					pos    = pos->right;
 				} else {
 					break;
 				}
@@ -411,7 +428,7 @@ namespace ft
 
 		void link_parent(node_type *n, node_type *new_parent)
 		{
-			if (new_parent == &end_ || n->key < new_parent->key) {
+			if (new_parent == &end_ || value_cmp()(n->value, new_parent->value)) {
 				new_parent->link_left(n);
 			} else {
 				new_parent->link_right(n);
