@@ -33,8 +33,9 @@ namespace ft
 		typedef typename allocator_type::const_reference const_reference;
 
 	  private:
-		typedef map_value_compare<key_type, mapped_type, key_compare>        tree_compare;
-		typedef rb_tree<key_type, mapped_type, tree_compare, allocator_type> tree_type;
+		typedef map_value_compare<key_type, mapped_type, key_compare>       tree_compare;
+		typedef map_key_of_value<key_type, value_type>                      key_of_value;
+		typedef rb_tree<key_type, value_type, key_of_value, tree_compare, allocator_type> tree_type;
 
 		//   public:
 		// 	typedef typename tree_type::iterator        iterator;
