@@ -225,7 +225,7 @@ namespace ft
 
 			if (grand_parent->left == parent) {
 				grand_parent->link_left(child);
-			} else {
+			} else if (grand_parent->right == parent) {
 				grand_parent->link_right(child);
 			}
 		}
