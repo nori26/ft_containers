@@ -230,7 +230,7 @@ namespace ft
 				if (value_cmp()(key, pos->value)) {
 					parent = pos;
 					pos    = pos->left;
-				} else if (!value_cmp()(key, pos->value)) {
+				} else if (value_cmp()(pos->value, key)) {
 					parent = pos;
 					pos    = pos->right;
 				} else {
