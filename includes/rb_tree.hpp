@@ -72,6 +72,7 @@ namespace ft
 
 	  protected:
 		node_type   end_;
+		node_type   rend_;
 		node_type *&root_;
 
 	  private:
@@ -80,17 +81,25 @@ namespace ft
 		key_of_value   get_key_;
 
 	  public:
-		rb_tree() : end_(), root_(end_.left), allocator_(), cmp_(), get_key_()
+		rb_tree() : end_(), rend_(), root_(end_.left), allocator_(), cmp_(), get_key_()
 		{
-			end_.right = reinterpret_cast<node_type *>(-1);
+			init_structure();
 		}
 
 		rb_tree(const value_compare &cmp, const allocator_type &alloc)
-			: end_(), root_(end_.left), allocator_(alloc), cmp_(cmp), get_key_()
+			: end_(), rend_(), root_(end_.left), allocator_(alloc), cmp_(cmp), get_key_()
 		{
+			init_structure();
+		}
+
+	  private:
+		void init_structure()
+		{
+			rend_.link_right(&end_);
 			end_.right = reinterpret_cast<node_type *>(-1);
 		}
 
+	  public:
 		// TODO 例外安全
 		~rb_tree()
 		{
