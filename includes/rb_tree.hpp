@@ -1,8 +1,9 @@
 #ifndef RB_TREE_HPP
 #define RB_TREE_HPP
 
-#include <cassert>
+#include <cassert> // TODO ifdef
 #include <iostream>
+#include <iterator>
 #include <memory>
 #include <queue>
 
@@ -473,7 +474,109 @@ namespace ft
 			new_right->link_left(isolated);
 			return new_top;
 		}
+
 	};
+
+	template <typename Value>
+	class rb_tree_iterator
+	{
+	  public:
+		typedef Value                           value_type;
+		typedef Value                          &reference;
+		typedef Value                          *pointer;
+		typedef ptrdiff_t                       difference_type;
+		typedef std::bidirectional_iterator_tag iterator_category;
+
+	  private:
+		typedef rb_tree_node<Value> node_type;
+		typedef rb_tree_iterator    iterator_type;
+
+	  private:
+		node_type *base;
+
+	  public:
+		rb_tree_iterator() : base() {}
+
+		explicit rb_tree_iterator(node_type *n) : base(n) {}
+
+		reference operator*() const
+		{
+			return base->value;
+		}
+
+		// TODO valueの持ち方ポインタの方がいい？例外安全関連とか
+		pointer operator->() const
+		{
+			return &base->value;
+		}
+
+		iterator_type &operator++()
+		{
+			if (base->right) {
+				base = base->right;
+				while (base->left) {
+					base = base->left;
+				}
+			} else {
+				node_type *parent = base->parent;
+
+				while (base != parent->left) {
+					base   = parent;
+					parent = parent->parent;
+				}
+				base = parent;
+			}
+			return *this;
+		}
+
+		iterator_type operator++(int)
+		{
+			iterator_type &self = *this;
+			iterator_type  copy = self;
+
+			++self;
+			return copy;
+		}
+
+		iterator_type &operator--()
+		{
+			if (base->left) {
+				base = base->left;
+				while (base->right) {
+					base = base->right;
+				}
+			} else {
+				node_type *parent = base->parent;
+
+				while (base != parent->right) {
+					base   = parent;
+					parent = parent->parent;
+				}
+				base = parent;
+			}
+			return *this;
+		}
+
+		iterator_type operator--(int)
+		{
+			iterator_type &self = *this;
+			iterator_type  copy = self;
+
+			--self;
+			return copy;
+		}
+
+		bool operator==(const iterator_type &rhs) const
+		{
+			return base == rhs.base;
+		}
+
+		bool operator!=(const iterator_type &rhs) const
+		{
+			return base != rhs.base;
+		}
+	};
+
 } // namespace ft
 
 #endif
