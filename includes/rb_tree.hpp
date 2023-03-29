@@ -45,6 +45,26 @@ namespace ft
 				new_right->parent = this;
 			}
 		}
+
+		rb_tree_node *max()
+		{
+			rb_tree_node *node = this;
+
+			while (node->right) {
+				node = node->right;
+			}
+			return node;
+		}
+
+		rb_tree_node *min()
+		{
+			rb_tree_node *node = this;
+
+			while (node->left) {
+				node = node->left;
+			}
+			return node;
+		}
 	};
 
 	template <
@@ -210,7 +230,7 @@ namespace ft
 				return;
 			}
 			if (pos->left) {
-				swap_node(pos, get_max(pos->left));
+				swap_node(pos, pos->left->max());
 				child  = pos->left;
 				parent = pos->parent;
 			} else {
@@ -352,17 +372,6 @@ namespace ft
 				left->color = node_type::RED;
 				return false;
 			}
-		}
-
-		node_type *get_max(node_type *node)
-		{
-			if (node == NULL) {
-				return NULL;
-			}
-			while (node->right) {
-				node = node->right;
-			}
-			return node;
 		}
 
 		void swap_node(node_type *a, node_type *b)
@@ -513,10 +522,7 @@ namespace ft
 		iterator_type &operator++()
 		{
 			if (base->right) {
-				base = base->right;
-				while (base->left) {
-					base = base->left;
-				}
+				base = base->right->min();
 			} else {
 				node_type *parent = base->parent;
 
@@ -541,10 +547,7 @@ namespace ft
 		iterator_type &operator--()
 		{
 			if (base->left) {
-				base = base->left;
-				while (base->right) {
-					base = base->right;
-				}
+				base = base->left->max();
 			} else {
 				node_type *parent = base->parent;
 
