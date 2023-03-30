@@ -100,15 +100,16 @@ namespace ft
 		node_allocator allocator_;
 		value_compare  cmp_;
 		key_of_value   get_key_;
+		node_type     *min_;
 
 	  public:
-		rb_tree() : end_(), rend_(), root_(end_.left), allocator_(), cmp_(), get_key_()
+		rb_tree() : end_(), rend_(), root_(end_.left), allocator_(), cmp_(), get_key_(), min_()
 		{
 			init_structure();
 		}
 
 		rb_tree(const value_compare &cmp, const allocator_type &alloc)
-			: end_(), rend_(), root_(end_.left), allocator_(alloc), cmp_(cmp), get_key_()
+			: end_(), rend_(), root_(end_.left), allocator_(alloc), cmp_(cmp), get_key_(), min_(),
 		{
 			init_structure();
 		}
@@ -118,6 +119,7 @@ namespace ft
 		{
 			rend_.link_right(&end_);
 			end_.right = reinterpret_cast<node_type *>(-1);
+			min_       = &end_;
 		}
 
 	  public:
