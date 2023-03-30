@@ -486,6 +486,52 @@ namespace ft
 
 	};
 
+	template <typename NodeType>
+	class rb_tree_generator
+	{
+		typedef NodeType node_type;
+
+	  private:
+		node_type *base;
+
+	  public:
+		rb_tree_generator() : base() {}
+
+		explicit rb_tree_generator(node_type *n) : base(n) {}
+
+		node_type *next()
+		{
+			if (base->right) {
+				base = base->right->min();
+			} else {
+				node_type *parent = base->parent;
+
+				while (base != parent->left) {
+					base   = parent;
+					parent = parent->parent;
+				}
+				base = parent;
+			}
+			return base;
+		}
+
+		node_type *prev()
+		{
+			if (base->left) {
+				base = base->left->max();
+			} else {
+				node_type *parent = base->parent;
+
+				while (base != parent->right) {
+					base   = parent;
+					parent = parent->parent;
+				}
+				base = parent;
+			}
+			return base;
+		}
+	};
+
 	template <typename Value>
 	class rb_tree_iterator
 	{
