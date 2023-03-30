@@ -85,6 +85,16 @@ namespace ft
 			tree.insert(v);
 		}
 
+		bool empty() const
+		{
+			return tree.empty();
+		}
+
+		size_type size() const
+		{
+			return tree.size();
+		}
+
 		void clear()
 		{
 			tree.clear();

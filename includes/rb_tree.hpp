@@ -196,6 +196,16 @@ namespace ft
 			size_--;
 		}
 
+		bool empty() const
+		{
+			return size() == 0;
+		}
+
+		size_type size() const
+		{
+			return size_;
+		}
+
 		void clear()
 		{
 			delete_subtree(root_);
