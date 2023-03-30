@@ -532,9 +532,15 @@ namespace ft
 		}
 	};
 
+	template <typename>
+	class rb_tree_const_iterator;
+
 	template <typename Value>
 	class rb_tree_iterator
 	{
+		template <typename>
+		friend class rb_tree_const_iterator;
+
 	  public:
 		typedef Value                           value_type;
 		typedef Value                          &reference;
@@ -597,12 +603,14 @@ namespace ft
 			return copy;
 		}
 
-		bool operator==(const iterator_type &rhs) const
+		// 非メンバで定義すると実引数推定で除外されて
+		// non_const -> const_iteratorの暗黙の変換が発生しない
+		bool operator==(const const_iterator_type &rhs) const
 		{
 			return base == rhs.base;
 		}
 
-		bool operator!=(const iterator_type &rhs) const
+		bool operator!=(const const_iterator_type &rhs) const
 		{
 			return base != rhs.base;
 		}
@@ -611,6 +619,9 @@ namespace ft
 	template <typename Value>
 	class rb_tree_const_iterator
 	{
+		template <typename>
+		friend class rb_tree_iterator;
+
 	  public:
 		typedef Value                           value_type;
 		typedef const Value                    &reference;
@@ -675,8 +686,6 @@ namespace ft
 			return copy;
 		}
 
-		// 非メンバで定義すると実引数推定で除外されて
-		// non_const -> const_iteratorの暗黙の変換が発生しない
 		bool operator==(const iterator_type &rhs) const
 		{
 			return base == rhs.base;
