@@ -11,6 +11,12 @@
 
 namespace ft
 {
+	template <typename Value>
+	class rb_tree_iterator;
+
+	template <typename Value>
+	class rb_tree_const_iterator;
+
 	template <typename NodeType>
 	class rb_tree_generator;
 
@@ -96,6 +102,8 @@ namespace ft
 		typedef typename Allocator::template rebind<node_type>::other node_allocator;
 		// template 曖昧青解消子でrebindがテンプレートクラスであることを明示する
 		// template がない場合、< は小なり演算子として解釈される
+		typedef rb_tree_iterator<value_type>       iterator;
+		typedef rb_tree_const_iterator<value_type> const_iterator;
 
 	  protected:
 		node_type   end_;
@@ -196,6 +204,26 @@ namespace ft
 			promote_child(pos, child);
 			balance_for_erase(parent, child, pos);
 			delete_node(pos);
+		}
+
+		iterator begin()
+		{
+			return iterator(min_);
+		}
+
+		const_iterator begin() const
+		{
+			return const_iterator(min_);
+		}
+
+		iterator end()
+		{
+			return iterator(&end_);
+		}
+
+		const_iterator end() const
+		{
+			return const_iterator(&end_);
 		}
 
 	  private:

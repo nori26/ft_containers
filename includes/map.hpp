@@ -37,11 +37,11 @@ namespace ft
 		typedef map_key_of_value<key_type, value_type>                      key_of_value;
 		typedef rb_tree<key_type, value_type, key_of_value, tree_compare, allocator_type> tree_type;
 
-		//   public:
-		// 	typedef typename tree_type::iterator        iterator;
-		// 	typedef typename tree_type::const_iterator  const_iterator;
-		// 	typedef typename tree_type::size_type       size_type;
-		// 	typedef typename tree_type::difference_type difference_type;
+	  public:
+		typedef typename tree_type::iterator       iterator;
+		typedef typename tree_type::const_iterator const_iterator;
+		// typedef typename tree_type::size_type       size_type;
+		// typedef typename tree_type::difference_type difference_type;
 
 	  private:
 		tree_type tree;
@@ -77,6 +77,30 @@ namespace ft
 		// explicit map(const key_compare &comp, const allocator_type &alloc = allocator_type())
 		// 	: tree(comp, alloc)
 		// {}
+		void insert(const value_type &v)
+		{
+			tree.insert(v);
+		}
+
+		iterator begin()
+		{
+			return tree.begin();
+		}
+
+		const_iterator begin() const
+		{
+			return tree.begin();
+		}
+
+		iterator end()
+		{
+			return tree.end();
+		}
+
+		const_iterator end() const
+		{
+			return tree.end();
+		}
 	};
 
 	template <typename Key, typename Mapped, typename Compare>
