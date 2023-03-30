@@ -140,26 +140,9 @@ namespace ft
 		}
 
 	  public:
-		// TODO 例外安全
 		~rb_tree()
 		{
-			std::queue<node_type *> q;
-
-			if (root_ == NULL) {
-				return ;
-			}
-			q.push(root_);
-			while (!q.empty()) {
-				node_type *nd = q.front();
-				if (nd->left != NULL) {
-					q.push(nd->left);
-				}
-				if (nd->right != NULL) {
-					q.push(nd->right);
-				}
-				delete_node(nd);
-				q.pop();
-			}
+			clear();
 		}
 
 		value_compare &value_cmp()
