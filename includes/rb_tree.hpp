@@ -11,6 +11,9 @@
 
 namespace ft
 {
+	template <typename NodeType>
+	class rb_tree_generator;
+
 	template <typename Value>
 	struct rb_tree_node
 	{
@@ -81,6 +84,9 @@ namespace ft
 		typedef Compare                            value_compare;
 		typedef ft::pair<node_type *, node_type *> pos_and_parent;
 		typedef KeyOfValue                         key_of_value;
+
+	  private:
+		typedef rb_tree_generator<node_type> generator;
 
 	  public:
 		typedef Key                                                   key_type;
@@ -162,6 +168,9 @@ namespace ft
 			pos = new_node(value);
 			link_parent(pos, parent);
 			balance_for_insert(pos);
+			if (generator(pos).next() == min_) {
+				min_ = pos;
+			}
 		}
 
 	  private:
@@ -230,6 +239,9 @@ namespace ft
 
 			if (pos == NULL) {
 				return;
+			}
+			if (pos == min_) {
+				min_ = generator(min_).next();
 			}
 			if (pos->left) {
 				swap_node(pos, pos->left->max());
