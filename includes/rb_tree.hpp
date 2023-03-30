@@ -99,6 +99,7 @@ namespace ft
 		typedef Key                                                   key_type;
 		typedef Value                                                 value_type;
 		typedef Allocator                                             allocator_type;
+		typedef size_t                                                size_type;
 		typedef typename node_type::color_type                        color_type;
 		typedef typename Allocator::template rebind<node_type>::other node_allocator;
 		// template 曖昧青解消子でrebindがテンプレートクラスであることを明示する
@@ -118,15 +119,16 @@ namespace ft
 		value_compare  cmp_;
 		key_of_value   get_key_;
 		node_type     *min_;
+		size_type      size_;
 
 	  public:
-		rb_tree() : end_(), rend_(), root_(end_.left), allocator_(), cmp_(), get_key_(), min_()
+		rb_tree() : end_(), rend_(), root_(end_.left), allocator_(), cmp_(), get_key_(), min_(), size_()
 		{
 			init_structure();
 		}
 
 		rb_tree(const value_compare &cmp, const allocator_type &alloc)
-			: end_(), rend_(), root_(end_.left), allocator_(alloc), cmp_(cmp), get_key_(), min_()
+			: end_(), rend_(), root_(end_.left), allocator_(alloc), cmp_(cmp), get_key_(), min_(), size_()
 		{
 			init_structure();
 		}
@@ -165,6 +167,7 @@ namespace ft
 			if (generator(pos).next() == min_) {
 				min_ = pos;
 			}
+			size_++;
 		}
 
 		void erase(const key_type &key)
@@ -190,6 +193,7 @@ namespace ft
 			promote_child(pos, child);
 			balance_for_erase(parent, child, pos);
 			delete_node(pos);
+			size_--;
 		}
 
 		void clear()
