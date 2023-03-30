@@ -7,6 +7,7 @@
 #include <memory>
 #include <queue>
 
+#include "reverse_iterator.hpp"
 #include "utility.hpp"
 
 namespace ft
@@ -102,8 +103,10 @@ namespace ft
 		typedef typename Allocator::template rebind<node_type>::other node_allocator;
 		// template 曖昧青解消子でrebindがテンプレートクラスであることを明示する
 		// template がない場合、< は小なり演算子として解釈される
-		typedef rb_tree_iterator<value_type>       iterator;
-		typedef rb_tree_const_iterator<value_type> const_iterator;
+		typedef rb_tree_iterator<value_type>         iterator;
+		typedef rb_tree_const_iterator<value_type>   const_iterator;
+		typedef ft::reverse_iterator<iterator>       reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 	  protected:
 		node_type   end_;
@@ -224,6 +227,26 @@ namespace ft
 		const_iterator end() const
 		{
 			return const_iterator(&end_);
+		}
+
+		reverse_iterator rbegin()
+		{
+			return reverse_iterator(end());
+		}
+
+		const_reverse_iterator rbegin() const
+		{
+			return const_reverse_iterator(end());
+		}
+
+		reverse_iterator rend()
+		{
+			return reverse_iterator(begin());
+		}
+
+		const_reverse_iterator rend() const
+		{
+			return const_reverse_iterator(begin());
 		}
 
 	  private:

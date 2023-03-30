@@ -38,8 +38,10 @@ namespace ft
 		typedef rb_tree<key_type, value_type, key_of_value, tree_compare, allocator_type> tree_type;
 
 	  public:
-		typedef typename tree_type::iterator       iterator;
-		typedef typename tree_type::const_iterator const_iterator;
+		typedef typename tree_type::iterator               iterator;
+		typedef typename tree_type::const_iterator         const_iterator;
+		typedef typename tree_type::reverse_iterator       reverse_iterator;
+		typedef typename tree_type::const_reverse_iterator const_reverse_iterator;
 		// typedef typename tree_type::size_type       size_type;
 		// typedef typename tree_type::difference_type difference_type;
 
@@ -100,6 +102,26 @@ namespace ft
 		const_iterator end() const
 		{
 			return tree.end();
+		}
+
+		reverse_iterator rbegin()
+		{
+			return tree.rbegin();
+		}
+
+		const_reverse_iterator rbegin() const
+		{
+			return tree.rbegin();
+		}
+
+		reverse_iterator rend()
+		{
+			return tree.rend();
+		}
+
+		const_reverse_iterator rend() const
+		{
+			return tree.rend();
 		}
 	};
 
