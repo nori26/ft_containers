@@ -115,7 +115,7 @@ namespace ft
 		}
 
 		rb_tree(const value_compare &cmp, const allocator_type &alloc)
-			: end_(), rend_(), root_(end_.left), allocator_(alloc), cmp_(cmp), get_key_(), min_(),
+			: end_(), rend_(), root_(end_.left), allocator_(alloc), cmp_(cmp), get_key_(), min_()
 		{
 			init_structure();
 		}
