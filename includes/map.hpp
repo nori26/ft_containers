@@ -42,7 +42,7 @@ namespace ft
 		typedef typename tree_type::const_iterator         const_iterator;
 		typedef typename tree_type::reverse_iterator       reverse_iterator;
 		typedef typename tree_type::const_reverse_iterator const_reverse_iterator;
-		// typedef typename tree_type::size_type       size_type;
+		typedef typename tree_type::size_type              size_type;
 		// typedef typename tree_type::difference_type difference_type;
 
 	  private:
@@ -96,9 +96,40 @@ namespace ft
 			(void)other;
 		}
 
-		void insert(const value_type &v)
+		pair<iterator, bool> insert(const value_type &value)
 		{
-			tree.insert(v);
+			(void)value;
+			return pair<iterator, bool>();
+		}
+
+		iterator insert(iterator hint, const value_type &value)
+		{
+			(void)hint, (void)value;
+			return iterator();
+		}
+
+		template <class InputIt>
+		void insert(InputIt first, InputIt last)
+		{
+			(void)first, (void)last;
+		}
+
+		iterator erase(iterator pos)
+		{
+			(void)pos;
+			return iterator();
+		}
+
+		iterator erase(iterator first, iterator last)
+		{
+			(void)first, (void)last;
+			return iterator();
+		}
+
+		size_type erase(const key_type &key)
+		{
+			(void)key;
+			return 0;
 		}
 
 		bool empty() const
