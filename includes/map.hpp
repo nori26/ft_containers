@@ -80,6 +80,22 @@ namespace ft
 			: tree(comp, alloc)
 		{}
 
+		// TODO
+		template <class InputIt>
+		map(InputIt          first,
+			InputIt          last,
+			const Compare   &comp  = Compare(),
+			const Allocator &alloc = Allocator())
+		{
+			(void)first, (void)last, (void)comp, (void)alloc;
+		}
+
+		// TODO
+		map(const map &other)
+		{
+			(void)other;
+		}
+
 		void insert(const value_type &v)
 		{
 			tree.insert(v);
