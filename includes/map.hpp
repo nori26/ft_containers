@@ -76,9 +76,10 @@ namespace ft
 	  public:
 		map() : tree() {}
 
-		// explicit map(const key_compare &comp, const allocator_type &alloc = allocator_type())
-		// 	: tree(comp, alloc)
-		// {}
+		explicit map(const key_compare &comp, const allocator_type &alloc = allocator_type())
+			: tree(comp, alloc)
+		{}
+
 		void insert(const value_type &v)
 		{
 			tree.insert(v);
