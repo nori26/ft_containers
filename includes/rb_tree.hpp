@@ -543,8 +543,10 @@ namespace ft
 		typedef std::bidirectional_iterator_tag iterator_category;
 
 	  private:
-		typedef rb_tree_node<Value> node_type;
-		typedef rb_tree_iterator    iterator_type;
+		typedef rb_tree_node<Value>           node_type;
+		typedef rb_tree_generator<node_type>  generator;
+		typedef rb_tree_iterator              iterator_type;
+		typedef rb_tree_const_iterator<Value> const_iterator_type;
 
 	  private:
 		node_type *base;
@@ -567,17 +569,7 @@ namespace ft
 
 		iterator_type &operator++()
 		{
-			if (base->right) {
-				base = base->right->min();
-			} else {
-				node_type *parent = base->parent;
-
-				while (base != parent->left) {
-					base   = parent;
-					parent = parent->parent;
-				}
-				base = parent;
-			}
+			base = generator(base).next();
 			return *this;
 		}
 
@@ -592,17 +584,7 @@ namespace ft
 
 		iterator_type &operator--()
 		{
-			if (base->left) {
-				base = base->left->max();
-			} else {
-				node_type *parent = base->parent;
-
-				while (base != parent->right) {
-					base   = parent;
-					parent = parent->parent;
-				}
-				base = parent;
-			}
+			base = generator(base).prev();
 			return *this;
 		}
 
