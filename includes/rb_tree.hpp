@@ -608,6 +608,85 @@ namespace ft
 		}
 	};
 
+	template <typename Value>
+	class rb_tree_const_iterator
+	{
+	  public:
+		typedef Value                           value_type;
+		typedef const Value                    &reference;
+		typedef const Value                    *pointer;
+		typedef ptrdiff_t                       difference_type;
+		typedef std::bidirectional_iterator_tag iterator_category;
+
+	  private:
+		typedef const rb_tree_node<Value>    node_type;
+		typedef rb_tree_const_iterator       iterator_type;
+		typedef rb_tree_generator<node_type> generator;
+		typedef rb_tree_iterator<Value>      non_const_iterator_type;
+
+	  private:
+		node_type *base;
+
+	  public:
+		rb_tree_const_iterator() : base() {}
+
+		explicit rb_tree_const_iterator(node_type *n) : base(n) {}
+
+		rb_tree_const_iterator(const non_const_iterator_type &it) : base(it.base) {}
+
+		reference operator*() const
+		{
+			return base->value;
+		}
+
+		// TODO valueの持ち方ポインタの方がいい？例外安全関連とか
+		pointer operator->() const
+		{
+			return &base->value;
+		}
+
+		iterator_type &operator++()
+		{
+			base = generator(base).next();
+			return *this;
+		}
+
+		iterator_type operator++(int)
+		{
+			iterator_type &self = *this;
+			iterator_type  copy = self;
+
+			++self;
+			return copy;
+		}
+
+		iterator_type &operator--()
+		{
+			base = generator(base).prev();
+			return *this;
+		}
+
+		iterator_type operator--(int)
+		{
+			iterator_type &self = *this;
+			iterator_type  copy = self;
+
+			--self;
+			return copy;
+		}
+
+		// 非メンバで定義すると実引数推定で除外されて
+		// non_const -> const_iteratorの暗黙の変換が発生しない
+		bool operator==(const iterator_type &rhs) const
+		{
+			return base == rhs.base;
+		}
+
+		bool operator!=(const iterator_type &rhs) const
+		{
+			return base != rhs.base;
+		}
+	};
 } // namespace ft
 
 #endif
