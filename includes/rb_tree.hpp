@@ -173,7 +173,52 @@ namespace ft
 			}
 		}
 
+		void erase(const key_type &key)
+		{
+			node_type *pos = find_pos(key).first;
+			node_type *parent;
+			node_type *child;
+
+			if (pos == NULL) {
+				return;
+			}
+			if (pos == min_) {
+				min_ = generator(min_).next();
+			}
+			if (pos->left) {
+				swap_node(pos, pos->left->max());
+				child  = pos->left;
+				parent = pos->parent;
+			} else {
+				child  = pos->right;
+				parent = pos->parent;
+			}
+			promote_child(pos, child);
+			balance_for_erase(parent, child, pos);
+			delete_node(pos);
+		}
+
 	  private:
+		pos_and_parent find_pos(const key_type &key)
+		{
+			node_type *parent = &end_;
+			node_type *pos    = root_;
+
+			while (pos) {
+				if (value_cmp()(key, pos->value)) {
+					parent = pos;
+					pos    = pos->left;
+				} else if (value_cmp()(pos->value, key)) {
+					parent = pos;
+					pos    = pos->right;
+				} else {
+					break;
+				}
+			}
+			return ft::make_pair(pos, parent);
+		}
+
+		// TODO 例外安全
 		node_type *new_node(const value_type &value)
 		{
 			node_type *p = allocator_.allocate(1);
@@ -230,52 +275,6 @@ namespace ft
 			}
 		}
 
-	  public:
-		void erase(const key_type &key)
-		{
-			node_type *pos = find_pos(key).first;
-			node_type *parent;
-			node_type *child;
-
-			if (pos == NULL) {
-				return;
-			}
-			if (pos == min_) {
-				min_ = generator(min_).next();
-			}
-			if (pos->left) {
-				swap_node(pos, pos->left->max());
-				child  = pos->left;
-				parent = pos->parent;
-			} else {
-				child  = pos->right;
-				parent = pos->parent;
-			}
-			promote_child(pos, child);
-			balance_for_erase(parent, child, pos);
-			delete_node(pos);
-		}
-
-		pos_and_parent find_pos(const key_type &key)
-		{
-			node_type *parent = &end_;
-			node_type *pos    = root_;
-
-			while (pos) {
-				if (value_cmp()(key, pos->value)) {
-					parent = pos;
-					pos    = pos->left;
-				} else if (value_cmp()(pos->value, key)) {
-					parent = pos;
-					pos    = pos->right;
-				} else {
-					break;
-				}
-			}
-			return ft::make_pair(pos, parent);
-		}
-
-	  private:
 		// childがNULLの場合もあるのでparentを受け取る
 		// grand_parentがend_の可能性もあるのでポインタで比較
 		void promote_child(node_type *parent, node_type *child)
