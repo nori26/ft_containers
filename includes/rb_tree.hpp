@@ -209,6 +209,13 @@ namespace ft
 			delete_node(pos);
 		}
 
+		void clear()
+		{
+			delete_subtree(root_);
+			root_ = NULL;
+			min_  = &end_;
+		}
+
 		iterator begin()
 		{
 			return iterator(min_);
@@ -546,6 +553,18 @@ namespace ft
 			new_top->link_right(new_right);
 			new_right->link_left(isolated);
 			return new_top;
+		}
+
+		void delete_subtree(node_type *n)
+		{
+			if (n == NULL) {
+				return;
+			}
+			node_type *left  = n->left;
+			node_type *right = n->right;
+			delete_node(n);
+			delete_subtree(left);
+			delete_subtree(right);
 		}
 
 	};

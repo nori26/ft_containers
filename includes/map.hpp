@@ -85,6 +85,11 @@ namespace ft
 			tree.insert(v);
 		}
 
+		void clear()
+		{
+			tree.clear();
+		}
+
 		iterator begin()
 		{
 			return tree.begin();
