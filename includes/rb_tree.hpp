@@ -589,34 +589,44 @@ namespace ft
 
 		node_type *next()
 		{
-			if (base->right) {
-				base = base->right->min();
-			} else {
-				node_type *parent = base->parent;
-
-				while (base != parent->left) {
-					base   = parent;
-					parent = parent->parent;
-				}
-				base = parent;
-			}
-			return base;
+			return next(base);
 		}
 
 		node_type *prev()
 		{
-			if (base->left) {
-				base = base->left->max();
-			} else {
-				node_type *parent = base->parent;
+			return prev(base);
+		}
 
-				while (base != parent->right) {
-					base   = parent;
+		static node_type *next(node_type *node)
+		{
+			if (node->right) {
+				node = node->right->min();
+			} else {
+				node_type *parent = node->parent;
+
+				while (node != parent->left) {
+					node   = parent;
 					parent = parent->parent;
 				}
-				base = parent;
+				node = parent;
 			}
-			return base;
+			return node;
+		}
+
+		static node_type *prev(node_type *node)
+		{
+			if (node->left) {
+				node = node->left->max();
+			} else {
+				node_type *parent = node->parent;
+
+				while (node != parent->right) {
+					node   = parent;
+					parent = parent->parent;
+				}
+				node = parent;
+			}
+			return node;
 		}
 	};
 
