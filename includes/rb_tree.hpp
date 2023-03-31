@@ -86,10 +86,9 @@ namespace ft
 	{
 		// protected for visualize
 	  protected:
-		typedef rb_tree_node<Value>                node_type;
-		typedef Compare                            value_compare;
-		typedef ft::pair<node_type *, node_type *> pos_and_parent;
-		typedef KeyOfValue                         key_of_value;
+		typedef rb_tree_node<Value> node_type;
+		typedef Compare             value_compare;
+		typedef KeyOfValue          key_of_value;
 
 	  private:
 		typedef rb_tree_generator<node_type> generator;
@@ -161,15 +160,16 @@ namespace ft
 
 		pair<iterator, bool> insert(const value_type &value)
 		{
-			pos_and_parent nodes  = find_pos(get_key_(value));
-			node_type     *pos    = nodes.first;
-			node_type     *parent = nodes.second;
+			ft::pair<node_type *, node_type **> nodes  = find_pos(get_key_(value));
+			node_type                          *parent = nodes.first;
+			node_type                         **child  = nodes.second;
 
-			if (pos) {
-				return ft::make_pair(pos, false);
+			if (*child) {
+				return ft::make_pair(*child, false);
 			}
-			pos = new_node(value);
-			link_parent(pos, parent);
+			node_type *pos   = new_node(value);
+			*child           = pos;
+			(*child)->parent = parent;
 			balance_for_insert(pos);
 			if (generator(pos).next() == min_) {
 				min_ = pos;
@@ -180,7 +180,7 @@ namespace ft
 
 		void erase(const key_type &key)
 		{
-			node_type *pos = find_pos(key).first;
+			node_type *pos = *find_pos(key).second;
 			node_type *parent;
 			node_type *child;
 
@@ -262,23 +262,23 @@ namespace ft
 		}
 
 	  private:
-		pos_and_parent find_pos(const key_type &key)
+		ft::pair<node_type *, node_type **> find_pos(const key_type &key)
 		{
-			node_type *parent = &end_;
-			node_type *pos    = root_;
+			node_type  *parent = &end_;
+			node_type **child  = &end_.left;
 
-			while (pos) {
-				if (value_cmp()(key, pos->value)) {
-					parent = pos;
-					pos    = pos->left;
-				} else if (value_cmp()(pos->value, key)) {
-					parent = pos;
-					pos    = pos->right;
+			while (*child) {
+				if (value_cmp()(key, (*child)->value)) {
+					parent = *child;
+					child  = &(*child)->left;
+				} else if (value_cmp()((*child)->value, key)) {
+					parent = *child;
+					child  = &(*child)->right;
 				} else {
 					break;
 				}
 			}
-			return ft::make_pair(pos, parent);
+			return ft::make_pair(parent, child);
 		}
 
 		// TODO 例外安全
