@@ -5,7 +5,6 @@
 #include <iostream>
 #include <iterator>
 #include <memory>
-#include <queue>
 
 #include "reverse_iterator.hpp"
 #include "utility.hpp"
