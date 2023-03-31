@@ -77,7 +77,7 @@ namespace ft
 		map() : tree() {}
 
 		explicit map(const key_compare &comp, const allocator_type &alloc = allocator_type())
-			: tree(comp, alloc)
+			: tree(tree_compare(comp), alloc)
 		{}
 
 		// TODO
