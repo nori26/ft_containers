@@ -126,8 +126,15 @@ namespace ft
 			init_structure();
 		}
 
-		rb_tree(const value_compare &cmp, const allocator_type &alloc)
-			: end_(), rend_(), root_(end_.left), allocator_(alloc), cmp_(cmp), get_key_(), min_(), size_()
+		rb_tree(const value_compare &cmp, const allocator_type &alloc = allocator_type())
+			: end_(),
+			  rend_(),
+			  root_(end_.left),
+			  allocator_(alloc),
+			  cmp_(cmp),
+			  get_key_(),
+			  min_(),
+			  size_()
 		{
 			init_structure();
 		}
