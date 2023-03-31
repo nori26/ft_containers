@@ -121,7 +121,8 @@ namespace ft
 		size_type      size_;
 
 	  public:
-		rb_tree() : end_(), rend_(), root_(end_.left), allocator_(), cmp_(), get_key_(), min_(), size_()
+		rb_tree()
+			: end_(), rend_(), root_(end_.left), allocator_(), cmp_(), get_key_(), min_(), size_()
 		{
 			init_structure();
 		}
