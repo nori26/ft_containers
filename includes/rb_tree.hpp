@@ -152,14 +152,14 @@ namespace ft
 			return cmp_;
 		}
 
-		void insert(const value_type &value)
+		pair<iterator, bool> insert(const value_type &value)
 		{
 			pos_and_parent nodes  = find_pos(get_key_(value));
 			node_type     *pos    = nodes.first;
 			node_type     *parent = nodes.second;
 
 			if (pos) {
-				return;
+				return ft::make_pair(pos, false);
 			}
 			pos = new_node(value);
 			link_parent(pos, parent);
@@ -168,6 +168,7 @@ namespace ft
 				min_ = pos;
 			}
 			size_++;
+			return ft::make_pair(pos, true);
 		}
 
 		void erase(const key_type &key)

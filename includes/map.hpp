@@ -98,8 +98,7 @@ namespace ft
 
 		pair<iterator, bool> insert(const value_type &value)
 		{
-			(void)value;
-			return pair<iterator, bool>();
+			return tree.insert(value);
 		}
 
 		iterator insert(iterator hint, const value_type &value)
