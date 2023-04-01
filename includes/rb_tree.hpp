@@ -111,6 +111,95 @@ namespace ft
 		typedef ft::reverse_iterator<iterator>       reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
+	  private:
+		class node_handler
+		{
+			rb_tree &tree_;
+			class node_creator
+			{
+				rb_tree   &tree_;
+				node_type *node_;
+				bool       is_node_constructed_;
+				bool       is_value_constructed_;
+
+			  public:
+				node_creator(rb_tree &tree)
+					: tree_(tree),
+					  node_(),
+					  is_node_constructed_(false),
+					  is_value_constructed_(false)
+				{}
+
+				node_type *create(const value_type &v)
+				{
+					node_ = tree_.node_allocator_.allocate(1);
+					construct_node(node_, NULL);
+					node_->value = tree_.value_allocator_.allocate(1);
+					construct_value(node_->value, v);
+					return release();
+				}
+
+				~node_creator()
+				{
+					if (node_ == NULL) {
+						return;
+					}
+					if (is_node_constructed_) {
+						if (is_value_constructed_) {
+							tree_.value_allocator_.destroy(node_->value);
+						}
+						if (node_->value) {
+							tree_.value_allocator_.deallocate(node_->value, 1);
+						}
+						tree_.node_allocator_.destroy(node_);
+					}
+					tree_.node_allocator_.deallocate(node_, 1);
+				}
+
+			  private:
+				void construct_value(value_type *v, const value_type &data)
+				{
+					tree_.value_allocator_.construct(v, data);
+					is_value_constructed_ = true;
+				}
+
+				void construct_node(node_type *n, value_type *v)
+				{
+					tree_.node_allocator_.construct(n, node_type(v, node_type::RED));
+					is_node_constructed_ = true;
+				}
+
+				node_type *release()
+				{
+					node_type *ret       = node_;
+					node_                = NULL;
+					is_node_constructed_ = is_value_constructed_ = false;
+					return ret;
+				}
+			};
+
+		  public:
+			node_handler(rb_tree &tree) : tree_(tree) {}
+
+			node_type *create(const value_type &v)
+			{
+				return node_creator(tree_).create(v);
+			}
+
+			void destroy(node_type *n)
+			{
+				if (n == NULL) {
+					return;
+				}
+				if (n->value) {
+					tree_.value_allocator_.destroy(n->value);
+					tree_.value_allocator_.deallocate(n->value, 1);
+				}
+				tree_.node_allocator_.destroy(n);
+				tree_.node_allocator_.deallocate(n, 1);
+			}
+		};
+
 	  protected:
 		node_type   end_;
 		node_type   rend_;
