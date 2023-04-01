@@ -20,6 +20,8 @@ namespace ft
 	template <typename NodeType>
 	class rb_tree_generator;
 
+	// コピー回数の最小化と、例外安全の両立のため、valueはポインタで持つ
+	// allocatorをnodeが持つのは今一なので、allocate, deallocateは使用者の責任
 	template <typename Value>
 	struct rb_tree_node
 	{
@@ -29,7 +31,7 @@ namespace ft
 		};
 		typedef Value value_type;
 
-		value_type    value;
+		value_type   *value;
 		color_type    color;
 		rb_tree_node *parent;
 		rb_tree_node *left;
@@ -37,7 +39,7 @@ namespace ft
 
 		rb_tree_node() : value(), color(BLACK), parent(), left(), right() {}
 
-		rb_tree_node(const value_type &v) : value(v), color(RED), parent(), left(), right() {}
+		rb_tree_node(value_type *v) : value(v), color(RED), parent(), left(), right() {}
 
 		void link_left(rb_tree_node *new_left)
 		{
@@ -113,7 +115,8 @@ namespace ft
 		node_type *&root_;
 
 	  private:
-		node_allocator allocator_;
+		allocator_type value_allocator_;
+		node_allocator node_allocator_;
 		value_compare  cmp_;
 		key_of_value   get_key_;
 		node_type     *min_;
@@ -121,7 +124,15 @@ namespace ft
 
 	  public:
 		rb_tree()
-			: end_(), rend_(), root_(end_.left), allocator_(), cmp_(), get_key_(), min_(), size_()
+			: end_(),
+			  rend_(),
+			  root_(end_.left),
+			  value_allocator_(),
+			  node_allocator_(),
+			  cmp_(),
+			  get_key_(),
+			  min_(),
+			  size_()
 		{
 			init_structure();
 		}
@@ -130,7 +141,8 @@ namespace ft
 			: end_(),
 			  rend_(),
 			  root_(end_.left),
-			  allocator_(alloc),
+			  value_allocator_(alloc),
+			  node_allocator_(alloc),
 			  cmp_(cmp),
 			  get_key_(),
 			  min_(),
@@ -268,10 +280,11 @@ namespace ft
 			node_type **child  = &end_.left;
 
 			while (*child) {
-				if (value_cmp()(key, (*child)->value)) {
+				value_type &value = *(*child)->value;
+				if (value_cmp()(key, value)) {
 					parent = *child;
 					child  = &(*child)->left;
-				} else if (value_cmp()((*child)->value, key)) {
+				} else if (value_cmp()(value, key)) {
 					parent = *child;
 					child  = &(*child)->right;
 				} else {
@@ -284,9 +297,12 @@ namespace ft
 		// TODO 例外安全
 		node_type *new_node(const value_type &value)
 		{
-			node_type *p = allocator_.allocate(1);
-			allocator_.construct(p, node_type(value));
-			return p;
+			node_type  *node = node_allocator_.allocate(1);
+			value_type *val  = value_allocator_.allocate(1);
+
+			value_allocator_.construct(val, value);
+			node_allocator_.construct(node, node_type(val));
+			return node;
 		}
 
 		void balance_for_insert(node_type *top)
@@ -502,8 +518,10 @@ namespace ft
 			if (node == NULL) {
 				return;
 			}
-			allocator_.destroy(node);
-			allocator_.deallocate(node, 1);
+			value_allocator_.destroy(node->value);
+			value_allocator_.deallocate(node->value, 1);
+			node_allocator_.destroy(node);
+			node_allocator_.deallocate(node, 1);
 		}
 
 		bool has_red_child(node_type *n)
@@ -523,7 +541,7 @@ namespace ft
 
 		void link_parent(node_type *n, node_type *new_parent)
 		{
-			if (new_parent == &end_ || value_cmp()(n->value, new_parent->value)) {
+			if (new_parent == &end_ || value_cmp()(*n->value, *new_parent->value)) {
 				new_parent->link_left(n);
 			} else {
 				new_parent->link_right(n);
@@ -662,13 +680,12 @@ namespace ft
 
 		reference operator*() const
 		{
-			return base->value;
+			return *base->value;
 		}
 
-		// TODO valueの持ち方ポインタの方がいい？例外安全関連とか
 		pointer operator->() const
 		{
-			return &base->value;
+			return base->value;
 		}
 
 		iterator_type &operator++()
@@ -745,13 +762,13 @@ namespace ft
 
 		reference operator*() const
 		{
-			return base->value;
+			return *base->value;
 		}
 
 		// TODO valueの持ち方ポインタの方がいい？例外安全関連とか
 		pointer operator->() const
 		{
-			return &base->value;
+			return base->value;
 		}
 
 		iterator_type &operator++()
