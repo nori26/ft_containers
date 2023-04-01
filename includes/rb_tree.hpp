@@ -611,15 +611,6 @@ namespace ft
 			return !is_black(n);
 		}
 
-		void link_parent(node_type *n, node_type *new_parent)
-		{
-			if (new_parent == &end_ || value_cmp()(*n->value, *new_parent->value)) {
-				new_parent->link_left(n);
-			} else {
-				new_parent->link_right(n);
-			}
-		}
-
 		node_type *rotate_left(node_type *top)
 		{
 			if (top == NULL || top->right == NULL) {
