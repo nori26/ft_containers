@@ -37,9 +37,11 @@ namespace ft
 		rb_tree_node *left;
 		rb_tree_node *right;
 
-		rb_tree_node() : value(), color(BLACK), parent(), left(), right() {}
+		rb_tree_node(color_type c = BLACK) : value(), color(c), parent(), left(), right() {}
 
-		rb_tree_node(value_type *v) : value(v), color(RED), parent(), left(), right() {}
+		rb_tree_node(value_type *v, color_type c = RED)
+			: value(v), color(c), parent(), left(), right()
+		{}
 
 		void link_left(rb_tree_node *new_left)
 		{
@@ -124,8 +126,8 @@ namespace ft
 
 	  public:
 		rb_tree()
-			: end_(),
-			  rend_(),
+			: end_(node_type::BLACK),
+			  rend_(node_type::BLACK),
 			  root_(end_.left),
 			  value_allocator_(),
 			  node_allocator_(),
@@ -138,8 +140,8 @@ namespace ft
 		}
 
 		rb_tree(const value_compare &cmp, const allocator_type &alloc = allocator_type())
-			: end_(),
-			  rend_(),
+			: end_(node_type::BLACK),
+			  rend_(node_type::BLACK),
 			  root_(end_.left),
 			  value_allocator_(alloc),
 			  node_allocator_(alloc),
