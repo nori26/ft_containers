@@ -46,7 +46,7 @@ namespace ft
 		// typedef typename tree_type::difference_type difference_type;
 
 	  private:
-		tree_type tree;
+		tree_type tree_;
 
 	  public:
 		class value_compare
@@ -74,10 +74,10 @@ namespace ft
 		};
 
 	  public:
-		map() : tree() {}
+		map() : tree_() {}
 
 		explicit map(const key_compare &comp, const allocator_type &alloc = allocator_type())
-			: tree(tree_compare(comp), alloc)
+			: tree_(tree_compare(comp), alloc)
 		{}
 
 		// TODO
@@ -98,7 +98,7 @@ namespace ft
 
 		pair<iterator, bool> insert(const value_type &value)
 		{
-			return tree.insert(value);
+			return tree_.insert(value);
 		}
 
 		iterator insert(iterator hint, const value_type &value)
@@ -128,62 +128,63 @@ namespace ft
 		size_type erase(const key_type &key)
 		{
 			(void)key;
+			tree_.erase(key);
 			return 0;
 		}
 
 		bool empty() const
 		{
-			return tree.empty();
+			return tree_.empty();
 		}
 
 		size_type size() const
 		{
-			return tree.size();
+			return tree_.size();
 		}
 
 		void clear()
 		{
-			tree.clear();
+			tree_.clear();
 		}
 
 		iterator begin()
 		{
-			return tree.begin();
+			return tree_.begin();
 		}
 
 		const_iterator begin() const
 		{
-			return tree.begin();
+			return tree_.begin();
 		}
 
 		iterator end()
 		{
-			return tree.end();
+			return tree_.end();
 		}
 
 		const_iterator end() const
 		{
-			return tree.end();
+			return tree_.end();
 		}
 
 		reverse_iterator rbegin()
 		{
-			return tree.rbegin();
+			return tree_.rbegin();
 		}
 
 		const_reverse_iterator rbegin() const
 		{
-			return tree.rbegin();
+			return tree_.rbegin();
 		}
 
 		reverse_iterator rend()
 		{
-			return tree.rend();
+			return tree_.rend();
 		}
 
 		const_reverse_iterator rend() const
 		{
-			return tree.rend();
+			return tree_.rend();
 		}
 	};
 
