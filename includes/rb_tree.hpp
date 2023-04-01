@@ -551,10 +551,10 @@ namespace ft
 
 		void swap_node(node_type *a, node_type *b)
 		{
-			if (a == b->parent) {
-				swap_adjacent_node(a, b);
-			} else if (b == a->parent) {
-				swap_adjacent_node(b, a);
+			if (a->parent == b) {
+				swap_node_with_parent(a);
+			} else if (b->parent == a) {
+				swap_node_with_parent(b);
 			} else {
 				node_type *a_parent = a->parent;
 				node_type *a_left   = a->left;
@@ -578,10 +578,11 @@ namespace ft
 			}
 		}
 
-		void swap_adjacent_node(node_type *parent, node_type *child)
+		void swap_node_with_parent(node_type *child)
 		{
-			node_type *left  = child->left;
-			node_type *right = child->right;
+			node_type *parent = child->parent;
+			node_type *left   = child->left;
+			node_type *right  = child->right;
 
 			promote_child(parent, child);
 			if (parent->left == child) {
