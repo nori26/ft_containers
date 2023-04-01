@@ -112,7 +112,7 @@ namespace ft
 		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 	  private:
-		class node_handler
+		class node_manager
 		{
 			rb_tree &tree_;
 			class node_creator
@@ -179,7 +179,7 @@ namespace ft
 			};
 
 		  public:
-			node_handler(rb_tree &tree) : tree_(tree) {}
+			node_manager(rb_tree &tree) : tree_(tree) {}
 
 			node_type *create(const value_type &v)
 			{
@@ -206,6 +206,7 @@ namespace ft
 		node_type *&root_;
 
 	  private:
+		node_manager   node_manager_;
 		allocator_type value_allocator_;
 		node_allocator node_allocator_;
 		value_compare  cmp_;
@@ -218,6 +219,7 @@ namespace ft
 			: end_(node_type::BLACK),
 			  rend_(node_type::BLACK),
 			  root_(end_.left),
+			  node_manager_(*this),
 			  value_allocator_(),
 			  node_allocator_(),
 			  cmp_(),
@@ -232,6 +234,7 @@ namespace ft
 			: end_(node_type::BLACK),
 			  rend_(node_type::BLACK),
 			  root_(end_.left),
+			  node_manager_(*this),
 			  value_allocator_(alloc),
 			  node_allocator_(alloc),
 			  cmp_(cmp),
@@ -270,7 +273,7 @@ namespace ft
 			if (*child) {
 				return ft::make_pair(*child, false);
 			}
-			node_type *pos   = new_node(value);
+			node_type *pos   = node_manager_.create(value);
 			*child           = pos;
 			(*child)->parent = parent;
 			balance_for_insert(pos);
@@ -303,7 +306,7 @@ namespace ft
 			}
 			promote_child(pos, child);
 			balance_for_erase(parent, child, pos);
-			delete_node(pos);
+			node_manager_.destroy(pos);
 			size_--;
 		}
 
@@ -383,17 +386,6 @@ namespace ft
 				}
 			}
 			return ft::make_pair(parent, child);
-		}
-
-		// TODO 例外安全
-		node_type *new_node(const value_type &value)
-		{
-			node_type  *node = node_allocator_.allocate(1);
-			value_type *val  = value_allocator_.allocate(1);
-
-			value_allocator_.construct(val, value);
-			node_allocator_.construct(node, node_type(val));
-			return node;
 		}
 
 		void balance_for_insert(node_type *top)
@@ -604,17 +596,6 @@ namespace ft
 			std::swap(parent->color, child->color);
 		}
 
-		void delete_node(node_type *node)
-		{
-			if (node == NULL) {
-				return;
-			}
-			value_allocator_.destroy(node->value);
-			value_allocator_.deallocate(node->value, 1);
-			node_allocator_.destroy(node);
-			node_allocator_.deallocate(node, 1);
-		}
-
 		bool has_red_child(node_type *n)
 		{
 			return is_red(n->left) || is_red(n->right);
@@ -676,7 +657,7 @@ namespace ft
 			}
 			node_type *left  = n->left;
 			node_type *right = n->right;
-			delete_node(n);
+			node_manager_.destroy(n);
 			delete_subtree(left);
 			delete_subtree(right);
 		}
