@@ -16,7 +16,6 @@ namespace ft = std;
 
 namespace ftc = ft_containers;
 typedef ft::map<ftc::Data, ftc::Data> Map;
-typedef ft::pair<Map::iterator, bool> Pair;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
 

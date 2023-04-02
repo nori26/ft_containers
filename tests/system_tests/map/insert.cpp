@@ -15,7 +15,8 @@ namespace ft = std;
 #endif
 
 namespace ftc = ft_containers;
-typedef ft::map<ftc::Data, ftc::Data> Map;
+typedef ft::pair<const ftc::Data, ftc::Data> ValueType;
+typedef ft::map<ftc::Data, ftc::Data, std::less<ftc::Data>, ftc::Allocator<ValueType> > Map;
 // typedef ft::map<ftc::Data, int> Map;
 // typedef ft::map<int, int> Map;
 typedef ft::pair<Map::iterator, bool> Pair;
