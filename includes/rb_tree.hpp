@@ -310,6 +310,11 @@ namespace ft
 			size_--;
 		}
 
+		allocator_type get_allocator() const
+		{
+			return value_allocator_;
+		}
+
 		size_type max_size() const
 		{
 			return node_allocator_.max_size();

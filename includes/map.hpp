@@ -132,6 +132,11 @@ namespace ft
 			return 0;
 		}
 
+		allocator_type get_allocator() const
+		{
+			return tree_.get_allocator();
+		}
+
 		size_type max_size() const
 		{
 			return tree_.max_size();
