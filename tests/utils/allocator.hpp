@@ -40,7 +40,9 @@ namespace ft_containers
 	  private:
 		static bool exception_on_;
 		static int  exception_rate_;
-		void       *id;
+
+	  public:
+		void *id;
 
 	  public:
 		Allocator() : std::allocator<T>(), id(this)
@@ -48,7 +50,8 @@ namespace ft_containers
 			ThrowRandom(__func__);
 		}
 
-		Allocator(const Allocator &other) : std::allocator<T>(other)
+		template <typename Type>
+		Allocator(const Allocator<Type> &other) : std::allocator<T>(other)
 		{
 			ThrowRandom(__func__);
 			id = other.id;
