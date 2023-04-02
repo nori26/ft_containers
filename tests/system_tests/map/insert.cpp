@@ -74,6 +74,13 @@ bool                        MvGen::used[MvGen::kSize] = {};
 MvGen::DataSet              MvGen::map_values;
 std::vector<MvGen::DataSet> MvGen::map_values_set;
 
+TEST(map, insert_types)
+{
+	Map m;
+
+	EXPECT_EQ(typeid(m.insert(ft::make_pair(1, 1))), typeid(ft::pair<Map::iterator, bool>));
+}
+
 TEST(map, insert)
 {
 	Map m;
