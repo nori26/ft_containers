@@ -205,6 +205,7 @@ namespace ft
 		node_type   rend_;
 		node_type *&root_;
 
+		// allocatorが状態を持つ場合、value_allocatorとnode_allocatorが別なのは良くないかも
 	  private:
 		node_manager   node_manager_;
 		allocator_type value_allocator_;
