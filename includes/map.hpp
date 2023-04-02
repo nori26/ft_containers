@@ -132,6 +132,11 @@ namespace ft
 			return 0;
 		}
 
+		size_type max_size() const
+		{
+			return tree_.max_size();
+		}
+
 		bool empty() const
 		{
 			return tree_.empty();

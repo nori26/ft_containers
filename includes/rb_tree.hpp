@@ -310,6 +310,11 @@ namespace ft
 			size_--;
 		}
 
+		size_type max_size() const
+		{
+			return node_allocator_.max_size();
+		}
+
 		bool empty() const
 		{
 			return size() == 0;
