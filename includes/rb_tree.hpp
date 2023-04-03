@@ -102,6 +102,7 @@ namespace ft
 		typedef Value                                                 value_type;
 		typedef Allocator                                             allocator_type;
 		typedef size_t                                                size_type;
+		typedef ptrdiff_t                                             difference_type;
 		typedef typename node_type::color_type                        color_type;
 		typedef typename Allocator::template rebind<node_type>::other node_allocator;
 		// template 曖昧青解消子でrebindがテンプレートクラスであることを明示する

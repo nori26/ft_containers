@@ -43,7 +43,7 @@ namespace ft
 		typedef typename tree_type::reverse_iterator       reverse_iterator;
 		typedef typename tree_type::const_reverse_iterator const_reverse_iterator;
 		typedef typename tree_type::size_type              size_type;
-		// typedef typename tree_type::difference_type difference_type;
+		typedef typename tree_type::difference_type        difference_type;
 
 	  private:
 		tree_type tree_;
