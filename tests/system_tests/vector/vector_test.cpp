@@ -33,7 +33,7 @@ TEST_F(vector, get_allocator_ret_type)
 
 TEST_F(vector, get_allocator_ret_type_const)
 {
-	const Vector                           v;
+	const Vector                     v;
 	const ftc::Allocator<ftc::Data> &a1 = v.get_allocator();
 	const ftc::Allocator<ftc::Data> &a2 = v.get_allocator();
 
@@ -42,6 +42,14 @@ TEST_F(vector, get_allocator_ret_type_const)
 }
 
 TEST_F(vector, get_allocator)
+{
+	ftc::Allocator<ftc::Data> a;
+	Vector                    v(a);
+
+	EXPECT_EQ(v.get_allocator().get_id(), a.get_id());
+}
+
+TEST_F(vector, get_allocator_const)
 {
 	ftc::Allocator<ftc::Data> a;
 	const Vector              v(a);
