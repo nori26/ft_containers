@@ -132,8 +132,11 @@ namespace ft
 			return 0;
 		}
 
+		// treeのget_allocatorが返す方に依存しない && 非explicitを期待しないように、明示的に変換する
 		allocator_type get_allocator() const
 		{
+			return allocator_type(tree_.get_allocator());
+		}
 
 		key_compare key_comp() const
 		{
