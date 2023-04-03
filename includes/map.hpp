@@ -134,7 +134,16 @@ namespace ft
 
 		allocator_type get_allocator() const
 		{
-			return tree_.get_allocator();
+
+		key_compare key_comp() const
+		{
+			return tree_.value_cmp().key_comp();
+		}
+
+		// this->key_comp()を呼び出すと無駄なコピーが起きそうな気配を感じて呼び出してない(実験サボり)
+		value_compare value_comp() const
+		{
+			return value_compare(tree_.value_cmp().key_comp());
 		}
 
 		size_type max_size() const
@@ -214,6 +223,11 @@ namespace ft
 		map_value_compare() : cmp_() {}
 
 		explicit map_value_compare(const key_compare &c) : cmp_(c) {}
+
+		const key_compare &key_comp() const
+		{
+			return cmp_;
+		}
 
 		bool operator()(const value_type &a, const value_type &b) const
 		{
