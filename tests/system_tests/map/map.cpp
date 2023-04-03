@@ -72,3 +72,29 @@ TEST(map, get_allocator_const)
 
 	EXPECT_EQ(m.get_allocator().get_id(), a.get_id());
 }
+
+struct DerivedValCmp : public ft::map<int, int>::value_compare
+{
+	DerivedValCmp() : ft::map<int, int>::value_compare(std::less<int>()) {}
+
+	result_type operator()(const first_argument_type &a, const second_argument_type &b) const
+	{
+		return comp(a.first, b.first);
+	}
+};
+
+TEST(map, value_compare_types)
+{
+
+	EXPECT_EQ(typeid(ft::map<int, long>::value_compare::first_argument_type), typeid(ft::pair<const int, long>));
+	EXPECT_EQ(typeid(ft::map<int, long>::value_compare::second_argument_type), typeid(ft::pair<const int, long>));
+	EXPECT_EQ(typeid(ft::map<int, long>::value_compare::result_type), typeid(bool));
+}
+
+TEST(map, value_compare_comp)
+{
+	DerivedValCmp                 cmp;
+	std::binder1st<DerivedValCmp> f = std::bind1st(cmp, ft::make_pair(1, 1));
+
+	EXPECT_TRUE(f(ft::make_pair(2, 2)));
+}
