@@ -203,7 +203,6 @@ namespace ft
 
 	  protected:
 		node_type   end_;
-		node_type   rend_;
 		node_type *&root_;
 
 		// allocatorが状態を持つ場合、value_allocatorとnode_allocatorが別なのは良くないかも
@@ -219,7 +218,6 @@ namespace ft
 	  public:
 		rb_tree()
 			: end_(node_type::BLACK),
-			  rend_(node_type::BLACK),
 			  root_(end_.left),
 			  node_manager_(*this),
 			  value_allocator_(),
@@ -234,7 +232,6 @@ namespace ft
 
 		rb_tree(const value_compare &cmp, const allocator_type &alloc = allocator_type())
 			: end_(node_type::BLACK),
-			  rend_(node_type::BLACK),
 			  root_(end_.left),
 			  node_manager_(*this),
 			  value_allocator_(alloc),
@@ -250,7 +247,6 @@ namespace ft
 	  private:
 		void init_structure()
 		{
-			rend_.link_right(&end_);
 			end_.right = reinterpret_cast<node_type *>(-1);
 			min_       = &end_;
 		}
