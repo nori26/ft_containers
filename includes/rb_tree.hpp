@@ -261,7 +261,7 @@ namespace ft
 			clear();
 		}
 
-		value_compare &value_cmp()
+		const value_compare &value_cmp() const
 		{
 			return cmp_;
 		}
