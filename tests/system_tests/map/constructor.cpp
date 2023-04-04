@@ -23,6 +23,7 @@ typedef ft::pair<const ftc::Data, ftc::Data> ValueType;
 typedef ft::map<ftc::Data, ftc::Data, MapCmp<ftc::Data>, ftc::Allocator<ValueType> > Map;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
+
 TEST(map, default_constructor)
 {
 	Map m;
@@ -39,7 +40,7 @@ TEST(map, constructor_cmp)
 
 	EXPECT_TRUE(v.empty());
 	v.insert(ft::make_pair(0, 1));
-	EXPECT_EQ(v[0], 1);
+	EXPECT_EQ(*v.begin(), ValueType(ft::make_pair(0, 1)));
 	EXPECT_EQ(v.key_comp().id, c.id);
 }
 
@@ -51,7 +52,7 @@ TEST(map, constructor_alloc)
 
 	EXPECT_TRUE(v.empty());
 	v.insert(ft::make_pair(0, 1));
-	EXPECT_EQ(v[0], 1);
+	EXPECT_EQ(*v.begin(), ValueType(ft::make_pair(0, 1)));
 	EXPECT_EQ(v.get_allocator().get_id(), a.get_id());
 	EXPECT_EQ(v.key_comp().id, c.id);
 }
@@ -73,7 +74,7 @@ TEST(map, copy_constructor2)
 
 	Map v2 = v1;
 	v1[0]  = 0;
-	EXPECT_NE(v1[0], v2[0]);
+	EXPECT_NE(*v1.begin(), *v2.begin());
 	EXPECT_EQ(v1.get_allocator().get_id(), v2.get_allocator().get_id());
 	EXPECT_EQ(v2.key_comp().id, v1.key_comp().id);
 }
