@@ -32,9 +32,10 @@ TEST_F(vector, operator_assignment_ret_type)
 
 TEST_F(vector, operator_assignment_self_empty)
 {
-	Vector v;
+	Vector  v;
+	Vector &r = v;
 
-	v = v;
+	v = r;
 	EXPECT_EQ(v.size(), 0U);
 	EXPECT_EQ(v.capacity(), 0U);
 }
@@ -43,11 +44,12 @@ TEST_F(vector, operator_assignment_self)
 {
 	ftc::Data a[] = {1, 2, 3};
 	Vector    v(a, a + ARRAY_SIZE(a));
+	Vector   &r = v;
 
 	Vector::size_type size = v.size();
 	Vector::size_type cap  = v.capacity();
 	ftc::Data        *p    = v.data();
-	v                      = v;
+	v                      = r;
 	EXPECT_EQ(v.size(), size);
 	EXPECT_EQ(v.capacity(), cap);
 	EXPECT_EQ(v.data(), p);
