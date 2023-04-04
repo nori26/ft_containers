@@ -107,10 +107,13 @@ namespace ft
 			return iterator();
 		}
 
+		// TODO あとでhint付に変えるかも
 		template <class InputIt>
 		void insert(InputIt first, InputIt last)
 		{
-			(void)first, (void)last;
+			for (; first != last; ++first) {
+				insert(*first);
+			}
 		}
 
 		iterator erase(iterator pos)
