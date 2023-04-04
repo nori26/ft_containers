@@ -106,28 +106,44 @@ namespace ft_containers
 		}
 	};
 
+	template <class T>
+	class Allocator2 : public Allocator<T>
+	{
+	  public:
+		template <typename U>
+		struct rebind
+		{
+			typedef Allocator2<U> other;
+		};
+		Allocator2() : Allocator<T>() {}
+
+		template <typename Type>
+		Allocator2(const Allocator<Type> &other) : Allocator<T>(other)
+		{}
+	};
+
 	template <typename T>
-	inline bool operator==(const Allocator<T> &lhs, const Allocator<T> &rhs)
+	inline bool operator==(const Allocator2<T> &lhs, const Allocator2<T> &rhs)
 	{
 		(void)lhs, (void)rhs;
 		return false;
 	}
 
 	template <typename T1, typename T2>
-	inline bool operator==(const Allocator<T1> &lhs, const Allocator<T2> &rhs)
+	inline bool operator==(const Allocator2<T1> &lhs, const Allocator2<T2> &rhs)
 	{
 		(void)lhs, (void)rhs;
 		return false;
 	}
 
 	template <typename T>
-	inline bool operator!=(const Allocator<T> &lhs, const Allocator<T> &rhs)
+	inline bool operator!=(const Allocator2<T> &lhs, const Allocator2<T> &rhs)
 	{
 		return !(lhs == rhs);
 	}
 
 	template <typename T1, typename T2>
-	inline bool operator!=(const Allocator<T1> &lhs, const Allocator<T2> &rhs)
+	inline bool operator!=(const Allocator2<T1> &lhs, const Allocator2<T2> &rhs)
 	{
 		return !(lhs == rhs);
 	}
