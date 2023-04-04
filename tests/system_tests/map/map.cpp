@@ -36,6 +36,10 @@ TEST(map, types)
 	EXPECT_EQ(typeid(Map2::difference_type), typeid(std::ptrdiff_t));
 	EXPECT_EQ(typeid(Map2::key_compare), typeid(std::less<ftc::Data>));
 	EXPECT_EQ(typeid(Map2::reverse_iterator), typeid(ft::reverse_iterator<Map2::iterator>));
+	EXPECT_EQ(
+		typeid(Map2::const_reverse_iterator), typeid(ft::reverse_iterator<Map2::const_iterator>)
+	);
+}
 
 TEST(map, template_param)
 {
