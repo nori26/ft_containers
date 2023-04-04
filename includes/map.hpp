@@ -91,9 +91,9 @@ namespace ft
 		}
 
 		// TODO
-		map(const map &other)
+		map(const map &other) : tree_()
 		{
-			(void)other;
+			insert(other.begin(), other.end());
 		}
 
 		pair<iterator, bool> insert(const value_type &value)
@@ -190,6 +190,13 @@ namespace ft
 		void clear()
 		{
 			tree_.clear();
+		}
+
+		// TODO
+		mapped_type &operator[](const key_type &key)
+		{
+			(void)key;
+			return begin()->second;
 		}
 
 		iterator begin()
