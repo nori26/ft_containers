@@ -80,14 +80,14 @@ namespace ft
 			: tree_(tree_compare(comp), alloc)
 		{}
 
-		// TODO
 		template <class InputIt>
 		map(InputIt          first,
 			InputIt          last,
 			const Compare   &comp  = Compare(),
 			const Allocator &alloc = Allocator())
+			: tree_(tree_compare(comp), alloc)
 		{
-			(void)first, (void)last, (void)comp, (void)alloc;
+			insert(first, last);
 		}
 
 		// TODO
