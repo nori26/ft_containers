@@ -68,3 +68,8 @@ TEST_F(vector, types)
 	EXPECT_EQ(typeid(Vector::size_type), typeid(std::size_t));
 	EXPECT_EQ(typeid(Vector::difference_type), typeid(std::ptrdiff_t));
 }
+
+TEST_F(vector, template_params)
+{
+	EXPECT_EQ(typeid(ft::vector<int>), typeid(ft::vector<int, std::allocator<int> >));
+}
