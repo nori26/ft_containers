@@ -105,6 +105,33 @@ namespace ft_containers
 			}
 		}
 	};
+
+	template <typename T>
+	inline bool operator==(const Allocator<T> &lhs, const Allocator<T> &rhs)
+	{
+		(void)lhs, (void)rhs;
+		return false;
+	}
+
+	template <typename T1, typename T2>
+	inline bool operator==(const Allocator<T1> &lhs, const Allocator<T2> &rhs)
+	{
+		(void)lhs, (void)rhs;
+		return false;
+	}
+
+	template <typename T>
+	inline bool operator!=(const Allocator<T> &lhs, const Allocator<T> &rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	template <typename T1, typename T2>
+	inline bool operator!=(const Allocator<T1> &lhs, const Allocator<T2> &rhs)
+	{
+		return !(lhs == rhs);
+	}
+
 	template <class T>
 	bool Allocator<T>::exception_on_ = false;
 	template <class T>
