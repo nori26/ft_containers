@@ -15,8 +15,9 @@ namespace ft = std;
 #endif
 
 namespace ftc = ft_containers;
-typedef ft::vector<ftc::Data, ftc::Allocator<ftc::Data> > Vector;
-typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
+typedef ft::vector<ftc::Data, ftc::Allocator<ftc::Data> >  Vector;
+typedef ft::vector<ftc::Data, ftc::Allocator2<ftc::Data> > Vector2;
+typedef ftc::Allocator<ftc::Data>::ExceptionOn             AllocExceptionOn;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
 
@@ -393,4 +394,371 @@ TEST_F(vector, swap_specialize_exception3)
 	AllocExceptionOn e2(1);
 
 	EXPECT_NO_THROW(std::swap(v1, v2));
+}
+
+TEST_F(vector, swap_empty_alloc2)
+{
+	Vector2            v1;
+	void              *v1_old_alloc = v1.get_allocator().get_id();
+	Vector2::size_type v1_old_size  = v1.size();
+	Vector2::size_type v1_old_cap   = v1.capacity();
+	ftc::Data         *v1_old_data  = v1.data();
+
+	Vector2            v2;
+	void              *v2_old_alloc = v2.get_allocator().get_id();
+	Vector2::size_type v2_old_size  = v2.size();
+	Vector2::size_type v2_old_cap   = v2.capacity();
+	ftc::Data         *v2_old_data  = v2.data();
+
+	v1.swap(v2);
+	EXPECT_EQ(v1.get_allocator().get_id(), v2_old_alloc);
+	EXPECT_EQ(v1.size(), v2_old_size);
+	EXPECT_EQ(v1.capacity(), v2_old_cap);
+	EXPECT_EQ(v1.data(), v2_old_data);
+
+	EXPECT_EQ(v2.get_allocator().get_id(), v1_old_alloc);
+	EXPECT_EQ(v2.size(), v1_old_size);
+	EXPECT_EQ(v2.capacity(), v1_old_cap);
+	EXPECT_EQ(v2.data(), v1_old_data);
+}
+
+TEST_F(vector, swap_alloc2)
+{
+	ftc::Data          a1[] = {1, 2, 3};
+	Vector2            v1(a1, a1 + ARRAY_SIZE(a1));
+	void              *v1_old_alloc = v1.get_allocator().get_id();
+	Vector2::size_type v1_old_size  = v1.size();
+	Vector2::size_type v1_old_cap   = v1.capacity();
+	ftc::Data         *v1_old_data  = v1.data();
+
+	ftc::Data          a2[] = {4, 5, 6};
+	Vector2            v2(a2, a2 + ARRAY_SIZE(a2));
+	void              *v2_old_alloc = v2.get_allocator().get_id();
+	Vector2::size_type v2_old_size  = v2.size();
+	Vector2::size_type v2_old_cap   = v2.capacity();
+	ftc::Data         *v2_old_data  = v2.data();
+
+	v1.swap(v2);
+	EXPECT_EQ(v1.get_allocator().get_id(), v2_old_alloc);
+	EXPECT_EQ(v1.size(), v2_old_size);
+	EXPECT_EQ(v1.capacity(), v2_old_cap);
+	EXPECT_EQ(v1.data(), v2_old_data);
+	for (size_t i = 0; i < ARRAY_SIZE(a2); i++) {
+		EXPECT_EQ(v1[i], a2[i]);
+	}
+
+	EXPECT_EQ(v2.get_allocator().get_id(), v1_old_alloc);
+	EXPECT_EQ(v2.size(), v1_old_size);
+	EXPECT_EQ(v2.capacity(), v1_old_cap);
+	EXPECT_EQ(v2.data(), v1_old_data);
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		EXPECT_EQ(v2[i], a1[i]);
+	}
+}
+
+TEST_F(vector, swap_self_alloc2)
+{
+	ftc::Data          a1[] = {1, 2, 3};
+	Vector2            v1(a1, a1 + ARRAY_SIZE(a1));
+	void              *v1_old_alloc = v1.get_allocator().get_id();
+	Vector2::size_type v1_old_size  = v1.size();
+	Vector2::size_type v1_old_cap   = v1.capacity();
+	ftc::Data         *v1_old_data  = v1.data();
+
+	v1.swap(v1);
+	EXPECT_EQ(v1.get_allocator().get_id(), v1_old_alloc);
+	EXPECT_EQ(v1.size(), v1_old_size);
+	EXPECT_EQ(v1.capacity(), v1_old_cap);
+	EXPECT_EQ(v1.data(), v1_old_data);
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		EXPECT_EQ(v1[i], a1[i]);
+	}
+}
+
+TEST_F(vector, swap2_alloc2)
+{
+	ftc::Data          a1[] = {1, 2};
+	Vector2            v1(a1, a1 + ARRAY_SIZE(a1));
+	void              *v1_old_alloc = v1.get_allocator().get_id();
+	Vector2::size_type v1_old_size  = v1.size();
+	Vector2::size_type v1_old_cap   = v1.capacity();
+	ftc::Data         *v1_old_data  = v1.data();
+
+	ftc::Data          a2[] = {4, 5, 6};
+	Vector2            v2(a2, a2 + ARRAY_SIZE(a2));
+	void              *v2_old_alloc = v2.get_allocator().get_id();
+	Vector2::size_type v2_old_size  = v2.size();
+	Vector2::size_type v2_old_cap   = v2.capacity();
+	ftc::Data         *v2_old_data  = v2.data();
+
+	v1.swap(v2);
+	EXPECT_EQ(v1.get_allocator().get_id(), v2_old_alloc);
+	EXPECT_EQ(v1.size(), v2_old_size);
+	EXPECT_EQ(v1.capacity(), v2_old_cap);
+	EXPECT_EQ(v1.data(), v2_old_data);
+	for (size_t i = 0; i < ARRAY_SIZE(a2); i++) {
+		EXPECT_EQ(v1[i], a2[i]);
+	}
+
+	EXPECT_EQ(v2.get_allocator().get_id(), v1_old_alloc);
+	EXPECT_EQ(v2.size(), v1_old_size);
+	EXPECT_EQ(v2.capacity(), v1_old_cap);
+	EXPECT_EQ(v2.data(), v1_old_data);
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		EXPECT_EQ(v2[i], a1[i]);
+	}
+}
+
+TEST_F(vector, swap3_alloc2)
+{
+	ftc::Data          a1[] = {1, 2, 3};
+	Vector2            v1(a1, a1 + ARRAY_SIZE(a1));
+	void              *v1_old_alloc = v1.get_allocator().get_id();
+	Vector2::size_type v1_old_size  = v1.size();
+	Vector2::size_type v1_old_cap   = v1.capacity();
+	ftc::Data         *v1_old_data  = v1.data();
+
+	ftc::Data          a2[] = {4, 5};
+	Vector2            v2(a2, a2 + ARRAY_SIZE(a2));
+	void              *v2_old_alloc = v2.get_allocator().get_id();
+	Vector2::size_type v2_old_size  = v2.size();
+	Vector2::size_type v2_old_cap   = v2.capacity();
+	ftc::Data         *v2_old_data  = v2.data();
+
+	v1.swap(v2);
+	EXPECT_EQ(v1.get_allocator().get_id(), v2_old_alloc);
+	EXPECT_EQ(v1.size(), v2_old_size);
+	EXPECT_EQ(v1.capacity(), v2_old_cap);
+	EXPECT_EQ(v1.data(), v2_old_data);
+	for (size_t i = 0; i < ARRAY_SIZE(a2); i++) {
+		EXPECT_EQ(v1[i], a2[i]);
+	}
+
+	EXPECT_EQ(v2.get_allocator().get_id(), v1_old_alloc);
+	EXPECT_EQ(v2.size(), v1_old_size);
+	EXPECT_EQ(v2.capacity(), v1_old_cap);
+	EXPECT_EQ(v2.data(), v1_old_data);
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		EXPECT_EQ(v2[i], a1[i]);
+	}
+}
+
+TEST_F(vector, swap_empty_specialize_alloc2)
+{
+	Vector2            v1;
+	void              *v1_old_alloc = v1.get_allocator().get_id();
+	Vector2::size_type v1_old_size  = v1.size();
+	Vector2::size_type v1_old_cap   = v1.capacity();
+	ftc::Data         *v1_old_data  = v1.data();
+
+	Vector2            v2;
+	void              *v2_old_alloc = v2.get_allocator().get_id();
+	Vector2::size_type v2_old_size  = v2.size();
+	Vector2::size_type v2_old_cap   = v2.capacity();
+	ftc::Data         *v2_old_data  = v2.data();
+
+	std::swap(v1, v2);
+	EXPECT_EQ(v1.get_allocator().get_id(), v2_old_alloc);
+	EXPECT_EQ(v1.size(), v2_old_size);
+	EXPECT_EQ(v1.capacity(), v2_old_cap);
+	EXPECT_EQ(v1.data(), v2_old_data);
+
+	EXPECT_EQ(v2.get_allocator().get_id(), v1_old_alloc);
+	EXPECT_EQ(v2.size(), v1_old_size);
+	EXPECT_EQ(v2.capacity(), v1_old_cap);
+	EXPECT_EQ(v2.data(), v1_old_data);
+}
+
+TEST_F(vector, swap_specialize2_alloc2)
+{
+	ftc::Data          a1[] = {1, 2};
+	Vector2            v1(a1, a1 + ARRAY_SIZE(a1));
+	void              *v1_old_alloc = v1.get_allocator().get_id();
+	Vector2::size_type v1_old_size  = v1.size();
+	Vector2::size_type v1_old_cap   = v1.capacity();
+	ftc::Data         *v1_old_data  = v1.data();
+
+	ftc::Data          a2[] = {4, 5, 6};
+	Vector2            v2(a2, a2 + ARRAY_SIZE(a2));
+	void              *v2_old_alloc = v2.get_allocator().get_id();
+	Vector2::size_type v2_old_size  = v2.size();
+	Vector2::size_type v2_old_cap   = v2.capacity();
+	ftc::Data         *v2_old_data  = v2.data();
+
+	std::swap(v1, v2);
+	EXPECT_EQ(v1.get_allocator().get_id(), v2_old_alloc);
+	EXPECT_EQ(v1.size(), v2_old_size);
+	EXPECT_EQ(v1.capacity(), v2_old_cap);
+	EXPECT_EQ(v1.data(), v2_old_data);
+	for (size_t i = 0; i < ARRAY_SIZE(a2); i++) {
+		EXPECT_EQ(v1[i], a2[i]);
+	}
+
+	EXPECT_EQ(v2.get_allocator().get_id(), v1_old_alloc);
+	EXPECT_EQ(v2.size(), v1_old_size);
+	EXPECT_EQ(v2.capacity(), v1_old_cap);
+	EXPECT_EQ(v2.data(), v1_old_data);
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		EXPECT_EQ(v2[i], a1[i]);
+	}
+}
+
+TEST_F(vector, swap_specialize3_alloc2)
+{
+	ftc::Data          a1[] = {1, 2, 3};
+	Vector2            v1(a1, a1 + ARRAY_SIZE(a1));
+	void              *v1_old_alloc = v1.get_allocator().get_id();
+	Vector2::size_type v1_old_size  = v1.size();
+	Vector2::size_type v1_old_cap   = v1.capacity();
+	ftc::Data         *v1_old_data  = v1.data();
+
+	ftc::Data          a2[] = {4, 5};
+	Vector2            v2(a2, a2 + ARRAY_SIZE(a2));
+	void              *v2_old_alloc = v2.get_allocator().get_id();
+	Vector2::size_type v2_old_size  = v2.size();
+	Vector2::size_type v2_old_cap   = v2.capacity();
+	ftc::Data         *v2_old_data  = v2.data();
+
+	std::swap(v1, v2);
+	EXPECT_EQ(v1.get_allocator().get_id(), v2_old_alloc);
+	EXPECT_EQ(v1.size(), v2_old_size);
+	EXPECT_EQ(v1.capacity(), v2_old_cap);
+	EXPECT_EQ(v1.data(), v2_old_data);
+	for (size_t i = 0; i < ARRAY_SIZE(a2); i++) {
+		EXPECT_EQ(v1[i], a2[i]);
+	}
+
+	EXPECT_EQ(v2.get_allocator().get_id(), v1_old_alloc);
+	EXPECT_EQ(v2.size(), v1_old_size);
+	EXPECT_EQ(v2.capacity(), v1_old_cap);
+	EXPECT_EQ(v2.data(), v1_old_data);
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		EXPECT_EQ(v2[i], a1[i]);
+	}
+}
+
+TEST_F(vector, swap_specialize_alloc2)
+{
+	ftc::Data          a1[] = {1, 2, 3};
+	Vector2            v1(a1, a1 + ARRAY_SIZE(a1));
+	void              *v1_old_alloc = v1.get_allocator().get_id();
+	Vector2::size_type v1_old_size  = v1.size();
+	Vector2::size_type v1_old_cap   = v1.capacity();
+	ftc::Data         *v1_old_data  = v1.data();
+
+	ftc::Data          a2[] = {4, 5, 6};
+	Vector2            v2(a2, a2 + ARRAY_SIZE(a2));
+	void              *v2_old_alloc = v2.get_allocator().get_id();
+	Vector2::size_type v2_old_size  = v2.size();
+	Vector2::size_type v2_old_cap   = v2.capacity();
+	ftc::Data         *v2_old_data  = v2.data();
+
+	std::swap(v1, v2);
+	EXPECT_EQ(v1.get_allocator().get_id(), v2_old_alloc);
+	EXPECT_EQ(v1.size(), v2_old_size);
+	EXPECT_EQ(v1.capacity(), v2_old_cap);
+	EXPECT_EQ(v1.data(), v2_old_data);
+	for (size_t i = 0; i < ARRAY_SIZE(a2); i++) {
+		EXPECT_EQ(v1[i], a2[i]);
+	}
+
+	EXPECT_EQ(v2.get_allocator().get_id(), v1_old_alloc);
+	EXPECT_EQ(v2.size(), v1_old_size);
+	EXPECT_EQ(v2.capacity(), v1_old_cap);
+	EXPECT_EQ(v2.data(), v1_old_data);
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		EXPECT_EQ(v2[i], a1[i]);
+	}
+}
+
+TEST_F(vector, swap_empty_exception_alloc2)
+{
+	Vector2          v1;
+	Vector2          v2;
+	ftc::ExceptionOn e(1);
+	AllocExceptionOn e2(1);
+
+	EXPECT_THROW(v1.swap(v2), std::runtime_error);
+}
+
+TEST_F(vector, swap_exception_alloc2)
+{
+	ftc::Data        a1[] = {1, 2, 3};
+	ftc::Data        a2[] = {4, 5, 6};
+	Vector2          v1(a1, a1 + ARRAY_SIZE(a1));
+	Vector2          v2(a2, a2 + ARRAY_SIZE(a2));
+	ftc::ExceptionOn e(1);
+	AllocExceptionOn e2(1);
+
+	EXPECT_THROW(v1.swap(v2), std::runtime_error);
+}
+
+TEST_F(vector, swap_exception2_alloc2)
+{
+	ftc::Data        a1[] = {1, 2};
+	ftc::Data        a2[] = {4, 5, 6};
+	Vector2          v1(a1, a1 + ARRAY_SIZE(a1));
+	Vector2          v2(a2, a2 + ARRAY_SIZE(a2));
+	ftc::ExceptionOn e(1);
+	AllocExceptionOn e2(1);
+
+	EXPECT_THROW(v1.swap(v2), std::runtime_error);
+}
+
+TEST_F(vector, swap_exception3_alloc2)
+{
+	ftc::Data        a1[] = {1, 2, 3};
+	ftc::Data        a2[] = {4, 5};
+	Vector2          v1(a1, a1 + ARRAY_SIZE(a1));
+	Vector2          v2(a2, a2 + ARRAY_SIZE(a2));
+	ftc::ExceptionOn e(1);
+	AllocExceptionOn e2(1);
+
+	EXPECT_THROW(v1.swap(v2), std::runtime_error);
+}
+
+TEST_F(vector, swap_empty_specialize_exception_alloc2)
+{
+	Vector2          v1;
+	Vector2          v2;
+	ftc::ExceptionOn e(1);
+	AllocExceptionOn e2(1);
+
+	EXPECT_THROW(std::swap(v1, v2), std::runtime_error);
+}
+
+TEST_F(vector, swap_specialize_exception_alloc2)
+{
+	ftc::Data        a1[] = {1, 2, 3};
+	ftc::Data        a2[] = {4, 5, 6};
+	Vector2          v1(a1, a1 + ARRAY_SIZE(a1));
+	Vector2          v2(a2, a2 + ARRAY_SIZE(a2));
+	ftc::ExceptionOn e(1);
+	AllocExceptionOn e2(1);
+
+	EXPECT_THROW(std::swap(v1, v2), std::runtime_error);
+}
+
+TEST_F(vector, swap_specialize_exception2_alloc2)
+{
+	ftc::Data        a1[] = {1, 2};
+	ftc::Data        a2[] = {4, 5, 6};
+	Vector2          v1(a1, a1 + ARRAY_SIZE(a1));
+	Vector2          v2(a2, a2 + ARRAY_SIZE(a2));
+	ftc::ExceptionOn e(1);
+	AllocExceptionOn e2(1);
+
+	EXPECT_THROW(std::swap(v1, v2), std::runtime_error);
+}
+
+TEST_F(vector, swap_specialize_exception3_alloc2)
+{
+	ftc::Data        a1[] = {1, 2, 3};
+	ftc::Data        a2[] = {4, 5};
+	Vector2          v1(a1, a1 + ARRAY_SIZE(a1));
+	Vector2          v2(a2, a2 + ARRAY_SIZE(a2));
+	ftc::ExceptionOn e(1);
+	AllocExceptionOn e2(1);
+
+	EXPECT_THROW(std::swap(v1, v2), std::runtime_error);
 }
