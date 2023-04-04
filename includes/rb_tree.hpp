@@ -230,7 +230,7 @@ namespace ft
 			init_structure();
 		}
 
-		rb_tree(const value_compare &cmp, const allocator_type &alloc = allocator_type())
+		explicit rb_tree(const value_compare &cmp, const allocator_type &alloc = allocator_type())
 			: end_(node_type::BLACK),
 			  root_(end_.left),
 			  node_manager_(*this),
