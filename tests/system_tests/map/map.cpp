@@ -6,6 +6,7 @@
 
 #include "allocator.hpp"
 #include "data.hpp"
+#include "cmp.hpp"
 
 #ifdef FT_TEST
   #include "map.hpp"
@@ -159,15 +160,6 @@ TEST(map, value_compare_const)
 	EXPECT_FALSE(m.value_comp()(ft::make_pair(2, 1), ft::make_pair(1, 2)));
 	EXPECT_FALSE(m.value_comp()(ft::make_pair(2, 1), ft::make_pair(2, 0)));
 }
-
-template <typename Key>
-struct RevCmp
-{
-	bool operator()(const Key &a, const Key &b) const
-	{
-		return b < a;
-	}
-};
 
 TEST(map, value_compare_rev)
 {
