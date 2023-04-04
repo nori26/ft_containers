@@ -262,6 +262,25 @@ namespace ft
 			return cmp_;
 		}
 
+		iterator find(const key_type &key)
+		{
+			iterator it = lower_bound(key);
+
+			if (it == end() || value_cmp()(key, *it)) {
+				return end();
+			}
+			return it;
+		}
+
+		const_iterator find(const key_type &key) const
+		{
+			const_iterator it = lower_bound(key);
+
+			if (it == end() || value_cmp()(key, *it)) {
+				return end();
+			}
+			return it;
+		}
 
 		iterator lower_bound(const key_type &key)
 		{
