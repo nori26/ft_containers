@@ -315,6 +315,9 @@ namespace ft
 
 		void swap(vector &v)
 		{
+			if (v.allocator_ != allocator_) {
+				std::swap(v.allocator_, allocator_);
+			}
 			std::swap(first_, v.first_);
 			std::swap(last_, v.last_);
 			std::swap(reserved_last_, v.reserved_last_);
