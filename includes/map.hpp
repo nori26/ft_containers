@@ -132,6 +132,17 @@ namespace ft
 			return 0;
 		}
 
+
+		iterator lower_bound(const key_type &key)
+		{
+			return tree_.lower_bound(key);
+		}
+
+		const_iterator lower_bound(const key_type &key) const
+		{
+			return tree_.lower_bound(key);
+		}
+
 		// treeのget_allocatorが返す方に依存しない && 非explicitを期待しないように、明示的に変換する
 		allocator_type get_allocator() const
 		{

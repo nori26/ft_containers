@@ -262,6 +262,39 @@ namespace ft
 			return cmp_;
 		}
 
+
+		iterator lower_bound(const key_type &key)
+		{
+			node_type *latest_greater = &end_;
+			node_type *current        = root_;
+
+			while (current) {
+				if (value_cmp()(*current->value, key)) {
+					current = current->right;
+				} else {
+					latest_greater = current;
+					current        = current->left;
+				}
+			}
+			return iterator(latest_greater);
+		}
+
+		const_iterator lower_bound(const key_type &key) const
+		{
+			const node_type *latest_greater = &end_;
+			const node_type *current        = root_;
+
+			while (current) {
+				if (value_cmp()(*current->value, key)) {
+					current = current->right;
+				} else {
+					latest_greater = current;
+					current        = current->left;
+				}
+			}
+			return const_iterator(latest_greater);
+		}
+
 		pair<iterator, bool> insert(const value_type &value)
 		{
 			ft::pair<node_type *, node_type **> nodes  = find_pos(get_key_(value));
