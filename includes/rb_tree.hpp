@@ -21,12 +21,15 @@ namespace ft
 	class rb_tree_generator;
 
 	template <typename Value>
-	struct rb_tree_node
+	class rb_tree_node
 	{
+	  public:
 		enum color_type {
 			RED,
 			BLACK,
 		};
+
+	  private:
 		typedef Value value_type;
 		// アドレス演算子のオーバーロードを回避するための型
 		struct value_wrapper
@@ -35,51 +38,94 @@ namespace ft
 			value_wrapper() : value() {}
 		};
 
-		value_wrapper wrapped_value;
-		color_type    color;
-		rb_tree_node *parent;
-		rb_tree_node *left;
-		rb_tree_node *right;
+		value_wrapper wrapped_value_;
+		color_type    color_;
+		rb_tree_node *parent_;
+		rb_tree_node *left_;
+		rb_tree_node *right_;
 
-		rb_tree_node(color_type c = BLACK) : wrapped_value(), color(c), parent(), left(), right() {}
+	  public:
+		rb_tree_node(color_type c = BLACK)
+			: wrapped_value_(), color_(c), parent_(), left_(), right_()
+		{}
 
 		rb_tree_node(value_type *v, color_type c = RED)
-			: wrapped_value(v), color(c), parent(), left(), right()
+			: wrapped_value_(v), color_(c), parent_(), left_(), right_()
 		{}
 
 		value_type &value()
 		{
-			return wrapped_value.value;
-		}
-
-		const value_type &value() const
-		{
-			return wrapped_value.value;
+			return wrapped_value_.value;
 		}
 
 		value_type *value_ptr()
 		{
-			return reinterpret_cast<value_type *>(&wrapped_value);
+			return reinterpret_cast<value_type *>(&wrapped_value_);
+		}
+
+		rb_tree_node *&parent()
+		{
+			return parent_;
+		}
+
+		rb_tree_node *&left()
+		{
+			return left_;
+		}
+
+		rb_tree_node *&right()
+		{
+			return right_;
+		}
+
+		color_type &color()
+		{
+			return color_;
+		}
+
+		const value_type &value() const
+		{
+			return wrapped_value_.value;
 		}
 
 		const value_type *value_ptr() const
 		{
-			return reinterpret_cast<const value_type *>(&wrapped_value);
+			return reinterpret_cast<const value_type *>(&wrapped_value_);
+		}
+
+		const rb_tree_node *parent() const
+		{
+			return parent_;
+		}
+
+		const rb_tree_node *left() const
+		{
+			return left_;
+		}
+
+		const rb_tree_node *right() const
+		{
+			return right_;
+		}
+
+		const color_type &color() const
+		{
+			return color_;
 		}
 
 		void link_left(rb_tree_node *new_left)
 		{
-			left = new_left;
+			left_ = new_left;
 			if (new_left) {
-				new_left->parent = this;
+				new_left->parent() = this;
 			}
 		}
 
 		void link_right(rb_tree_node *new_right)
 		{
-			right = new_right;
+			right_ = new_right;
 			if (new_right) {
-				new_right->parent = this;
+				new_right->parent() = this;
 			}
 		}
 
@@ -87,8 +133,8 @@ namespace ft
 		{
 			rb_tree_node *node = this;
 
-			while (node->right) {
-				node = node->right;
+			while (node->right()) {
+				node = node->right();
 			}
 			return node;
 		}
@@ -97,8 +143,28 @@ namespace ft
 		{
 			rb_tree_node *node = this;
 
-			while (node->left) {
-				node = node->left;
+			while (node->left()) {
+				node = node->left();
+			}
+			return node;
+		}
+
+		const rb_tree_node *max() const
+		{
+			const rb_tree_node *node = this;
+
+			while (node->right()) {
+				node = node->right();
+			}
+			return node;
+		}
+
+		const rb_tree_node *min() const
+		{
+			const rb_tree_node *node = this;
+
+			while (node->left()) {
+				node = node->left();
 			}
 			return node;
 		}
@@ -170,10 +236,10 @@ namespace ft
 			  private:
 				void construct_node(node_type *n, const value_type &v)
 				{
-					n->parent = NULL;
-					n->left   = NULL;
-					n->right  = NULL;
-					n->color  = node_type::RED;
+					n->parent() = NULL;
+					n->left()   = NULL;
+					n->right()  = NULL;
+					n->color()  = node_type::RED;
 					tree_.get_allocator().construct(n->value_ptr(), v);
 				}
 			};
@@ -211,7 +277,7 @@ namespace ft
 	  public:
 		rb_tree()
 			: end_(node_type::BLACK),
-			  root_(end_.left),
+			  root_(end_.left()),
 			  node_manager_(*this),
 			  node_allocator_(),
 			  cmp_(),
@@ -224,7 +290,7 @@ namespace ft
 
 		explicit rb_tree(const value_compare &cmp, const allocator_type &alloc = allocator_type())
 			: end_(node_type::BLACK),
-			  root_(end_.left),
+			  root_(end_.left()),
 			  node_manager_(*this),
 			  node_allocator_(alloc),
 			  cmp_(cmp),
@@ -238,8 +304,8 @@ namespace ft
 	  private:
 		void init_structure()
 		{
-			end_.right = reinterpret_cast<node_type *>(-1);
-			min_       = &end_;
+			end_.right() = reinterpret_cast<node_type *>(-1);
+			min_         = &end_;
 		}
 
 	  public:
@@ -280,10 +346,10 @@ namespace ft
 
 			while (current) {
 				if (value_cmp()(current->value(), key)) {
-					current = current->right;
+					current = current->right();
 				} else {
 					latest_greater = current;
-					current        = current->left;
+					current        = current->left();
 				}
 			}
 			return iterator(latest_greater);
@@ -296,10 +362,10 @@ namespace ft
 
 			while (current) {
 				if (value_cmp()(current->value(), key)) {
-					current = current->right;
+					current = current->right();
 				} else {
 					latest_greater = current;
-					current        = current->left;
+					current        = current->left();
 				}
 			}
 			return const_iterator(latest_greater);
@@ -314,9 +380,9 @@ namespace ft
 			if (*child) {
 				return ft::make_pair(*child, false);
 			}
-			node_type *pos   = node_manager_.create(value);
-			*child           = pos;
-			(*child)->parent = parent;
+			node_type *pos     = node_manager_.create(value);
+			*child             = pos;
+			(*child)->parent() = parent;
 			balance_for_insert(pos);
 			if (generator(pos).next() == min_) {
 				min_ = pos;
@@ -337,13 +403,13 @@ namespace ft
 			if (pos == min_) {
 				min_ = generator(min_).next();
 			}
-			if (pos->left) {
-				swap_node(pos, pos->left->max());
-				child  = pos->left;
-				parent = pos->parent;
+			if (pos->left()) {
+				swap_node(pos, pos->left()->max());
+				child  = pos->left();
+				parent = pos->parent();
 			} else {
-				child  = pos->right;
-				parent = pos->parent;
+				child  = pos->right();
+				parent = pos->parent();
 			}
 			promote_child(pos, child);
 			balance_for_erase(parent, child, pos);
@@ -422,16 +488,16 @@ namespace ft
 		ft::pair<node_type *, node_type **> find_pos(const key_type &key)
 		{
 			node_type  *parent = &end_;
-			node_type **child  = &end_.left;
+			node_type **child  = &end_.left();
 
 			while (*child) {
 				value_type &value = (*child)->value();
 				if (value_cmp()(key, value)) {
 					parent = *child;
-					child  = &(*child)->left;
+					child  = &(*child)->left();
 				} else if (value_cmp()(value, key)) {
 					parent = *child;
-					child  = &(*child)->right;
+					child  = &(*child)->right();
 				} else {
 					break;
 				}
@@ -441,17 +507,17 @@ namespace ft
 
 		void balance_for_insert(node_type *top)
 		{
-			for (; top != &end_; top = top->parent) {
+			for (; top != &end_; top = top->parent()) {
 				if (is_red(top)) {
 					continue;
 				}
-				node_type *left  = top->left;
-				node_type *right = top->right;
+				node_type *left  = top->left();
+				node_type *right = top->right();
 				if (is_red(left) && is_red(right) &&
 					(has_red_child(left) || has_red_child(right))) {
-					top->color   = node_type::RED;
-					left->color  = node_type::BLACK;
-					right->color = node_type::BLACK;
+					top->color()   = node_type::RED;
+					left->color()  = node_type::BLACK;
+					right->color() = node_type::BLACK;
 					continue;
 				}
 				if (is_red(left)) {
@@ -461,30 +527,30 @@ namespace ft
 				}
 				break;
 			}
-			root_->color = node_type::BLACK;
+			root_->color() = node_type::BLACK;
 		}
 
 		void balance_left_for_insert(node_type *top)
 		{
-			if (is_red(top->left->right)) {
-				rotate_left(top->left);
+			if (is_red(top->left()->right())) {
+				rotate_left(top->left());
 			}
-			if (is_red(top->left->left)) {
-				top               = rotate_right(top);
-				top->right->color = node_type::RED;
-				top->color        = node_type::BLACK;
+			if (is_red(top->left()->left())) {
+				top                   = rotate_right(top);
+				top->right()->color() = node_type::RED;
+				top->color()          = node_type::BLACK;
 			}
 		}
 
 		void balance_right_for_insert(node_type *top)
 		{
-			if (is_red(top->right->left)) {
-				rotate_left(top->right);
+			if (is_red(top->right()->left())) {
+				rotate_left(top->right());
 			}
-			if (is_red(top->right->right)) {
-				top              = rotate_left(top);
-				top->left->color = node_type::RED;
-				top->color       = node_type::BLACK;
+			if (is_red(top->right()->right())) {
+				top                  = rotate_left(top);
+				top->left()->color() = node_type::RED;
+				top->color()         = node_type::BLACK;
 			}
 		}
 
@@ -492,12 +558,12 @@ namespace ft
 		// grand_parentがend_の可能性もあるのでポインタで比較
 		void promote_child(node_type *parent, node_type *child)
 		{
-			assert(parent && parent->parent);
-			node_type *grand_parent = parent->parent;
+			assert(parent && parent->parent());
+			node_type *grand_parent = parent->parent();
 
-			if (grand_parent->left == parent) {
+			if (grand_parent->left() == parent) {
 				grand_parent->link_left(child);
-			} else if (grand_parent->right == parent) {
+			} else if (grand_parent->right() == parent) {
 				grand_parent->link_right(child);
 			}
 		}
@@ -508,15 +574,15 @@ namespace ft
 				return;
 			}
 			for (bool is_balanced = false; parent != &end_ && !is_balanced;
-				 target = parent, parent = parent->parent) {
-				if (target == parent->left) {
+				 target = parent, parent = parent->parent()) {
+				if (target == parent->left()) {
 					is_balanced = balance_left_for_erase(parent);
 				} else {
 					is_balanced = balance_right_for_erase(parent);
 				}
 			}
 			if (root_) {
-				root_->color = node_type::BLACK;
+				root_->color() = node_type::BLACK;
 			}
 		}
 
@@ -524,138 +590,138 @@ namespace ft
 		// 暗黙的に右部分木には一つ以上の黒があると期待できる
 		bool balance_left_for_erase(node_type *top)
 		{
-			assert(top != &end_ && top->right);
-			node_type *right = top->right;
+			assert(top != &end_ && top->right());
+			node_type *right = top->right();
 
-			if (is_red(top->left)) {
-				top->left->color = node_type::BLACK;
+			if (is_red(top->left())) {
+				top->left()->color() = node_type::BLACK;
 				return true;
 			}
 			if (is_red(top) && !has_red_child(right)) {
-				top->color   = node_type::BLACK;
-				right->color = node_type::RED;
+				top->color()   = node_type::BLACK;
+				right->color() = node_type::RED;
 				return true;
 			}
 			if (is_red(right)) {
-				top              = rotate_left(top);
-				top->color       = node_type::BLACK;
-				top->left->color = node_type::RED;
-				top              = top->left;
-				right            = top->right;
+				top                  = rotate_left(top);
+				top->color()         = node_type::BLACK;
+				top->left()->color() = node_type::RED;
+				top                  = top->left();
+				right                = top->right();
 			}
-			if (is_red(right->left) && is_black(right->right)) {
-				right               = rotate_right(right);
-				right->color        = node_type::BLACK;
-				right->right->color = node_type::RED;
+			if (is_red(right->left()) && is_black(right->right())) {
+				right                   = rotate_right(right);
+				right->color()          = node_type::BLACK;
+				right->right()->color() = node_type::RED;
 			}
-			if (is_red(right->right)) {
-				color_type old    = top->color;
-				top               = rotate_left(top);
-				top->color        = old;
-				top->left->color  = node_type::BLACK;
-				top->right->color = node_type::BLACK;
+			if (is_red(right->right())) {
+				color_type old        = top->color();
+				top                   = rotate_left(top);
+				top->color()          = old;
+				top->left()->color()  = node_type::BLACK;
+				top->right()->color() = node_type::BLACK;
 				return true;
 			} else {
-				right->color = node_type::RED;
+				right->color() = node_type::RED;
 				return false;
 			}
 		}
 
 		bool balance_right_for_erase(node_type *top)
 		{
-			assert(top->left);
-			node_type *left = top->left;
+			assert(top->left());
+			node_type *left = top->left();
 
-			if (is_red(top->right)) {
-				top->right->color = node_type::BLACK;
+			if (is_red(top->right())) {
+				top->right()->color() = node_type::BLACK;
 				return true;
 			}
 			if (is_red(top) && !has_red_child(left)) {
-				top->color  = node_type::BLACK;
-				left->color = node_type::RED;
+				top->color()  = node_type::BLACK;
+				left->color() = node_type::RED;
 				return true;
 			}
 			if (is_red(left)) {
-				top               = rotate_right(top);
-				top->color        = node_type::BLACK;
-				top->right->color = node_type::RED;
-				top               = top->right;
-				left              = top->left;
+				top                   = rotate_right(top);
+				top->color()          = node_type::BLACK;
+				top->right()->color() = node_type::RED;
+				top                   = top->right();
+				left                  = top->left();
 			}
-			if (is_red(left->right) && is_black(left->left)) {
-				left               = rotate_left(left);
-				left->color        = node_type::BLACK;
-				left->right->color = node_type::RED;
+			if (is_red(left->right()) && is_black(left->left())) {
+				left                   = rotate_left(left);
+				left->color()          = node_type::BLACK;
+				left->right()->color() = node_type::RED;
 			}
-			if (is_red(left->left)) {
-				color_type old    = top->color;
-				top               = rotate_right(top);
-				top->color        = old;
-				top->left->color  = node_type::BLACK;
-				top->right->color = node_type::BLACK;
+			if (is_red(left->left())) {
+				color_type old        = top->color();
+				top                   = rotate_right(top);
+				top->color()          = old;
+				top->left()->color()  = node_type::BLACK;
+				top->right()->color() = node_type::BLACK;
 				return true;
 			} else {
-				left->color = node_type::RED;
+				left->color() = node_type::RED;
 				return false;
 			}
 		}
 
 		void swap_node(node_type *a, node_type *b)
 		{
-			if (a->parent == b) {
+			if (a->parent() == b) {
 				swap_node_with_parent(a);
-			} else if (b->parent == a) {
+			} else if (b->parent() == a) {
 				swap_node_with_parent(b);
 			} else {
-				node_type *a_parent = a->parent;
-				node_type *a_left   = a->left;
-				node_type *a_right  = a->right;
+				node_type *a_parent = a->parent();
+				node_type *a_left   = a->left();
+				node_type *a_right  = a->right();
 
-				if (b->parent->left == b) {
-					b->parent->link_left(a);
+				if (b->parent()->left() == b) {
+					b->parent()->link_left(a);
 				} else {
-					b->parent->link_right(a);
+					b->parent()->link_right(a);
 				}
-				if (a_parent->left == a) {
+				if (a_parent->left() == a) {
 					a_parent->link_left(b);
 				} else {
 					a_parent->link_right(b);
 				}
-				a->link_left(b->left);
-				a->link_right(b->right);
+				a->link_left(b->left());
+				a->link_right(b->right());
 				b->link_left(a_left);
 				b->link_right(a_right);
-				std::swap(a->color, b->color);
+				std::swap(a->color(), b->color());
 			}
 		}
 
 		void swap_node_with_parent(node_type *child)
 		{
-			node_type *parent = child->parent;
-			node_type *left   = child->left;
-			node_type *right  = child->right;
+			node_type *parent = child->parent();
+			node_type *left   = child->left();
+			node_type *right  = child->right();
 
 			promote_child(parent, child);
-			if (parent->left == child) {
+			if (parent->left() == child) {
 				child->link_left(parent);
-				child->link_right(parent->right);
-			} else if (parent->right == child) {
+				child->link_right(parent->right());
+			} else if (parent->right() == child) {
 				child->link_right(parent);
-				child->link_left(parent->left);
+				child->link_left(parent->left());
 			}
 			parent->link_left(left);
 			parent->link_right(right);
-			std::swap(parent->color, child->color);
+			std::swap(parent->color(), child->color());
 		}
 
 		bool has_red_child(node_type *n)
 		{
-			return is_red(n->left) || is_red(n->right);
+			return is_red(n->left()) || is_red(n->right());
 		}
 
 		bool is_black(node_type *n)
 		{
-			return n == NULL || n->color == node_type::BLACK;
+			return n == NULL || n->color() == node_type::BLACK;
 		}
 
 		bool is_red(node_type *n)
@@ -665,12 +731,12 @@ namespace ft
 
 		node_type *rotate_left(node_type *top)
 		{
-			if (top == NULL || top->right == NULL) {
+			if (top == NULL || top->right() == NULL) {
 				return top;
 			}
-			node_type *new_top  = top->right;
+			node_type *new_top  = top->right();
 			node_type *new_left = top;
-			node_type *isolated = new_top->left;
+			node_type *isolated = new_top->left();
 
 			promote_child(top, new_top);
 			new_top->link_left(new_left);
@@ -680,12 +746,12 @@ namespace ft
 
 		node_type *rotate_right(node_type *top)
 		{
-			if (top == NULL || top->left == NULL) {
+			if (top == NULL || top->left() == NULL) {
 				return top;
 			}
-			node_type *new_top   = top->left;
+			node_type *new_top   = top->left();
 			node_type *new_right = top;
-			node_type *isolated  = new_top->right;
+			node_type *isolated  = new_top->right();
 
 			promote_child(top, new_top);
 			new_top->link_right(new_right);
@@ -698,8 +764,8 @@ namespace ft
 			if (n == NULL) {
 				return;
 			}
-			node_type *left  = n->left;
-			node_type *right = n->right;
+			node_type *left  = n->left();
+			node_type *right = n->right();
 			node_manager_.destroy(n);
 			delete_subtree(left);
 			delete_subtree(right);
@@ -731,14 +797,14 @@ namespace ft
 
 		static node_type *next(node_type *node)
 		{
-			if (node->right) {
-				node = node->right->min();
+			if (node->right()) {
+				node = node->right()->min();
 			} else {
-				node_type *parent = node->parent;
+				node_type *parent = node->parent();
 
-				while (node != parent->left) {
+				while (node != parent->left()) {
 					node   = parent;
-					parent = parent->parent;
+					parent = parent->parent();
 				}
 				node = parent;
 			}
@@ -747,14 +813,14 @@ namespace ft
 
 		static node_type *prev(node_type *node)
 		{
-			if (node->left) {
-				node = node->left->max();
+			if (node->left()) {
+				node = node->left()->max();
 			} else {
-				node_type *parent = node->parent;
+				node_type *parent = node->parent();
 
-				while (node != parent->right) {
+				while (node != parent->right()) {
 					node   = parent;
-					parent = parent->parent;
+					parent = parent->parent();
 				}
 				node = parent;
 			}
@@ -879,7 +945,6 @@ namespace ft
 			return base->value();
 		}
 
-		// TODO valueの持ち方ポインタの方がいい？例外安全関連とか
 		pointer operator->() const
 		{
 			return base->value_ptr();
