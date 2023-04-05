@@ -569,6 +569,23 @@ TEST_F(vector, assign_input_iter_val_reserved)
 	}
 }
 
+TEST_F(vector, assign_input_iter_exception)
+{
+	size_t            a1[]  = {1, 2, 3, 4};
+	Vector            v2;
+	std::stringstream ss;
+
+	v2.resize(1);
+	init_ss(ss, a1, ARRAY_SIZE(a1));
+	// ftc::PrintOn _;
+	ftc::ExceptionOn o;
+	try {
+		v2.assign(InputIter(ss), InputIter());
+	} catch (...) {
+	}
+	EXPECT_NE(v2.capacity(), 0U);
+}
+
 TEST_F(vector, assign_input_iter_append)
 {
 	size_t            a1[]  = {1, 2, 3};
