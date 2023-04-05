@@ -383,6 +383,16 @@ namespace ft
 			return const_iterator(latest_greater);
 		}
 
+
+		// TODO あとでhint付に変えるかも
+		template <class InputIt>
+		void insert(InputIt first, InputIt last)
+		{
+			for (; first != last; ++first) {
+				insert(*first);
+			}
+		}
+
 		pair<iterator, bool> insert(const value_type &value)
 		{
 			ft::pair<node_type *, node_type **> nodes  = find_pos(get_key_(value));
