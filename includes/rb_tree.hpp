@@ -1,6 +1,7 @@
 #ifndef RB_TREE_HPP
 #define RB_TREE_HPP
 
+#include <algorithm>
 #include <cassert> // TODO ifdef
 #include <iostream>
 #include <iterator>
@@ -309,6 +310,25 @@ namespace ft
 		const value_compare &value_cmp() const
 		{
 			return cmp_;
+		}
+
+		void swap(rb_tree &t)
+		{
+			if (node_allocator_ != t.node_allocator_) {
+				std::swap(node_allocator_, t.node_allocator_);
+			}
+			std::swap(cmp_, t.cmp_);
+			std::swap(size_, t.size_);
+			std::swap(root_, t.root_);
+			end_.link_left(root_);
+			t.end_.link_left(t.root_);
+			std::swap(min_, t.min_);
+			if (min_ == &t.end_) {
+				min_ = &end_;
+			}
+			if (t.min_ == &end_) {
+				t.min_ = &t.end_;
+			}
 		}
 
 		iterator find(const key_type &key)

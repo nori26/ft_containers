@@ -96,6 +96,13 @@ namespace ft
 			insert(other.begin(), other.end());
 		}
 
+		// std::swap(tree_, other.tree_)では、
+		// tree側でstd::swapがオーバーロードされていない場合O(1)にならない
+		void swap(map &other)
+		{
+			tree_.swap(other.tree_);
+		}
+
 		pair<iterator, bool> insert(const value_type &value)
 		{
 			return tree_.insert(value);
