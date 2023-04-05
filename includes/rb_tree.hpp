@@ -20,8 +20,6 @@ namespace ft
 	template <typename NodeType>
 	class rb_tree_generator;
 
-	// コピー回数の最小化と、例外安全の両立のため、valueはポインタで持つ
-	// allocatorをnodeが持つのは今一なので、allocate, deallocateは使用者の責任
 	template <typename Value>
 	struct rb_tree_node
 	{
@@ -31,7 +29,7 @@ namespace ft
 		};
 		typedef Value value_type;
 
-		value_type   *value;
+		value_type    value;
 		color_type    color;
 		rb_tree_node *parent;
 		rb_tree_node *left;
@@ -120,62 +118,37 @@ namespace ft
 			{
 				rb_tree   &tree_;
 				node_type *node_;
-				bool       is_node_constructed_;
-				bool       is_value_constructed_;
 
 			  public:
-				node_creator(rb_tree &tree)
-					: tree_(tree),
-					  node_(),
-					  is_node_constructed_(false),
-					  is_value_constructed_(false)
-				{}
+				node_creator(rb_tree &tree) : tree_(tree), node_() {}
 
 				node_type *create(const value_type &v)
 				{
 					node_ = tree_.node_allocator_.allocate(1);
-					construct_node(node_, NULL);
-					node_->value = tree_.value_allocator_.allocate(1);
-					construct_value(node_->value, v);
-					return release();
+					construct_node(node_, v);
+					node_type *ret = node_;
+					node_          = NULL;
+					return ret;
 				}
 
+				// nodeのdestroyはしない
+				// valueのコンストラクトで例外が投げられたときのみnodeのdeallocateに到達する
 				~node_creator()
 				{
 					if (node_ == NULL) {
 						return;
 					}
-					if (is_node_constructed_) {
-						if (is_value_constructed_) {
-							tree_.value_allocator_.destroy(node_->value);
-						}
-						if (node_->value) {
-							tree_.value_allocator_.deallocate(node_->value, 1);
-						}
-						tree_.node_allocator_.destroy(node_);
-					}
 					tree_.node_allocator_.deallocate(node_, 1);
 				}
 
 			  private:
-				void construct_value(value_type *v, const value_type &data)
+				void construct_node(node_type *n, const value_type &v)
 				{
-					tree_.value_allocator_.construct(v, data);
-					is_value_constructed_ = true;
-				}
-
-				void construct_node(node_type *n, value_type *v)
-				{
-					tree_.node_allocator_.construct(n, node_type(v, node_type::RED));
-					is_node_constructed_ = true;
-				}
-
-				node_type *release()
-				{
-					node_type *ret       = node_;
-					node_                = NULL;
-					is_node_constructed_ = is_value_constructed_ = false;
-					return ret;
+					n->parent = NULL;
+					n->left   = NULL;
+					n->right  = NULL;
+					n->color  = node_type::RED;
+					tree_.get_allocator().construct(&n->value, v);
 				}
 			};
 
@@ -192,10 +165,6 @@ namespace ft
 				if (n == NULL) {
 					return;
 				}
-				if (n->value) {
-					tree_.value_allocator_.destroy(n->value);
-					tree_.value_allocator_.deallocate(n->value, 1);
-				}
 				tree_.node_allocator_.destroy(n);
 				tree_.node_allocator_.deallocate(n, 1);
 			}
@@ -205,10 +174,8 @@ namespace ft
 		node_type   end_;
 		node_type *&root_;
 
-		// allocatorが状態を持つ場合、value_allocatorとnode_allocatorが別なのは良くないかも
 	  private:
 		node_manager   node_manager_;
-		allocator_type value_allocator_;
 		node_allocator node_allocator_;
 		value_compare  cmp_;
 		key_of_value   get_key_;
@@ -220,7 +187,6 @@ namespace ft
 			: end_(node_type::BLACK),
 			  root_(end_.left),
 			  node_manager_(*this),
-			  value_allocator_(),
 			  node_allocator_(),
 			  cmp_(),
 			  get_key_(),
@@ -234,7 +200,6 @@ namespace ft
 			: end_(node_type::BLACK),
 			  root_(end_.left),
 			  node_manager_(*this),
-			  value_allocator_(alloc),
 			  node_allocator_(alloc),
 			  cmp_(cmp),
 			  get_key_(),
@@ -288,7 +253,7 @@ namespace ft
 			node_type *current        = root_;
 
 			while (current) {
-				if (value_cmp()(*current->value, key)) {
+				if (value_cmp()(current->value, key)) {
 					current = current->right;
 				} else {
 					latest_greater = current;
@@ -304,7 +269,7 @@ namespace ft
 			const node_type *current        = root_;
 
 			while (current) {
-				if (value_cmp()(*current->value, key)) {
+				if (value_cmp()(current->value, key)) {
 					current = current->right;
 				} else {
 					latest_greater = current;
@@ -362,7 +327,7 @@ namespace ft
 
 		allocator_type get_allocator() const
 		{
-			return value_allocator_;
+			return allocator_type(node_allocator_);
 		}
 
 		size_type max_size() const
@@ -434,7 +399,7 @@ namespace ft
 			node_type **child  = &end_.left;
 
 			while (*child) {
-				value_type &value = *(*child)->value;
+				value_type &value = (*child)->value;
 				if (value_cmp()(key, value)) {
 					parent = *child;
 					child  = &(*child)->left;
@@ -713,7 +678,6 @@ namespace ft
 			delete_subtree(left);
 			delete_subtree(right);
 		}
-
 	};
 
 	template <typename NodeType>
@@ -804,12 +768,12 @@ namespace ft
 
 		reference operator*() const
 		{
-			return *base->value;
+			return base->value;
 		}
 
 		pointer operator->() const
 		{
-			return base->value;
+			return &base->value;
 		}
 
 		iterator_type &operator++()
@@ -886,13 +850,13 @@ namespace ft
 
 		reference operator*() const
 		{
-			return *base->value;
+			return base->value;
 		}
 
 		// TODO valueの持ち方ポインタの方がいい？例外安全関連とか
 		pointer operator->() const
 		{
-			return base->value;
+			return &base->value;
 		}
 
 		iterator_type &operator++()
