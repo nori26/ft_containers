@@ -32,35 +32,27 @@ namespace ft
 	  private:
 		typedef Value value_type;
 		// アドレス演算子のオーバーロードを回避するための型
-		struct value_wrapper
-		{
-			value_type value;
-			value_wrapper() : value() {}
-		};
+		typedef value_type value_ptr_type[1];
 
-		value_wrapper wrapped_value_;
-		color_type    color_;
-		rb_tree_node *parent_;
-		rb_tree_node *left_;
-		rb_tree_node *right_;
+		value_ptr_type value_ptr_;
+		color_type     color_;
+		rb_tree_node  *parent_;
+		rb_tree_node  *left_;
+		rb_tree_node  *right_;
 
 	  public:
 		rb_tree_node(color_type c = BLACK)
-			: wrapped_value_(), color_(c), parent_(), left_(), right_()
-		{}
-
-		rb_tree_node(value_type *v, color_type c = RED)
-			: wrapped_value_(v), color_(c), parent_(), left_(), right_()
+			: value_ptr_(), color_(c), parent_(), left_(), right_()
 		{}
 
 		value_type &value()
 		{
-			return wrapped_value_.value;
+			return value_ptr_[0];
 		}
 
 		value_type *value_ptr()
 		{
-			return reinterpret_cast<value_type *>(&wrapped_value_);
+			return value_ptr_;
 		}
 
 		rb_tree_node *&parent()
@@ -85,12 +77,12 @@ namespace ft
 
 		const value_type &value() const
 		{
-			return wrapped_value_.value;
+			return value_ptr_[0];
 		}
 
 		const value_type *value_ptr() const
 		{
-			return reinterpret_cast<const value_type *>(&wrapped_value_);
+			return value_ptr_;
 		}
 
 		const rb_tree_node *parent() const
