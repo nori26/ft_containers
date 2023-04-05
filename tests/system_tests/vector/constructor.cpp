@@ -338,6 +338,20 @@ TEST_F(vector, range_constructor_input_iter5)
 	EXPECT_EQ(v2.capacity(), ARRAY_SIZE(a1));
 }
 
+TEST_F(vector, range_constructor_input_iter_exception_safety)
+{
+	size_t            a1[256] = {1, 2, 3};
+	std::stringstream ss;
+
+	init_ss(ss, a1, ARRAY_SIZE(a1));
+	InputIter        it(ss);
+	ftc::ExceptionOn o;
+	try {
+		Vector v2(it, InputIter());
+	} catch (...) {
+	}
+}
+
 TEST_F(vector, range_constructor_bidirectional_iter_empty)
 {
 	std::list<size_t> v;
