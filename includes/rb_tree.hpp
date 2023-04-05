@@ -28,18 +28,44 @@ namespace ft
 			BLACK,
 		};
 		typedef Value value_type;
+		// アドレス演算子のオーバーロードを回避するための型
+		struct value_wrapper
+		{
+			value_type value;
+			value_wrapper() : value() {}
+		};
 
-		value_type    value;
+		value_wrapper wrapped_value;
 		color_type    color;
 		rb_tree_node *parent;
 		rb_tree_node *left;
 		rb_tree_node *right;
 
-		rb_tree_node(color_type c = BLACK) : value(), color(c), parent(), left(), right() {}
+		rb_tree_node(color_type c = BLACK) : wrapped_value(), color(c), parent(), left(), right() {}
 
 		rb_tree_node(value_type *v, color_type c = RED)
-			: value(v), color(c), parent(), left(), right()
+			: wrapped_value(v), color(c), parent(), left(), right()
 		{}
+
+		value_type &value()
+		{
+			return wrapped_value.value;
+		}
+
+		const value_type &value() const
+		{
+			return wrapped_value.value;
+		}
+
+		value_type *value_ptr()
+		{
+			return reinterpret_cast<value_type *>(&wrapped_value);
+		}
+
+		const value_type *value_ptr() const
+		{
+			return reinterpret_cast<const value_type *>(&wrapped_value);
+		}
 
 		void link_left(rb_tree_node *new_left)
 		{
@@ -148,7 +174,7 @@ namespace ft
 					n->left   = NULL;
 					n->right  = NULL;
 					n->color  = node_type::RED;
-					tree_.get_allocator().construct(&n->value, v);
+					tree_.get_allocator().construct(n->value_ptr(), v);
 				}
 			};
 
@@ -253,7 +279,7 @@ namespace ft
 			node_type *current        = root_;
 
 			while (current) {
-				if (value_cmp()(current->value, key)) {
+				if (value_cmp()(current->value(), key)) {
 					current = current->right;
 				} else {
 					latest_greater = current;
@@ -269,7 +295,7 @@ namespace ft
 			const node_type *current        = root_;
 
 			while (current) {
-				if (value_cmp()(current->value, key)) {
+				if (value_cmp()(current->value(), key)) {
 					current = current->right;
 				} else {
 					latest_greater = current;
@@ -399,7 +425,7 @@ namespace ft
 			node_type **child  = &end_.left;
 
 			while (*child) {
-				value_type &value = (*child)->value;
+				value_type &value = (*child)->value();
 				if (value_cmp()(key, value)) {
 					parent = *child;
 					child  = &(*child)->left;
@@ -768,12 +794,12 @@ namespace ft
 
 		reference operator*() const
 		{
-			return base->value;
+			return base->value();
 		}
 
 		pointer operator->() const
 		{
-			return &base->value;
+			return base->value_ptr();
 		}
 
 		iterator_type &operator++()
@@ -850,13 +876,13 @@ namespace ft
 
 		reference operator*() const
 		{
-			return base->value;
+			return base->value();
 		}
 
 		// TODO valueの持ち方ポインタの方がいい？例外安全関連とか
 		pointer operator->() const
 		{
-			return &base->value;
+			return base->value_ptr();
 		}
 
 		iterator_type &operator++()
