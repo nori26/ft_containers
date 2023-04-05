@@ -67,7 +67,10 @@ namespace ft
 		)
 			: first_(NULL), last_(NULL), reserved_last_(NULL), allocator_(alloc)
 		{
-			assign(first, last);
+			vector v(allocator_);
+
+			v.assign(first, last);
+			swap(v);
 		}
 		// clang-format on
 
