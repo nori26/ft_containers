@@ -378,34 +378,34 @@ namespace ft
 
 		iterator lower_bound(const key_type &key)
 		{
-			node_type *latest_greater = &end_;
-			node_type *current        = root_;
+			node_type *latest_greater_eq = &end_;
+			node_type *current           = root_;
 
 			while (current) {
 				if (value_cmp()(current->value(), key)) {
 					current = current->right();
 				} else {
-					latest_greater = current;
-					current        = current->left();
+					latest_greater_eq = current;
+					current           = current->left();
 				}
 			}
-			return iterator(latest_greater);
+			return iterator(latest_greater_eq);
 		}
 
 		const_iterator lower_bound(const key_type &key) const
 		{
-			const node_type *latest_greater = &end_;
-			const node_type *current        = root_;
+			const node_type *latest_greater_eq = &end_;
+			const node_type *current           = root_;
 
 			while (current) {
 				if (value_cmp()(current->value(), key)) {
 					current = current->right();
 				} else {
-					latest_greater = current;
-					current        = current->left();
+					latest_greater_eq = current;
+					current           = current->left();
 				}
 			}
-			return const_iterator(latest_greater);
+			return const_iterator(latest_greater_eq);
 		}
 
 		iterator upper_bound(const key_type &key)
