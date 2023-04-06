@@ -42,8 +42,7 @@ namespace ft
 		rb_tree_node  *right_;
 
 	  public:
-		rb_tree_node(color_type c = BLACK)
-			: value_ptr_(), color_(c), parent_(), left_(), right_()
+		rb_tree_node(color_type c = BLACK) : value_ptr_(), color_(c), parent_(), left_(), right_()
 		{}
 
 		value_type &value()
