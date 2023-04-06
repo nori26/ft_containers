@@ -159,6 +159,16 @@ namespace ft
 			return tree_.lower_bound(key);
 		}
 
+		iterator upper_bound(const key_type &key)
+		{
+			return tree_.upper_bound(key);
+		}
+
+		const_iterator upper_bound(const key_type &key) const
+		{
+			return tree_.upper_bound(key);
+		}
+
 		// treeのget_allocatorが返す方に依存しない && 非explicitを期待しないように、明示的に変換する
 		allocator_type get_allocator() const
 		{

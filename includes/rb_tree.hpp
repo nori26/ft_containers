@@ -383,6 +383,37 @@ namespace ft
 			return const_iterator(latest_greater);
 		}
 
+		iterator upper_bound(const key_type &key)
+		{
+			node_type *latest_greater = &end_;
+			node_type *current        = root_;
+
+			while (current) {
+				if (value_cmp()(key, current->value())) {
+					latest_greater = current;
+					current = current->left();
+				} else {
+					current = current->right();
+				}
+			}
+			return iterator(latest_greater);
+		}
+
+		const_iterator upper_bound(const key_type &key) const
+		{
+			const node_type *latest_greater = &end_;
+			const node_type *current        = root_;
+
+			while (current) {
+				if (value_cmp()(key, current->value())) {
+					latest_greater = current;
+					current = current->left();
+				} else {
+					current = current->right();
+				}
+			}
+			return const_iterator(latest_greater);
+		}
 
 		// TODO あとでhint付に変えるかも
 		template <class InputIt>
