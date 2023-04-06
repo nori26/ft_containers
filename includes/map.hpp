@@ -90,17 +90,22 @@ namespace ft
 			insert(first, last);
 		}
 
-		// TODO
-		map(const map &other) : tree_()
-		{
-			insert(other.begin(), other.end());
-		}
+		map(const map &other) : tree_(other.tree_) {}
 
 		// std::swap(tree_, other.tree_)では、
 		// tree側でstd::swapがオーバーロードされていない場合O(1)にならない
 		void swap(map &other)
 		{
 			tree_.swap(other.tree_);
+		}
+
+		map &operator=(const map &rhs)
+		{
+			if (&rhs == this) {
+				return *this;
+			}
+			tree_ = rhs.tree_;
+			return *this;
 		}
 
 		pair<iterator, bool> insert(const value_type &value)

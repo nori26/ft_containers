@@ -293,6 +293,20 @@ namespace ft
 			init_structure();
 		}
 
+		rb_tree(const rb_tree &other)
+			: end_(node_type::BLACK),
+			  root_(end_.left()),
+			  node_manager_(*this),
+			  node_allocator_(other.node_allocator_),
+			  cmp_(),
+			  get_key_(),
+			  min_(),
+			  size_()
+		{
+			init_structure();
+			*this = other;
+		}
+
 	  private:
 		void init_structure()
 		{
@@ -301,6 +315,18 @@ namespace ft
 		}
 
 	  public:
+		rb_tree &operator=(const rb_tree &rhs)
+		{
+			if (&rhs == this) {
+				return *this;
+			}
+			rb_tree t(rhs.value_cmp(), node_allocator_);
+
+			t.insert(rhs.begin(), rhs.end());
+			swap(t);
+			return *this;
+		}
+
 		~rb_tree()
 		{
 			clear();
