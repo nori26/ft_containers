@@ -26,6 +26,143 @@ TEST(map, find_types)
 	EXPECT_EQ(typeid(m.find(1)), typeid(Map::const_iterator));
 }
 
+TEST(map, find)
+{
+	Map m;
+
+	m.insert(ft::make_pair(1, 1));
+	EXPECT_EQ(m.find(0), m.end());
+	EXPECT_EQ(m.find(1), m.begin());
+	EXPECT_EQ(m.find(2), m.end());
+
+	const Map cm = m;
+
+	EXPECT_EQ(cm.find(0), cm.end());
+	EXPECT_EQ(cm.find(1), cm.begin());
+	EXPECT_EQ(cm.find(2), cm.end());
+}
+
+TEST(map, find2)
+{
+	Map m;
+
+	for (int i = 1; i < 4; i++) {
+		m.insert(ft::make_pair(i, i));
+	}
+	Map::iterator it = m.begin();
+	for (int i = 1; i < 4; ++i, ++it) {
+		EXPECT_EQ(m.find(i), it);
+	}
+	EXPECT_EQ(m.find(-1), m.end());
+	EXPECT_EQ(m.find(0), m.end());
+	EXPECT_EQ(m.find(4), m.end());
+	EXPECT_EQ(m.find(5), m.end());
+
+	const Map cm = m;
+
+	Map::const_iterator cit = cm.begin();
+	for (int i = 1; i < 4; ++i, ++cit) {
+		EXPECT_EQ(cm.find(i), cit);
+	}
+	EXPECT_EQ(cm.find(-1), cm.end());
+	EXPECT_EQ(cm.find(0), cm.end());
+	EXPECT_EQ(cm.find(4), cm.end());
+	EXPECT_EQ(cm.find(5), cm.end());
+}
+
+TEST(map, find3)
+{
+	Map m;
+
+	for (int i = 1; i < 20; i++) {
+		m.insert(ft::make_pair(i, i));
+	}
+	m.erase(10);
+	Map::iterator it = m.begin();
+	for (int i = 1; i <= 9; ++i, ++it) {
+		EXPECT_EQ(m.find(i), it);
+	}
+	EXPECT_EQ(m.find(10), m.end());
+	for (int i = 11; i < 20; ++i, ++it) {
+		EXPECT_EQ(m.find(i), it);
+	}
+	EXPECT_EQ(m.find(-1), m.end());
+	EXPECT_EQ(m.find(0), m.end());
+	EXPECT_EQ(m.find(19), --m.end());
+	EXPECT_EQ(m.find(20), m.end());
+	EXPECT_EQ(m.find(21), m.end());
+
+	const Map cm = m;
+
+	Map::const_iterator cit = cm.begin();
+	for (int i = 1; i < 10; ++i, ++cit) {
+		EXPECT_EQ(cm.find(i), cit);
+	}
+	EXPECT_EQ(cm.find(10), cm.end());
+	for (int i = 11; i < 20; ++i, ++cit) {
+		EXPECT_EQ(cm.find(i), cit);
+	}
+	EXPECT_EQ(cm.find(-1), cm.end());
+	EXPECT_EQ(cm.find(0), cm.end());
+	EXPECT_EQ(cm.find(19), --cm.end());
+	EXPECT_EQ(cm.find(20), cm.end());
+	EXPECT_EQ(cm.find(21), cm.end());
+}
+
+TEST(map, find4)
+{
+	Map m0;
+
+	for (int i = 1; i <= 100; i++) {
+		if (i % 2) {
+			continue;
+		}
+		m0.insert(ft::make_pair(i, i));
+	}
+	{
+		Map           m  = m0;
+		Map::iterator it = m.begin();
+		for (int i = 1; i <= 100; ++i) {
+			if (!(i % 2)) {
+				ASSERT_EQ(m.find(i), it);
+				++it;
+			} else {
+				ASSERT_EQ(m.find(i), m.end());
+			}
+		}
+	}
+	{
+		const Map           m  = m0;
+		Map::const_iterator it = m.begin();
+		for (int i = 1; i <= 100; ++i) {
+			if (!(i % 2)) {
+				ASSERT_EQ(m.find(i), it);
+				++it;
+			} else {
+				ASSERT_EQ(m.find(i), m.end());
+			}
+		}
+	}
+}
+
+TEST(map, find_empty)
+{
+	Map m;
+
+	EXPECT_EQ(m.find(0), m.end());
+	EXPECT_EQ(m.find(-1), m.end());
+	EXPECT_EQ(m.find(INT_MIN), m.end());
+}
+
+TEST(map, find_empty_const)
+{
+	const Map m;
+
+	EXPECT_EQ(m.find(0), m.end());
+	EXPECT_EQ(m.find(-1), m.end());
+	EXPECT_EQ(m.find(INT_MIN), m.end());
+}
+
 TEST(map, lower_bound_types)
 {
 	const Map m;
