@@ -494,6 +494,12 @@ namespace ft
 			return ft::make_pair(const_iterator(saved), const_iterator(saved));
 		}
 
+		size_type count(const Key &key) const
+		{
+			ft::pair<const_iterator, const_iterator> its = equal_range(key);
+			return std::distance(its.first, its.second);
+		}
+
 		// TODO あとでhint付に変えるかも
 		template <class InputIt>
 		void insert(InputIt first, InputIt last)

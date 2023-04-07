@@ -184,6 +184,11 @@ namespace ft
 			return tree_.equal_range(key);
 		}
 
+		size_type count(const Key &key) const
+		{
+			return tree_.count(key);
+		}
+
 		// treeのget_allocatorが返す方に依存しない && 非explicitを期待しないように、明示的に変換する
 		allocator_type get_allocator() const
 		{
