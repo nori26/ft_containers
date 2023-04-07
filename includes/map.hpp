@@ -174,6 +174,16 @@ namespace ft
 			return tree_.upper_bound(key);
 		}
 
+		ft::pair<iterator, iterator> equal_range(const Key &key)
+		{
+			return tree_.equal_range(key);
+		}
+
+		ft::pair<const_iterator, const_iterator> equal_range(const Key &key) const
+		{
+			return tree_.equal_range(key);
+		}
+
 		// treeのget_allocatorが返す方に依存しない && 非explicitを期待しないように、明示的に変換する
 		allocator_type get_allocator() const
 		{
