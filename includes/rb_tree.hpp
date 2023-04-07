@@ -378,9 +378,27 @@ namespace ft
 
 		iterator lower_bound(const key_type &key)
 		{
-			node_type *latest_greater_eq = &end_;
-			node_type *current           = root_;
+			return lower_bound(root_, &end_, key);
+		}
 
+		const_iterator lower_bound(const key_type &key) const
+		{
+			return lower_bound(root_, &end_, key);
+		}
+
+		iterator upper_bound(const key_type &key)
+		{
+			return upper_bound(root_, &end_, key);
+		}
+
+		const_iterator upper_bound(const key_type &key) const
+		{
+			return upper_bound(root_, &end_, key);
+		}
+
+	  private:
+		iterator lower_bound(node_type *current, node_type *latest_greater_eq, const key_type &key)
+		{
 			while (current) {
 				if (value_cmp()(current->value(), key)) {
 					current = current->right();
@@ -392,11 +410,10 @@ namespace ft
 			return iterator(latest_greater_eq);
 		}
 
-		const_iterator lower_bound(const key_type &key) const
+		const_iterator lower_bound(
+			const node_type *current, const node_type *latest_greater_eq, const key_type &key
+		) const
 		{
-			const node_type *latest_greater_eq = &end_;
-			const node_type *current           = root_;
-
 			while (current) {
 				if (value_cmp()(current->value(), key)) {
 					current = current->right();
@@ -408,15 +425,12 @@ namespace ft
 			return const_iterator(latest_greater_eq);
 		}
 
-		iterator upper_bound(const key_type &key)
+		iterator upper_bound(node_type *current, node_type *latest_greater, const key_type &key)
 		{
-			node_type *latest_greater = &end_;
-			node_type *current        = root_;
-
 			while (current) {
 				if (value_cmp()(key, current->value())) {
 					latest_greater = current;
-					current = current->left();
+					current        = current->left();
 				} else {
 					current = current->right();
 				}
@@ -424,15 +438,14 @@ namespace ft
 			return iterator(latest_greater);
 		}
 
-		const_iterator upper_bound(const key_type &key) const
+		const_iterator upper_bound(
+			const node_type *current, const node_type *latest_greater, const key_type &key
+		) const
 		{
-			const node_type *latest_greater = &end_;
-			const node_type *current        = root_;
-
 			while (current) {
 				if (value_cmp()(key, current->value())) {
 					latest_greater = current;
-					current = current->left();
+					current        = current->left();
 				} else {
 					current = current->right();
 				}
@@ -440,6 +453,7 @@ namespace ft
 			return const_iterator(latest_greater);
 		}
 
+	  public:
 		// TODO あとでhint付に変えるかも
 		template <class InputIt>
 		void insert(InputIt first, InputIt last)
