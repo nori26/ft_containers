@@ -925,12 +925,14 @@ namespace ft
 
 		node_type *next()
 		{
-			return next(base);
+			base = next(base);
+			return base;
 		}
 
 		node_type *prev()
 		{
-			return prev(base);
+			base = prev(base);
+			return base;
 		}
 
 		static node_type *next(node_type *node)
