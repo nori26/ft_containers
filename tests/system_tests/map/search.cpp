@@ -466,3 +466,169 @@ TEST(map, upper_bound_empty_const)
 	EXPECT_EQ(m.upper_bound(-1), m.end());
 	EXPECT_EQ(m.upper_bound(INT_MIN), m.end());
 }
+
+TEST(map, count_types)
+{
+	const Map m;
+
+	EXPECT_EQ(typeid(Map().count(1)), typeid(Map::size_type));
+	EXPECT_EQ(typeid(m.count(1)), typeid(Map::size_type));
+}
+
+TEST(map, count)
+{
+	Map m;
+
+	m.insert(ft::make_pair(1, 1));
+	EXPECT_EQ(m.count(0), 0U);
+	EXPECT_EQ(m.count(1), 1U);
+	EXPECT_EQ(m.count(2), 0U);
+
+	const Map cm = m;
+
+	EXPECT_EQ(cm.count(0), 0U);
+	EXPECT_EQ(cm.count(1), 1U);
+	EXPECT_EQ(cm.count(2), 0U);
+}
+
+TEST(map, count2)
+{
+	Map m;
+
+	for (int i = 1; i < 4; i++) {
+		m.insert(ft::make_pair(i, i));
+	}
+	Map::iterator it = m.begin();
+	for (int i = 1; i < 4; ++i, ++it) {
+		EXPECT_EQ(m.count(i), 1U);
+	}
+	EXPECT_EQ(m.count(-1), 0U);
+	EXPECT_EQ(m.count(0), 0U);
+	EXPECT_EQ(m.count(4), 0U);
+	EXPECT_EQ(m.count(5), 0U);
+
+	const Map cm = m;
+
+	Map::const_iterator cit = cm.begin();
+	for (int i = 1; i < 4; ++i, ++cit) {
+		EXPECT_EQ(cm.count(i), 1U);
+	}
+	EXPECT_EQ(cm.count(-1), 0U);
+	EXPECT_EQ(cm.count(0), 0U);
+	EXPECT_EQ(cm.count(4), 0U);
+	EXPECT_EQ(cm.count(5), 0U);
+}
+
+TEST(map, count3)
+{
+	Map m;
+
+	for (int i = 1; i < 20; i++) {
+		m.insert(ft::make_pair(i, i));
+	}
+	m.erase(10);
+	Map::iterator it = m.begin();
+	for (int i = 1; i <= 9; ++i, ++it) {
+		EXPECT_EQ(m.count(i), 1U);
+	}
+	EXPECT_EQ(m.count(10), 0U);
+	for (int i = 11; i < 20; ++i, ++it) {
+		EXPECT_EQ(m.count(i), 1U);
+	}
+	EXPECT_EQ(m.count(-1), 0U);
+	EXPECT_EQ(m.count(0), 0U);
+	EXPECT_EQ(m.count(19), 1U);
+	EXPECT_EQ(m.count(20), 0U);
+	EXPECT_EQ(m.count(21), 0U);
+
+	const Map cm = m;
+
+	Map::const_iterator cit = cm.begin();
+	for (int i = 1; i < 10; ++i, ++cit) {
+		EXPECT_EQ(cm.count(i), 1U);
+	}
+	EXPECT_EQ(cm.count(10), 0U);
+	for (int i = 11; i < 20; ++i, ++cit) {
+		EXPECT_EQ(cm.count(i), 1U);
+	}
+	EXPECT_EQ(cm.count(-1), 0U);
+	EXPECT_EQ(cm.count(0), 0U);
+	EXPECT_EQ(cm.count(19), 1U);
+	EXPECT_EQ(cm.count(20), 0U);
+	EXPECT_EQ(cm.count(21), 0U);
+}
+
+TEST(map, count4)
+{
+	Map m0;
+
+	for (int i = 1; i <= 100; i++) {
+		if (i % 2) {
+			continue;
+		}
+		m0.insert(ft::make_pair(i, i));
+	}
+	{
+		Map           m  = m0;
+		Map::iterator it = m.begin();
+		for (int i = 1; i <= 100; ++i) {
+			if (!(i % 2)) {
+				ASSERT_EQ(m.count(i), 1U);
+				++it;
+			} else {
+				ASSERT_EQ(m.count(i), 0U);
+			}
+		}
+	}
+	{
+		const Map           m  = m0;
+		Map::const_iterator it = m.begin();
+		for (int i = 1; i <= 100; ++i) {
+			if (!(i % 2)) {
+				ASSERT_EQ(m.count(i), 1U);
+				++it;
+			} else {
+				ASSERT_EQ(m.count(i), 0U);
+			}
+		}
+	}
+}
+
+TEST(map, count5)
+{
+	Map m0;
+
+	for (int i = 1; i <= 100; i++) {
+		m0.insert(ft::make_pair(1, i));
+	}
+	{
+		Map m = m0;
+		EXPECT_EQ(m.count(0), 0U);
+		EXPECT_EQ(m.count(1), 1U);
+		EXPECT_EQ(m.count(2), 0U);
+	}
+	{
+		const Map m = m0;
+		EXPECT_EQ(m.count(0), 0U);
+		EXPECT_EQ(m.count(1), 1U);
+		EXPECT_EQ(m.count(2), 0U);
+	}
+}
+
+TEST(map, count_empty)
+{
+	Map m;
+
+	EXPECT_EQ(m.count(0), 0U);
+	EXPECT_EQ(m.count(-1), 0U);
+	EXPECT_EQ(m.count(INT_MIN), 0U);
+}
+
+TEST(map, count_empty_const)
+{
+	const Map m;
+
+	EXPECT_EQ(m.count(0), 0U);
+	EXPECT_EQ(m.count(-1), 0U);
+	EXPECT_EQ(m.count(INT_MIN), 0U);
+}
