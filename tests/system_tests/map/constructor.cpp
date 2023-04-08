@@ -144,6 +144,19 @@ TEST(map, range_constructor)
 	EXPECT_EQ(v1.size(), ARRAY_SIZE(a1));
 }
 
+TEST(map, range_constructor_const)
+{
+	const ValueType a1[] = {ft::make_pair(1, 1), ft::make_pair(2, 1), ft::make_pair(3, 1)};
+	Map             v1(a1, a1 + ARRAY_SIZE(a1));
+
+	Map::iterator it = v1.begin();
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		ASSERT_EQ(*it, a1[i]);
+		++it;
+	}
+	EXPECT_EQ(v1.size(), ARRAY_SIZE(a1));
+}
+
 TEST(map, range_constructor_bidirectional_iter_empty)
 {
 	std::list<ValueType> v;
@@ -164,12 +177,26 @@ TEST(map, range_constructor_bidirectional_iter_empty2)
 	EXPECT_EQ(v2.key_comp().id, c.id);
 }
 
-TEST(map, range_constructor_bidirectional_iter4)
+TEST(map, range_constructor_bidirectional_iter1)
 {
 	ValueType            a1[] = {ft::make_pair(1, 1), ft::make_pair(2, 1), ft::make_pair(3, 1)};
 	std::list<ValueType> v1(a1, a1 + ARRAY_SIZE(a1));
 
-	Map v2(v1.begin(), v1.end());
+	Map           v2(v1.begin(), v1.end());
+	Map::iterator it = v2.begin();
+	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
+		ASSERT_EQ(*it, a1[i]);
+		++it;
+	}
+	EXPECT_EQ(v2.size(), ARRAY_SIZE(a1));
+}
+
+TEST(map, range_constructor_bidirectional_iter2)
+{
+	ValueType a1[] = {ft::make_pair(1, 1), ft::make_pair(2, 1), ft::make_pair(3, 1)};
+	const std::list<ValueType> v1(a1, a1 + ARRAY_SIZE(a1));
+
+	Map           v2(v1.begin(), v1.end());
 	Map::iterator it = v2.begin();
 	for (size_t i = 0; i < ARRAY_SIZE(a1); i++) {
 		ASSERT_EQ(*it, a1[i]);
