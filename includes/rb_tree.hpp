@@ -582,6 +582,7 @@ namespace ft
 			delete_subtree(root_);
 			root_ = NULL;
 			min_  = &end_;
+			size_ = 0;
 		}
 
 		iterator begin()
