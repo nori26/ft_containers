@@ -454,6 +454,8 @@ namespace ft
 		}
 
 	  public:
+		// multimapのような同一キーを許容する構造でも流用できるように、lb, ubでrangeを取る
+		// ++itよりもubの方が木を遡ることがない分、平均的にはたぶん少し速いかも
 		ft::pair<iterator, iterator> equal_range(const Key &key)
 		{
 			node_type *saved   = &end_;
