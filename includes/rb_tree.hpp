@@ -400,11 +400,11 @@ namespace ft
 		iterator lower_bound(node_type *current, node_type *latest_greater_eq, const key_type &key)
 		{
 			while (current) {
-				if (value_cmp()(current->value(), key)) {
-					current = current->right();
-				} else {
+				if (!value_cmp()(current->value(), key)) {
 					latest_greater_eq = current;
 					current           = current->left();
+				} else {
+					current = current->right();
 				}
 			}
 			return iterator(latest_greater_eq);
@@ -415,11 +415,11 @@ namespace ft
 		) const
 		{
 			while (current) {
-				if (value_cmp()(current->value(), key)) {
-					current = current->right();
-				} else {
+				if (!value_cmp()(current->value(), key)) {
 					latest_greater_eq = current;
 					current           = current->left();
+				} else {
+					current = current->right();
 				}
 			}
 			return const_iterator(latest_greater_eq);
