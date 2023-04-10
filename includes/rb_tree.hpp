@@ -448,42 +448,42 @@ namespace ft
 		// ++itよりもubの方が木を遡ることがない分、平均的にはたぶん少し速いかも
 		pair<iterator, iterator> equal_range(const Key &key)
 		{
-			node_type *saved   = &end_;
-			node_type *current = root_;
+			node_type *latest_greater = &end_;
+			node_type *current        = root_;
 
 			while (current) {
 				if (value_cmp()(key, current->value())) {
-					saved   = current;
-					current = current->left();
+					latest_greater = current;
+					current        = current->left();
 				} else if (value_cmp()(current->value(), key)) {
 					current = current->right();
 				} else {
-					iterator lb = lower_bound(current, saved, key);
-					iterator ub = upper_bound(current->right(), saved, key);
+					iterator lb = lower_bound(current, latest_greater, key);
+					iterator ub = upper_bound(current->right(), latest_greater, key);
 					return make_pair(lb, ub);
 				}
 			}
-			return make_pair(iterator(saved), iterator(saved));
+			return make_pair(iterator(latest_greater), iterator(latest_greater));
 		}
 
 		pair<const_iterator, const_iterator> equal_range(const Key &key) const
 		{
-			const node_type *saved   = &end_;
-			const node_type *current = root_;
+			const node_type *latest_greater = &end_;
+			const node_type *current        = root_;
 
 			while (current) {
 				if (value_cmp()(key, current->value())) {
-					saved   = current;
-					current = current->left();
+					latest_greater = current;
+					current        = current->left();
 				} else if (value_cmp()(current->value(), key)) {
 					current = current->right();
 				} else {
-					const_iterator lb = lower_bound(current, saved, key);
-					const_iterator ub = upper_bound(current->right(), saved, key);
+					const_iterator lb = lower_bound(current, latest_greater, key);
+					const_iterator ub = upper_bound(current->right(), latest_greater, key);
 					return make_pair(lb, ub);
 				}
 			}
-			return make_pair(const_iterator(saved), const_iterator(saved));
+			return make_pair(const_iterator(latest_greater), const_iterator(latest_greater));
 		}
 
 		size_type count(const Key &key) const
