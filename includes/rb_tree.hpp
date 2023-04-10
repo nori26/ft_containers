@@ -513,7 +513,7 @@ namespace ft
 
 		pair<iterator, bool> insert(const value_type &value)
 		{
-			ft::pair<node_type *, node_type **> nodes  = find_pos(get_key_(value));
+			ft::pair<node_type *, node_type **> nodes  = find_pos(value);
 			node_type                          *parent = nodes.first;
 			node_type                         **child  = nodes.second;
 
@@ -651,17 +651,17 @@ namespace ft
 		}
 
 	  private:
-		ft::pair<node_type *, node_type **> find_pos(const key_type &key)
+		ft::pair<node_type *, node_type **> find_pos(const value_type &target)
 		{
 			node_type  *parent = &end_;
 			node_type **child  = &end_.left();
 
 			while (*child) {
 				value_type &value = (*child)->value();
-				if (value_cmp()(key, value)) {
+				if (value_cmp()(target, value)) {
 					parent = *child;
 					child  = &(*child)->left();
-				} else if (value_cmp()(value, key)) {
+				} else if (value_cmp()(value, target)) {
 					parent = *child;
 					child  = &(*child)->right();
 				} else {
