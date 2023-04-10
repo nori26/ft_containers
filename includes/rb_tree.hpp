@@ -792,7 +792,7 @@ namespace ft
 			if (is_red(left->right()) && is_black(left->left())) {
 				left                   = rotate_left(left);
 				left->color()          = node_type::BLACK;
-				left->right()->color() = node_type::RED;
+				left->left()->color() = node_type::RED;
 			}
 			if (is_red(left->left())) {
 				color_type old        = top->color();
