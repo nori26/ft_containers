@@ -977,6 +977,8 @@ namespace ft
 	template <typename Value>
 	class rb_tree_iterator
 	{
+		template <typename, typename, typename, typename, typename>
+		friend class rb_tree;
 		template <typename>
 		friend class rb_tree_const_iterator;
 
