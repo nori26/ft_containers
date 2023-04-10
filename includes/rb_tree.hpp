@@ -492,7 +492,7 @@ namespace ft
 
 		size_type count(const Key &key) const
 		{
-			pair<const_iterator, const_iterator> its = equal_range(key);
+			const_iterator_pair its = equal_range(key);
 			return std::distance(its.first, its.second);
 		}
 
@@ -527,8 +527,8 @@ namespace ft
 
 		size_type erase(const key_type &key)
 		{
-			pair<iterator, iterator> eq_range = equal_range(key);
-			size_type                old_size = size();
+			iterator_pair eq_range = equal_range(key);
+			size_type     old_size = size();
 			erase(eq_range.first, eq_range.second);
 			return old_size - size();
 		}
