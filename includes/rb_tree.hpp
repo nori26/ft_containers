@@ -809,8 +809,8 @@ namespace ft
 				left                  = top->left();
 			}
 			if (is_red(left->right()) && is_black(left->left())) {
-				left                   = rotate_left(left);
-				left->color()          = node_type::BLACK;
+				left                  = rotate_left(left);
+				left->color()         = node_type::BLACK;
 				left->left()->color() = node_type::RED;
 			}
 			if (is_red(left->left())) {
