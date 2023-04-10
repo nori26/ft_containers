@@ -127,21 +127,17 @@ namespace ft
 
 		iterator erase(iterator pos)
 		{
-			(void)pos;
-			return iterator();
+			return tree_.erase(pos);
 		}
 
 		iterator erase(iterator first, iterator last)
 		{
-			(void)first, (void)last;
-			return iterator();
+			return tree_.erase(first, last);
 		}
 
 		size_type erase(const key_type &key)
 		{
-			(void)key;
-			tree_.erase(key);
-			return 0;
+			return tree_.erase(key);
 		}
 
 		iterator find(const key_type &key)

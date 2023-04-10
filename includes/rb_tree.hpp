@@ -531,9 +531,33 @@ namespace ft
 			return ft::make_pair(pos, true);
 		}
 
-		void erase(const key_type &key)
+		size_type erase(const key_type &key)
 		{
-			node_type *pos = *find_pos(key).second;
+			ft::pair<iterator, iterator> eq_range = equal_range(key);
+			size_type                    old_size = size();
+			erase(eq_range.first, eq_range.second);
+			return old_size - size();
+		}
+
+		// 後置インクリメントでiterator破壊を回避
+		iterator erase(iterator first, iterator last)
+		{
+			while (first != last) {
+				erase(first++);
+			}
+			return last;
+		}
+
+		iterator erase(iterator pos)
+		{
+			iterator next = ++iterator(pos);
+			erase(pos.base);
+			return next;
+		}
+
+	  private:
+		void erase(node_type *pos)
+		{
 			node_type *parent;
 			node_type *child;
 
@@ -557,6 +581,7 @@ namespace ft
 			size_--;
 		}
 
+	  public:
 		allocator_type get_allocator() const
 		{
 			return allocator_type(node_allocator_);
