@@ -162,19 +162,13 @@ namespace ft
 		}
 	};
 
-	template <
-		typename Key,
-		typename Value,
-		typename KeyOfValue,
-		typename Compare,
-		typename Allocator>
+	template <typename Key, typename Value, typename Compare, typename Allocator>
 	class rb_tree
 	{
 		// protected for visualize
 	  protected:
 		typedef rb_tree_node<Value> node_type;
 		typedef Compare             value_compare;
-		typedef KeyOfValue          key_of_value;
 
 	  private:
 		typedef rb_tree_generator<node_type> generator;
@@ -262,7 +256,6 @@ namespace ft
 		node_manager   node_manager_;
 		node_allocator node_allocator_;
 		value_compare  cmp_;
-		key_of_value   get_key_;
 		node_type     *min_;
 		size_type      size_;
 
@@ -273,7 +266,6 @@ namespace ft
 			  node_manager_(*this),
 			  node_allocator_(),
 			  cmp_(),
-			  get_key_(),
 			  min_(),
 			  size_()
 		{
@@ -286,7 +278,6 @@ namespace ft
 			  node_manager_(*this),
 			  node_allocator_(alloc),
 			  cmp_(cmp),
-			  get_key_(),
 			  min_(),
 			  size_()
 		{
@@ -299,7 +290,6 @@ namespace ft
 			  node_manager_(*this),
 			  node_allocator_(other.node_allocator_),
 			  cmp_(),
-			  get_key_(),
 			  min_(),
 			  size_()
 		{
@@ -1002,7 +992,7 @@ namespace ft
 	template <typename Value>
 	class rb_tree_iterator
 	{
-		template <typename, typename, typename, typename, typename>
+		template <typename, typename, typename, typename>
 		friend class rb_tree;
 		template <typename>
 		friend class rb_tree_const_iterator;

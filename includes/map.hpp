@@ -34,8 +34,7 @@ namespace ft
 
 	  private:
 		typedef map_value_compare<key_type, mapped_type, key_compare> tree_compare;
-		typedef map_key_of_value<key_type, value_type>                key_of_value;
-		typedef rb_tree<key_type, value_type, key_of_value, tree_compare, allocator_type> tree_type;
+		typedef rb_tree<key_type, value_type, tree_compare, allocator_type> tree_type;
 
 	  public:
 		typedef typename tree_type::iterator               iterator;
@@ -307,17 +306,6 @@ namespace ft
 			return cmp_(a, b.first);
 		}
 	};
-
-	template <typename Key, typename Value>
-	class map_key_of_value
-	{
-	  public:
-		const Key &operator()(const Value &v) const
-		{
-			return v.first;
-		}
-	};
-
 } // namespace ft
 
 #endif
