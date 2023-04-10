@@ -446,7 +446,7 @@ namespace ft
 	  public:
 		// multimapのような同一キーを許容する構造でも流用できるように、lb, ubでrangeを取る
 		// ++itよりもubの方が木を遡ることがない分、平均的にはたぶん少し速いかも
-		ft::pair<iterator, iterator> equal_range(const Key &key)
+		pair<iterator, iterator> equal_range(const Key &key)
 		{
 			node_type *saved   = &end_;
 			node_type *current = root_;
@@ -460,13 +460,13 @@ namespace ft
 				} else {
 					iterator lb = lower_bound(current, saved, key);
 					iterator ub = upper_bound(current->right(), saved, key);
-					return ft::make_pair(lb, ub);
+					return make_pair(lb, ub);
 				}
 			}
-			return ft::make_pair(iterator(saved), iterator(saved));
+			return make_pair(iterator(saved), iterator(saved));
 		}
 
-		ft::pair<const_iterator, const_iterator> equal_range(const Key &key) const
+		pair<const_iterator, const_iterator> equal_range(const Key &key) const
 		{
 			const node_type *saved   = &end_;
 			const node_type *current = root_;
@@ -480,15 +480,15 @@ namespace ft
 				} else {
 					const_iterator lb = lower_bound(current, saved, key);
 					const_iterator ub = upper_bound(current->right(), saved, key);
-					return ft::make_pair(lb, ub);
+					return make_pair(lb, ub);
 				}
 			}
-			return ft::make_pair(const_iterator(saved), const_iterator(saved));
+			return make_pair(const_iterator(saved), const_iterator(saved));
 		}
 
 		size_type count(const Key &key) const
 		{
-			ft::pair<const_iterator, const_iterator> its = equal_range(key);
+			pair<const_iterator, const_iterator> its = equal_range(key);
 			return std::distance(its.first, its.second);
 		}
 
@@ -503,12 +503,12 @@ namespace ft
 
 		pair<iterator, bool> insert(const value_type &value)
 		{
-			ft::pair<node_type *, node_type **> nodes  = find_equal(value);
-			node_type                          *parent = nodes.first;
-			node_type                         **child  = nodes.second;
+			pair<node_type *, node_type **> nodes  = find_equal(value);
+			node_type                      *parent = nodes.first;
+			node_type                     **child  = nodes.second;
 
 			if (*child) {
-				return ft::make_pair(*child, false);
+				return make_pair(*child, false);
 			}
 			node_type *pos     = node_manager_.create(value);
 			*child             = pos;
@@ -518,13 +518,13 @@ namespace ft
 				min_ = pos;
 			}
 			size_++;
-			return ft::make_pair(pos, true);
+			return make_pair(pos, true);
 		}
 
 		size_type erase(const key_type &key)
 		{
-			ft::pair<iterator, iterator> eq_range = equal_range(key);
-			size_type                    old_size = size();
+			pair<iterator, iterator> eq_range = equal_range(key);
+			size_type                old_size = size();
 			erase(eq_range.first, eq_range.second);
 			return old_size - size();
 		}
@@ -641,7 +641,7 @@ namespace ft
 		}
 
 	  private:
-		ft::pair<node_type *, node_type **> find_equal(const value_type &target)
+		pair<node_type *, node_type **> find_equal(const value_type &target)
 		{
 			node_type  *parent = &end_;
 			node_type **child  = &end_.left();
@@ -658,7 +658,7 @@ namespace ft
 					break;
 				}
 			}
-			return ft::make_pair(parent, child);
+			return make_pair(parent, child);
 		}
 
 		void balance_for_insert(node_type *top)

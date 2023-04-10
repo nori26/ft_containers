@@ -18,13 +18,13 @@ namespace ft
 		typename Key,
 		typename Mapped,
 		typename Compare   = std::less<Key>,
-		typename Allocator = std::allocator<ft::pair<const Key, Mapped> > >
+		typename Allocator = std::allocator<pair<const Key, Mapped> > >
 	class map
 	{
 	  public:
 		typedef Key                                      key_type;
 		typedef Mapped                                   mapped_type;
-		typedef ft::pair<const key_type, mapped_type>    value_type;
+		typedef pair<const key_type, mapped_type>        value_type;
 		typedef Compare                                  key_compare;
 		typedef Allocator                                allocator_type;
 		typedef typename allocator_type::pointer         pointer;
@@ -169,12 +169,12 @@ namespace ft
 			return tree_.upper_bound(key);
 		}
 
-		ft::pair<iterator, iterator> equal_range(const Key &key)
+		pair<iterator, iterator> equal_range(const Key &key)
 		{
 			return tree_.equal_range(key);
 		}
 
-		ft::pair<const_iterator, const_iterator> equal_range(const Key &key) const
+		pair<const_iterator, const_iterator> equal_range(const Key &key) const
 		{
 			return tree_.equal_range(key);
 		}
@@ -273,10 +273,10 @@ namespace ft
 	class map_value_compare
 	{
 	  private:
-		typedef Key                                   key_type;
-		typedef Mapped                                mapped_type;
-		typedef ft::pair<const key_type, mapped_type> value_type;
-		typedef Compare                               key_compare;
+		typedef Key                               key_type;
+		typedef Mapped                            mapped_type;
+		typedef pair<const key_type, mapped_type> value_type;
+		typedef Compare                           key_compare;
 
 	  private:
 		key_compare cmp_;
