@@ -170,9 +170,6 @@ namespace ft
 		typedef rb_tree_node<Value> node_type;
 		typedef Compare             value_compare;
 
-	  private:
-		typedef rb_tree_generator<node_type> generator;
-
 	  public:
 		typedef Key                                                   key_type;
 		typedef Value                                                 value_type;
@@ -187,6 +184,11 @@ namespace ft
 		typedef rb_tree_const_iterator<value_type>   const_iterator;
 		typedef ft::reverse_iterator<iterator>       reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+
+	  private:
+		typedef rb_tree_generator<node_type>         generator;
+		typedef pair<iterator, iterator>             iterator_pair;
+		typedef pair<const_iterator, const_iterator> const_iterator_pair;
 
 	  private:
 		class node_manager
@@ -446,7 +448,7 @@ namespace ft
 	  public:
 		// multimapのような同一キーを許容する構造でも流用できるように、lb, ubでrangeを取る
 		// ++itよりもubの方が木を遡ることがない分、平均的にはたぶん少し速いかも
-		pair<iterator, iterator> equal_range(const Key &key)
+		iterator_pair equal_range(const Key &key)
 		{
 			node_type *latest_greater = &end_;
 			node_type *current        = root_;
@@ -460,13 +462,13 @@ namespace ft
 				} else {
 					iterator lb = lower_bound(current, latest_greater, key);
 					iterator ub = upper_bound(current->right(), latest_greater, key);
-					return make_pair(lb, ub);
+					return iterator_pair(lb, ub);
 				}
 			}
-			return make_pair(iterator(latest_greater), iterator(latest_greater));
+			return iterator_pair(iterator(latest_greater), iterator(latest_greater));
 		}
 
-		pair<const_iterator, const_iterator> equal_range(const Key &key) const
+		const_iterator_pair equal_range(const Key &key) const
 		{
 			const node_type *latest_greater = &end_;
 			const node_type *current        = root_;
@@ -480,10 +482,12 @@ namespace ft
 				} else {
 					const_iterator lb = lower_bound(current, latest_greater, key);
 					const_iterator ub = upper_bound(current->right(), latest_greater, key);
-					return make_pair(lb, ub);
+					return const_iterator_pair(lb, ub);
 				}
 			}
-			return make_pair(const_iterator(latest_greater), const_iterator(latest_greater));
+			return const_iterator_pair(
+				const_iterator(latest_greater), const_iterator(latest_greater)
+			);
 		}
 
 		size_type count(const Key &key) const
@@ -508,7 +512,7 @@ namespace ft
 			node_type                     **child  = nodes.second;
 
 			if (*child) {
-				return make_pair(*child, false);
+				return pair<iterator, bool>(iterator(*child), false);
 			}
 			node_type *pos     = node_manager_.create(value);
 			*child             = pos;
@@ -518,7 +522,7 @@ namespace ft
 				min_ = pos;
 			}
 			size_++;
-			return make_pair(pos, true);
+			return pair<iterator, bool>(iterator(pos), true);
 		}
 
 		size_type erase(const key_type &key)
@@ -658,7 +662,7 @@ namespace ft
 					break;
 				}
 			}
-			return make_pair(parent, child);
+			return pair<node_type *, node_type **>(parent, child);
 		}
 
 		void balance_for_insert(node_type *top)
