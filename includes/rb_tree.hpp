@@ -363,6 +363,7 @@ namespace ft
 		}
 
 	  public:
+		// prev(end)はO(1)できないので、beginに対して逆順に挿入する
 		rb_tree &operator=(const rb_tree &rhs)
 		{
 			if (&rhs == this) {
@@ -370,7 +371,9 @@ namespace ft
 			}
 			rb_tree t(rhs.value_cmp(), node_allocator_);
 
-			t.insert(rhs.begin(), rhs.end());
+			for (const_reverse_iterator it = rhs.rbegin(); it != rhs.rend(); ++it) {
+				t.insert(t.begin(), *it);
+			}
 			swap(t);
 			return *this;
 		}
