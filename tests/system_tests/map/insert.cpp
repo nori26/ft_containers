@@ -5,6 +5,7 @@
 #include <typeinfo>
 
 #include "allocator.hpp"
+#include "cmp.hpp"
 #include "data.hpp"
 
 #ifdef FT_TEST
@@ -109,7 +110,7 @@ TEST(map, insert_hint)
 	}
 	for (size_t i = 0; i < 10; i++) {
 		std::random_shuffle(v.begin(), v.end());
-		Map m;
+		Map           m;
 		Map::iterator it = m.begin();
 		for (int j = 0; j < size; j++) {
 			it = m.insert(it, ft::make_pair(j, j));
@@ -117,7 +118,7 @@ TEST(map, insert_hint)
 		}
 		ASSERT_EQ(m.size(), (unsigned)size);
 		int n = 0;
-		for (Map::iterator it = m.begin(); it !=  m.end(); ++it, ++n) {
+		for (Map::iterator it = m.begin(); it != m.end(); ++it, ++n) {
 			ASSERT_EQ(*it, ValueType(ft::make_pair(n, n)));
 		}
 	}
@@ -139,7 +140,7 @@ TEST(map, insert_hint_begin)
 		}
 		ASSERT_EQ(m.size(), (unsigned)size);
 		int n = 0;
-		for (Map::iterator it = m.begin(); it !=  m.end(); ++it, ++n) {
+		for (Map::iterator it = m.begin(); it != m.end(); ++it, ++n) {
 			ASSERT_EQ(*it, ValueType(ft::make_pair(n, n)));
 		}
 	}
@@ -161,7 +162,7 @@ TEST(map, insert_hint_end)
 		}
 		ASSERT_EQ(m.size(), (unsigned)size);
 		int n = 0;
-		for (Map::iterator it = m.begin(); it !=  m.end(); ++it, ++n) {
+		for (Map::iterator it = m.begin(); it != m.end(); ++it, ++n) {
 			ASSERT_EQ(*it, ValueType(ft::make_pair(n, n)));
 		}
 	}
