@@ -250,6 +250,62 @@ namespace ft
 			}
 		};
 
+		class node_placeholder
+		{
+			node_type  *parent_;
+			node_type **child_ptr_;
+
+		  public:
+			node_placeholder() : parent_(), child_ptr_() {}
+
+			node_placeholder(const node_placeholder &other)
+				: parent_(other.parent_), child_ptr_(other.child_ptr_)
+			{}
+
+			node_placeholder(node_type *parent, node_type **child_ptr)
+				: parent_(parent), child_ptr_(child_ptr)
+			{}
+
+			void bind(node_type *node)
+			{
+				*child_ptr_ = node;
+				if (node) {
+					node->parent() = parent_;
+				}
+			}
+
+			node_type *node() const
+			{
+				return *child_ptr_;
+			}
+
+			bool empty() const
+			{
+				return *child_ptr_ == NULL;
+			}
+
+			static node_placeholder select_left(node_type *parent)
+			{
+				return node_placeholder(parent, &parent->left());
+			}
+
+			static node_placeholder select_right(node_type *parent)
+			{
+				return node_placeholder(parent, &parent->right());
+			}
+
+			static node_placeholder select_child(node_type *parent, node_type *child)
+			{
+				if (parent->left() == child) {
+					return select_left(parent);
+				} else if (parent->right() == child) {
+					return select_right(parent);
+				} else {
+					return node_placeholder(parent, NULL);
+				}
+			}
+		};
+
 	  protected:
 		node_type   end_;
 		node_type *&root_;
