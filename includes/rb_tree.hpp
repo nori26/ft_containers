@@ -250,19 +250,19 @@ namespace ft
 			}
 		};
 
-		class node_placeholder
+		class subtree_place
 		{
 			node_type  *parent_;
 			node_type **child_ptr_;
 
 		  public:
-			node_placeholder() : parent_(), child_ptr_() {}
+			subtree_place() : parent_(), child_ptr_() {}
 
-			node_placeholder(const node_placeholder &other)
+			subtree_place(const subtree_place &other)
 				: parent_(other.parent_), child_ptr_(other.child_ptr_)
 			{}
 
-			node_placeholder(node_type *parent, node_type **child_ptr)
+			subtree_place(node_type *parent, node_type **child_ptr)
 				: parent_(parent), child_ptr_(child_ptr)
 			{}
 
@@ -284,24 +284,24 @@ namespace ft
 				return *child_ptr_ == NULL;
 			}
 
-			static node_placeholder select_left(node_type *parent)
+			static subtree_place select_left(node_type *parent)
 			{
-				return node_placeholder(parent, &parent->left());
+				return subtree_place(parent, &parent->left());
 			}
 
-			static node_placeholder select_right(node_type *parent)
+			static subtree_place select_right(node_type *parent)
 			{
-				return node_placeholder(parent, &parent->right());
+				return subtree_place(parent, &parent->right());
 			}
 
-			static node_placeholder select_child_side(node_type *parent, node_type *child)
+			static subtree_place select_child_side(node_type *parent, node_type *child)
 			{
 				if (parent->left() == child) {
 					return select_left(parent);
 				} else if (parent->right() == child) {
 					return select_right(parent);
 				} else {
-					return node_placeholder(parent, NULL);
+					return subtree_place(parent, NULL);
 				}
 			}
 		};
@@ -565,7 +565,7 @@ namespace ft
 
 		iterator insert(iterator hint, const value_type &value)
 		{
-			node_placeholder dest = find_equal(hint, value);
+			subtree_place dest = find_equal(hint, value);
 
 			if (!dest.empty()) {
 				return iterator(dest.node());
@@ -575,7 +575,7 @@ namespace ft
 
 		pair<iterator, bool> insert(const value_type &value)
 		{
-			node_placeholder dest = find_equal(value);
+			subtree_place dest = find_equal(value);
 
 			if (!dest.empty()) {
 				return pair<iterator, bool>(iterator(dest.node()), false);
@@ -585,7 +585,7 @@ namespace ft
 		}
 
 	  private:
-		iterator insert(node_placeholder &dest, const value_type &value)
+		iterator insert(subtree_place &dest, const value_type &value)
 		{
 			node_type *new_node = node_manager_.create(value);
 			dest.bind(new_node);
@@ -718,7 +718,7 @@ namespace ft
 		}
 
 	  private:
-		node_placeholder find_equal(const value_type &target)
+		subtree_place find_equal(const value_type &target)
 		{
 			node_type  *parent = &end_;
 			node_type **child  = &end_.left();
@@ -735,21 +735,21 @@ namespace ft
 					break;
 				}
 			}
-			return node_placeholder(parent, child);
+			return subtree_place(parent, child);
 		}
 
-		node_placeholder find_equal(iterator hint, const value_type &value)
+		subtree_place find_equal(iterator hint, const value_type &value)
 		{
 			if (hint == end() || value_cmp()(value, *hint)) {
 				if (hint == begin()) {
-					return node_placeholder::select_left(hint.base);
+					return subtree_place::select_left(hint.base);
 				}
 				iterator prev = --iterator(hint);
 				if (value_cmp()(*prev, value)) {
 					if (hint.base->left() == NULL) {
-						return node_placeholder::select_left(hint.base);
+						return subtree_place::select_left(hint.base);
 					} else {
-						return node_placeholder::select_right(prev.base);
+						return subtree_place::select_right(prev.base);
 					}
 				}
 				return find_equal(value);
@@ -757,14 +757,14 @@ namespace ft
 				iterator next = ++iterator(hint);
 				if (next == end() || value_cmp()(value, *next)) {
 					if (hint.base->right() == NULL) {
-						return node_placeholder::select_right(hint.base);
+						return subtree_place::select_right(hint.base);
 					} else {
-						return node_placeholder::select_left(next.base);
+						return subtree_place::select_left(next.base);
 					}
 				}
 				return find_equal(value);
 			}
-			return node_placeholder::select_child_side(hint.base->parent(), hint.base);
+			return subtree_place::select_child_side(hint.base->parent(), hint.base);
 		}
 
 		void balance_for_insert(node_type *top)
@@ -821,7 +821,7 @@ namespace ft
 		{
 			assert(parent && parent->parent());
 			node_type *grand_parent = parent->parent();
-			node_placeholder::select_child_side(grand_parent, parent).bind(child);
+			subtree_place::select_child_side(grand_parent, parent).bind(child);
 		}
 
 		void balance_for_erase(node_type *parent, node_type *target, node_type *detached)
@@ -929,10 +929,10 @@ namespace ft
 			} else if (b->parent() == a) {
 				swap_node_with_parent(b);
 			} else {
-				node_type       *a_left  = a->left();
-				node_type       *a_right = a->right();
-				node_placeholder a_place = node_placeholder::select_child_side(a->parent(), a);
-				node_placeholder b_place = node_placeholder::select_child_side(b->parent(), b);
+				node_type    *a_left  = a->left();
+				node_type    *a_right = a->right();
+				subtree_place a_place = subtree_place::select_child_side(a->parent(), a);
+				subtree_place b_place = subtree_place::select_child_side(b->parent(), b);
 
 				b_place.bind(a);
 				a->link_left(b->left());
