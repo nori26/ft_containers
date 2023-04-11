@@ -776,17 +776,11 @@ namespace ft
 		}
 
 		// childがNULLの場合もあるのでparentを受け取る
-		// grand_parentがend_の可能性もあるのでポインタで比較
 		void promote_child(node_type *parent, node_type *child)
 		{
 			assert(parent && parent->parent());
 			node_type *grand_parent = parent->parent();
-
-			if (grand_parent->left() == parent) {
-				grand_parent->link_left(child);
-			} else if (grand_parent->right() == parent) {
-				grand_parent->link_right(child);
-			}
+			node_placeholder::select_child_side(grand_parent, parent).bind(child);
 		}
 
 		void balance_for_erase(node_type *parent, node_type *target, node_type *detached)
@@ -894,22 +888,15 @@ namespace ft
 			} else if (b->parent() == a) {
 				swap_node_with_parent(b);
 			} else {
-				node_type *a_parent = a->parent();
-				node_type *a_left   = a->left();
-				node_type *a_right  = a->right();
+				node_type       *a_left  = a->left();
+				node_type       *a_right = a->right();
+				node_placeholder a_place = node_placeholder::select_child_side(a->parent(), a);
+				node_placeholder b_place = node_placeholder::select_child_side(b->parent(), b);
 
-				if (b->parent()->left() == b) {
-					b->parent()->link_left(a);
-				} else {
-					b->parent()->link_right(a);
-				}
-				if (a_parent->left() == a) {
-					a_parent->link_left(b);
-				} else {
-					a_parent->link_right(b);
-				}
+				b_place.bind(a);
 				a->link_left(b->left());
 				a->link_right(b->right());
+				a_place.bind(b);
 				b->link_left(a_left);
 				b->link_right(a_right);
 				std::swap(a->color(), b->color());
