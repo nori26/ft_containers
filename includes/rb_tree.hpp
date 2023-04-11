@@ -552,13 +552,22 @@ namespace ft
 			return std::distance(its.first, its.second);
 		}
 
-		// TODO あとでhint付に変えるかも
 		template <class InputIt>
 		void insert(InputIt first, InputIt last)
 		{
 			for (; first != last; ++first) {
 				insert(*first);
 			}
+		}
+
+		iterator insert(iterator hint, const value_type &value)
+		{
+			node_placeholder dest = find_equal(hint, value);
+
+			if (!dest.empty()) {
+				return iterator(dest.node());
+			}
+			return insert(dest, value);
 		}
 
 		pair<iterator, bool> insert(const value_type &value)
@@ -724,6 +733,35 @@ namespace ft
 				}
 			}
 			return node_placeholder(parent, child);
+		}
+
+		node_placeholder find_equal(iterator hint, const value_type &value)
+		{
+			if (hint == end() || value_cmp()(value, *hint)) {
+				if (hint == begin()) {
+					return node_placeholder::select_left(hint.base);
+				}
+				iterator prev = --iterator(hint);
+				if (value_cmp()(*prev, value)) {
+					if (hint.base->left() == NULL) {
+						return node_placeholder::select_left(hint.base);
+					} else {
+						return node_placeholder::select_right(prev.base);
+					}
+				}
+				return find_equal(value);
+			} else if (value_cmp()(*hint, value)) {
+				iterator next = ++iterator(hint);
+				if (next == end() || value_cmp()(value, *next)) {
+					if (hint.base->right() == NULL) {
+						return node_placeholder::select_right(hint.base);
+					} else {
+						return node_placeholder::select_left(next.base);
+					}
+				}
+				return find_equal(value);
+			}
+			return node_placeholder::select_child_side(hint.base->parent(), hint.base);
 		}
 
 		void balance_for_insert(node_type *top)

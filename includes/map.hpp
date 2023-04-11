@@ -114,8 +114,7 @@ namespace ft
 
 		iterator insert(iterator hint, const value_type &value)
 		{
-			(void)hint, (void)value;
-			return iterator();
+			return tree_.insert(hint, value);
 		}
 
 		template <class InputIt>
