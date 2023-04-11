@@ -563,24 +563,29 @@ namespace ft
 
 		pair<iterator, bool> insert(const value_type &value)
 		{
-			pair<node_type *, node_type **> nodes  = find_equal(value);
-			node_type                      *parent = nodes.first;
-			node_type                     **child  = nodes.second;
+			node_placeholder dest = find_equal(value);
 
-			if (*child) {
-				return pair<iterator, bool>(iterator(*child), false);
+			if (!dest.empty()) {
+				return pair<iterator, bool>(iterator(dest.node()), false);
 			}
-			node_type *pos     = node_manager_.create(value);
-			*child             = pos;
-			(*child)->parent() = parent;
-			balance_for_insert(pos);
-			if (generator(pos).next() == min_) {
-				min_ = pos;
-			}
-			size_++;
-			return pair<iterator, bool>(iterator(pos), true);
+			iterator pos = insert(dest, value);
+			return pair<iterator, bool>(pos, true);
 		}
 
+	  private:
+		iterator insert(node_placeholder &dest, const value_type &value)
+		{
+			node_type *new_node = node_manager_.create(value);
+			dest.bind(new_node);
+			balance_for_insert(new_node);
+			if (generator(new_node).next() == min_) {
+				min_ = new_node;
+			}
+			size_++;
+			return iterator(new_node);
+		}
+
+	  public:
 		size_type erase(const key_type &key)
 		{
 			iterator_pair eq_range = equal_range(key);
@@ -701,7 +706,7 @@ namespace ft
 		}
 
 	  private:
-		pair<node_type *, node_type **> find_equal(const value_type &target)
+		node_placeholder find_equal(const value_type &target)
 		{
 			node_type  *parent = &end_;
 			node_type **child  = &end_.left();
@@ -718,7 +723,7 @@ namespace ft
 					break;
 				}
 			}
-			return pair<node_type *, node_type **>(parent, child);
+			return node_placeholder(parent, child);
 		}
 
 		void balance_for_insert(node_type *top)
