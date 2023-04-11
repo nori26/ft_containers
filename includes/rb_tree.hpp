@@ -294,7 +294,7 @@ namespace ft
 				return node_placeholder(parent, &parent->right());
 			}
 
-			static node_placeholder select_child(node_type *parent, node_type *child)
+			static node_placeholder select_child_side(node_type *parent, node_type *child)
 			{
 				if (parent->left() == child) {
 					return select_left(parent);
