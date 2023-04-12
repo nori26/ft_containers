@@ -184,6 +184,15 @@ namespace ft
 			return tree_.count(key);
 		}
 
+		mapped_type &operator[](const key_type &key)
+		{
+			iterator it = lower_bound(key);
+
+			if (it == end() || key_comp()(key, it->first)) {
+				it = insert(it, value_type(key, mapped_type()));
+			}
+			return it->second;
+		}
 
 		mapped_type &at(const key_type &key)
 		{
@@ -240,13 +249,6 @@ namespace ft
 		void clear()
 		{
 			tree_.clear();
-		}
-
-		// TODO
-		mapped_type &operator[](const key_type &key)
-		{
-			(void)key;
-			return begin()->second;
 		}
 
 		iterator begin()
