@@ -6,6 +6,9 @@ all:
 test      : FORCE
 	$(MAKE) $(MAKECMDGOALS) -C tests
 
+ft      : FORCE
+	$(MAKE) $(MAKECMDGOALS) -C tests
+
 stl       : FORCE
 	$(MAKE) $(MAKECMDGOALS) -C tests
 

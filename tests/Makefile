@@ -13,9 +13,9 @@ INCLUDES         := -I ../includes/ -I utils/
 
 VALGRIND         := $(shell type valgrind > /dev/null && echo valgrind)
 
-FT_TEST          := ft
-STL_TEST         := stl
-ASAN_TEST        := asan
+FT_TEST          := ft_test
+STL_TEST         := stl_test
+ASAN_TEST        := asan_test
 TESTER			 := $(FT_TEST)
 
 TESTDIR          := ../gtest
@@ -37,10 +37,13 @@ UTIL_SRCS	      = $(shell find $(UTIL_DIR) -name '*.cpp')
 UTIL_OBJS	      = $(UTIL_SRCS:%.cpp=$(OBJDIR)/%.o)
 UTIL_DEPS	      = $(UTIL_SRCS:%.cpp=$(DEPSDIR)/%.d)
 
-GTEST_OPT	:= $(subst $() ,*:*,$(filter-out test asan clean fclean stl,$(MAKECMDGOALS)))
+GTEST_OPT	:= $(subst $() ,*:*,$(filter-out test asan clean fclean stl ft,$(MAKECMDGOALS)))
 
 test		: $(TESTER) FORCE
 	$(VALGRIND) ./$< --gtest_filter='*$(GTEST_OPT)*'
+
+ft   : FORCE
+	$(MAKE) test $(GTEST_OPT) 'DEFAULTDIR=$(FTDIR)' 'TESTER=$(FT_TEST)' 'PP_FLAGS= -D FT_TEST'
 
 asan   : FORCE
 	$(MAKE) test $(GTEST_OPT) 'GTEST_FLAGS=$(GTEST_FLAGS) -fsanitize=address -g3' 'DEFAULTDIR=$(ASANDIR)' 'TESTER=asan' 'VALGRIND='
