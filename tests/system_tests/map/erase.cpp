@@ -32,6 +32,52 @@ typedef ft::map<ftc::Data, ftc::Data, MapCmp<ftc::Data>, ftc::Allocator<ValueTyp
   #define FT_EXPECT_EQ(a, b) EXPECT_EQ(a, b)
 #endif
 
+TEST(map, clear_types)
+{
+	EXPECT_EQ(typeid(Map().clear()), typeid(void));
+}
+
+TEST(map, clear_empty)
+{
+	Map m;
+
+	m.clear();
+	EXPECT_EQ(m.begin(), m.end());
+	EXPECT_EQ(m.size(), 0U);
+	EXPECT_TRUE(m.empty());
+}
+
+TEST(map, clear1)
+{
+	Map m;
+
+	m.insert(ValueType());
+	m.clear();
+	EXPECT_EQ(m.begin(), m.end());
+	EXPECT_EQ(m.size(), 0U);
+	EXPECT_TRUE(m.empty());
+}
+
+TEST(map, clear)
+{
+	int size = 128;
+
+	for (int j = 0; j < size; j++) {
+		std::vector<ft::pair<int, int> > v;
+		for (int i = 0; i < j; i++) {
+			v.push_back(ft::make_pair(i, i));
+		}
+		for (size_t i = 0; i < 5; i++) {
+			Map m(v.begin(), v.end());
+			m.clear();
+			EXPECT_EQ(m.begin(), m.end());
+			EXPECT_EQ(m.size(), 0U);
+			EXPECT_TRUE(m.empty());
+			std::random_shuffle(v.begin(), v.end());
+		}
+	}
+}
+
 TEST(map, erase_types)
 {
 	Map m;
