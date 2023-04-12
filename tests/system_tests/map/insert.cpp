@@ -78,8 +78,12 @@ std::vector<MvGen::DataSet> MvGen::map_values_set;
 TEST(map, insert_types)
 {
 	Map m;
+	Map m2;
 
 	EXPECT_EQ(typeid(m.insert(ft::make_pair(1, 1))), typeid(ft::pair<Map::iterator, bool>));
+	EXPECT_EQ(typeid(m.insert(m.begin(), ft::make_pair(1, 1))), typeid(Map::iterator));
+	EXPECT_EQ(typeid(m.insert(m.begin(), ft::make_pair(1, 1))), typeid(Map::iterator));
+	EXPECT_EQ(typeid(m.insert(m2.begin(), m2.end())), typeid(void));
 }
 
 TEST(map, insert_empty)
@@ -101,6 +105,48 @@ TEST(map, insert_empty)
 	}
 }
 
+TEST(map, insert)
+{
+	std::vector<int> v;
+	int              size = 128;
+	for (int i = 0; i < size; i++) {
+		v.push_back(i);
+	}
+	for (size_t i = 0; i < 10; i++) {
+		Map m;
+		for (size_t k = 0; k < 2; k++) {
+			for (int j = 0; j < size; j++) {
+				Pair p = m.insert(ft::make_pair(j, j));
+				ASSERT_EQ(*p.first, ValueType(ft::make_pair(j, j)));
+				ASSERT_EQ(p.second, k == 0);
+			}
+			ASSERT_EQ(m.size(), (unsigned)size);
+			int n = 0;
+			for (Map::iterator it = m.begin(); it != m.end(); ++it, ++n) {
+				ASSERT_EQ(*it, ValueType(ft::make_pair(n, n)));
+			}
+		}
+		std::random_shuffle(v.begin(), v.end());
+	}
+}
+
+TEST(map, insert_hint_empty)
+{
+	Map m;
+	{
+		Map::iterator p = m.insert(m.begin(), ft::make_pair(1, 1));
+		EXPECT_EQ(p, m.begin());
+		EXPECT_EQ(m.size(), 1U);
+		EXPECT_EQ(*m.begin(), Map::value_type(ft::make_pair(1, 1)));
+	}
+	{
+		Map::iterator p = m.insert(m.begin(), ft::make_pair(1, 2));
+		EXPECT_EQ(p, m.begin());
+		EXPECT_EQ(m.size(), 1U);
+		EXPECT_EQ(*m.begin(), Map::value_type(ft::make_pair(1, 1)));
+	}
+}
+
 TEST(map, insert_hint)
 {
 	std::vector<int> v;
@@ -109,18 +155,20 @@ TEST(map, insert_hint)
 		v.push_back(i);
 	}
 	for (size_t i = 0; i < 10; i++) {
+		Map m;
+		for (size_t k = 0; k < 2; k++) {
+			Map::iterator it = m.begin();
+			for (int j = 0; j < size; j++) {
+				it = m.insert(it, ft::make_pair(j, j));
+				ASSERT_EQ(*it, ValueType(ft::make_pair(j, j)));
+			}
+			ASSERT_EQ(m.size(), (unsigned)size);
+			int n = 0;
+			for (Map::iterator it = m.begin(); it != m.end(); ++it, ++n) {
+				ASSERT_EQ(*it, ValueType(ft::make_pair(n, n)));
+			}
+		}
 		std::random_shuffle(v.begin(), v.end());
-		Map           m;
-		Map::iterator it = m.begin();
-		for (int j = 0; j < size; j++) {
-			it = m.insert(it, ft::make_pair(j, j));
-			ASSERT_EQ(*it, ValueType(ft::make_pair(j, j)));
-		}
-		ASSERT_EQ(m.size(), (unsigned)size);
-		int n = 0;
-		for (Map::iterator it = m.begin(); it != m.end(); ++it, ++n) {
-			ASSERT_EQ(*it, ValueType(ft::make_pair(n, n)));
-		}
 	}
 }
 
@@ -132,17 +180,19 @@ TEST(map, insert_hint_begin)
 		v.push_back(i);
 	}
 	for (size_t i = 0; i < 10; i++) {
-		std::random_shuffle(v.begin(), v.end());
 		Map m;
-		for (int j = 0; j < size; j++) {
-			Map::iterator it = m.insert(m.begin(), ft::make_pair(j, j));
-			ASSERT_EQ(*it, ValueType(ft::make_pair(j, j)));
+		for (size_t k = 0; k < 2; k++) {
+			for (int j = 0; j < size; j++) {
+				Map::iterator it = m.insert(m.begin(), ft::make_pair(j, j));
+				ASSERT_EQ(*it, ValueType(ft::make_pair(j, j)));
+			}
+			ASSERT_EQ(m.size(), (unsigned)size);
+			int n = 0;
+			for (Map::iterator it = m.begin(); it != m.end(); ++it, ++n) {
+				ASSERT_EQ(*it, ValueType(ft::make_pair(n, n)));
+			}
 		}
-		ASSERT_EQ(m.size(), (unsigned)size);
-		int n = 0;
-		for (Map::iterator it = m.begin(); it != m.end(); ++it, ++n) {
-			ASSERT_EQ(*it, ValueType(ft::make_pair(n, n)));
-		}
+		std::random_shuffle(v.begin(), v.end());
 	}
 }
 
@@ -154,17 +204,19 @@ TEST(map, insert_hint_end)
 		v.push_back(i);
 	}
 	for (size_t i = 0; i < 10; i++) {
-		std::random_shuffle(v.begin(), v.end());
 		Map m;
-		for (int j = 0; j < size; j++) {
-			Map::iterator it = m.insert(m.end(), ft::make_pair(j, j));
-			ASSERT_EQ(*it, ValueType(ft::make_pair(j, j)));
+		for (size_t k = 0; k < 2; k++) {
+			for (int j = 0; j < size; j++) {
+				Map::iterator it = m.insert(m.end(), ft::make_pair(j, j));
+				ASSERT_EQ(*it, ValueType(ft::make_pair(j, j)));
+			}
+			ASSERT_EQ(m.size(), (unsigned)size);
+			int n = 0;
+			for (Map::iterator it = m.begin(); it != m.end(); ++it, ++n) {
+				ASSERT_EQ(*it, ValueType(ft::make_pair(n, n)));
+			}
 		}
-		ASSERT_EQ(m.size(), (unsigned)size);
-		int n = 0;
-		for (Map::iterator it = m.begin(); it != m.end(); ++it, ++n) {
-			ASSERT_EQ(*it, ValueType(ft::make_pair(n, n)));
-		}
+		std::random_shuffle(v.begin(), v.end());
 	}
 }
 
