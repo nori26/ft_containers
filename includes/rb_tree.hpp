@@ -623,6 +623,7 @@ namespace ft
 		}
 
 	  private:
+	  	// 現状、posは必ずiteratorから取り出されるのでpos == NULLの分岐に入ることはない
 		void erase(node_type *pos)
 		{
 			node_type *parent;
