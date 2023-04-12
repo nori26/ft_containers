@@ -111,5 +111,95 @@ TEST(map, at)
 			EXPECT_EQ(m.size(), v.size());
 			EXPECT_EQ(m.begin()->first, 0);
 		}
+
+TEST(map, operator_subscript_empty)
+{
+	{
+		Map m;
+
+		EXPECT_EQ(m[0], Map::mapped_type());
+		EXPECT_EQ(m.find(0), m.begin());
+		EXPECT_FALSE(m.empty());
+		EXPECT_EQ(m.size(), 1U);
+	}
+	{
+		Map m;
+
+		m[0] = 1;
+		EXPECT_EQ(m[0], Map::mapped_type(1));
+		EXPECT_EQ(m.find(0), m.begin());
+		EXPECT_FALSE(m.empty());
+		EXPECT_EQ(m.size(), 1U);
+	}
+}
+
+TEST(map, operator_subscript1)
+{
+	std::vector<int> vk;
+	std::vector<int> vv;
+	int              size = 128;
+	for (int i = 0; i < size; i++) {
+		vk.push_back(i);
+		vv.push_back(i);
+	}
+	for (int i = 0; i < 10; i++) {
+		std::vector<ValueType> v;
+		v.reserve(size);
+		for (int i = 0; i < size; i++) {
+			v.push_back(ValueType(vk[i], vv[i]));
+		}
+		Map m(v.begin(), v.end());
+
+		for (std::vector<ValueType>::iterator it = v.begin(); it != v.end(); ++it) {
+			EXPECT_EQ(m[it->first], it->second);
+		}
+		EXPECT_EQ(m.size(), v.size());
+		EXPECT_EQ(m.begin()->first, 0);
+		for (std::vector<ValueType>::iterator it = v.begin(); it != v.end(); ++it) {
+			m[it->first] = it->first;
+		}
+		for (std::vector<ValueType>::iterator it = v.begin(); it != v.end(); ++it) {
+			EXPECT_EQ(m[it->first], it->first);
+		}
+		EXPECT_EQ(m.size(), v.size());
+		EXPECT_EQ(m.begin()->first, 0);
+		EXPECT_EQ(m[size], Map::mapped_type());
+		EXPECT_EQ(m.size(), v.size() + 1);
+		std::random_shuffle(vk.begin(), vk.end());
+		std::random_shuffle(vv.begin(), vv.end());
+	}
+}
+
+TEST(map, operator_subscript2)
+{
+	std::vector<int> vk;
+	std::vector<int> vv;
+	int              size = 128;
+	for (int i = 0; i < size; i++) {
+		vk.push_back(i);
+		vv.push_back(i);
+	}
+	for (int i = 0; i < 10; i++) {
+		std::vector<ValueType> v;
+		v.reserve(size);
+		for (int i = 0; i < size; i++) {
+			v.push_back(ValueType(vk[i], vv[i]));
+		}
+		Map m;
+
+		for (std::vector<ValueType>::iterator it = v.begin(); it != v.end(); ++it) {
+			m[it->first] = it->second;
+		}
+		EXPECT_EQ(m.size(), v.size());
+		EXPECT_EQ(m.begin()->first, 0);
+		for (std::vector<ValueType>::iterator it = v.begin(); it != v.end(); ++it) {
+			EXPECT_EQ(m[it->first], it->second);
+		}
+		EXPECT_EQ(m.size(), v.size());
+		EXPECT_EQ(m.begin()->first, 0);
+		EXPECT_EQ(m[size], Map::mapped_type());
+		EXPECT_EQ(m.size(), v.size() + 1);
+		std::random_shuffle(vk.begin(), vk.end());
+		std::random_shuffle(vv.begin(), vv.end());
 	}
 }
