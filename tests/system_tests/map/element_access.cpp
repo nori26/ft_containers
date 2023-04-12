@@ -76,8 +76,6 @@ TEST(map, at)
 		vv.push_back(i);
 	}
 	for (int i = 0; i < 10; i++) {
-		std::random_shuffle(vk.begin(), vk.end());
-		std::random_shuffle(vv.begin(), vv.end());
 		std::vector<ValueType> v;
 		v.reserve(size);
 		for (int i = 0; i < size; i++) {
@@ -111,6 +109,10 @@ TEST(map, at)
 			EXPECT_EQ(m.size(), v.size());
 			EXPECT_EQ(m.begin()->first, 0);
 		}
+		std::random_shuffle(vk.begin(), vk.end());
+		std::random_shuffle(vv.begin(), vv.end());
+	}
+}
 
 TEST(map, operator_subscript_empty)
 {
