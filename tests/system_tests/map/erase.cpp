@@ -460,6 +460,21 @@ TEST(map, erase5)
 	}
 }
 
+bool is_sorted(const Map &m)
+{
+	if (m.empty()) {
+		return true;
+	}
+	Map::const_iterator prev = m.begin();
+	for (Map::const_iterator it = ++m.begin(); it != m.end(); ++it) {
+		if (!m.value_comp()(*prev, *it)) {
+			return false;
+		}
+		prev = it;
+	}
+	return true;
+}
+
 TEST(map, erase6)
 {
 	Map              m0;
@@ -478,6 +493,7 @@ TEST(map, erase6)
 				ASSERT_EQ(m.erase(v[i]), 1U);
 				ASSERT_EQ(m.find(v[i]), m.end());
 				ASSERT_EQ(m.size(), --sz);
+				ASSERT_TRUE(is_sorted(m));
 			}
 		}
 		{
@@ -487,6 +503,7 @@ TEST(map, erase6)
 				FT_EXPECT_EQ(m.erase(m.find(v[i])), ++m.find(v[i]));
 				ASSERT_EQ(m.find(v[i]), m.end());
 				ASSERT_EQ(m.size(), --sz);
+				ASSERT_TRUE(is_sorted(m));
 			}
 		}
 		{
@@ -498,6 +515,7 @@ TEST(map, erase6)
 				FT_EXPECT_EQ(m.erase(it, next), next);
 				ASSERT_EQ(m.find(v[i]), m.end());
 				ASSERT_EQ(m.size(), --sz);
+				ASSERT_TRUE(is_sorted(m));
 			}
 		}
 	}
@@ -540,6 +558,7 @@ TEST(map, erase7)
 			for (int i = 0; i < (int)v1.size(); i++) {
 				ASSERT_EQ(m.find(v1[i]), m.end());
 			}
+			ASSERT_TRUE(is_sorted(m));
 		}
 		{
 			Map::iterator first = m.find(v2.front());
@@ -550,6 +569,7 @@ TEST(map, erase7)
 			for (int i = 0; i < (int)v2.size(); i++) {
 				ASSERT_EQ(m.find(v2[i]), m.end());
 			}
+			ASSERT_TRUE(is_sorted(m));
 		}
 		{
 			Map::iterator first = m.find(v3.front());
@@ -560,6 +580,7 @@ TEST(map, erase7)
 			for (int i = 0; i < (int)v3.size(); i++) {
 				ASSERT_EQ(m.find(v3[i]), m.end());
 			}
+			ASSERT_TRUE(is_sorted(m));
 		}
 		{
 			Map::iterator first = m.find(v4.front());
@@ -570,6 +591,7 @@ TEST(map, erase7)
 			for (int i = 0; i < (int)v4.size(); i++) {
 				ASSERT_EQ(m.find(v4[i]), m.end());
 			}
+			ASSERT_TRUE(is_sorted(m));
 		}
 	}
 	{
@@ -584,6 +606,7 @@ TEST(map, erase7)
 			for (int i = 0; i < (int)v4.size(); i++) {
 				ASSERT_EQ(m.find(v4[i]), m.end());
 			}
+			ASSERT_TRUE(is_sorted(m));
 		}
 		{
 			Map::iterator first = m.find(v3.front());
@@ -594,6 +617,7 @@ TEST(map, erase7)
 			for (int i = 0; i < (int)v3.size(); i++) {
 				ASSERT_EQ(m.find(v3[i]), m.end());
 			}
+			ASSERT_TRUE(is_sorted(m));
 		}
 		{
 			Map::iterator first = m.find(v2.front());
@@ -604,6 +628,7 @@ TEST(map, erase7)
 			for (int i = 0; i < (int)v2.size(); i++) {
 				ASSERT_EQ(m.find(v2[i]), m.end());
 			}
+			ASSERT_TRUE(is_sorted(m));
 		}
 		{
 			Map::iterator first = m.find(v1.front());
@@ -614,6 +639,7 @@ TEST(map, erase7)
 			for (int i = 0; i < (int)v1.size(); i++) {
 				ASSERT_EQ(m.find(v1[i]), m.end());
 			}
+			ASSERT_TRUE(is_sorted(m));
 		}
 	}
 	{
@@ -628,6 +654,7 @@ TEST(map, erase7)
 			for (int i = 0; i < (int)v3.size(); i++) {
 				ASSERT_EQ(m.find(v3[i]), m.end());
 			}
+			ASSERT_TRUE(is_sorted(m));
 		}
 		{
 			Map::iterator first = m.find(v4.front());
@@ -638,6 +665,7 @@ TEST(map, erase7)
 			for (int i = 0; i < (int)v4.size(); i++) {
 				ASSERT_EQ(m.find(v4[i]), m.end());
 			}
+			ASSERT_TRUE(is_sorted(m));
 		}
 		{
 			Map::iterator first = m.find(v2.front());
@@ -648,6 +676,7 @@ TEST(map, erase7)
 			for (int i = 0; i < (int)v2.size(); i++) {
 				ASSERT_EQ(m.find(v2[i]), m.end());
 			}
+			ASSERT_TRUE(is_sorted(m));
 		}
 		{
 			Map::iterator first = m.find(v1.front());
@@ -658,6 +687,7 @@ TEST(map, erase7)
 			for (int i = 0; i < (int)v1.size(); i++) {
 				ASSERT_EQ(m.find(v1[i]), m.end());
 			}
+			ASSERT_TRUE(is_sorted(m));
 		}
 	}
 }
