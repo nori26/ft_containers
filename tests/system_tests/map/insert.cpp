@@ -220,6 +220,27 @@ TEST(map, insert_hint_end)
 	}
 }
 
+TEST(map, insert_range)
+{
+	std::vector<ft::pair<int, int> > v;
+	int              size = 128;
+	for (int i = 0; i < size; i++) {
+		v.push_back(ft::make_pair(i, i));
+	}
+	for (size_t i = 0; i < 10; i++) {
+		Map m;
+		for (size_t k = 0; k < 2; k++) {
+			m.insert(v.begin(), v.end());
+			ASSERT_EQ(m.size(), (unsigned)size);
+			int n = 0;
+			for (Map::iterator it = m.begin(); it != m.end(); ++it, ++n) {
+				ASSERT_EQ(*it, ValueType(ft::make_pair(n, n)));
+			}
+		}
+		std::random_shuffle(v.begin(), v.end());
+	}
+}
+
 // TEST(map, insert_brute_force)
 // {
 // 	MvGen mv;
