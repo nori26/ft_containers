@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <memory>
+#include <stdexcept>
 
 #include "rb_tree.hpp"
 #include "utility.hpp"
@@ -181,6 +182,27 @@ namespace ft
 		size_type count(const Key &key) const
 		{
 			return tree_.count(key);
+		}
+
+
+		mapped_type &at(const key_type &key)
+		{
+			iterator it = find(key);
+
+			if (it == end()) {
+				throw std::out_of_range("map at");
+			}
+			return it->second;
+		}
+
+		const mapped_type &at(const key_type &key) const
+		{
+			const_iterator it = find(key);
+
+			if (it == end()) {
+				throw std::out_of_range("map at");
+			}
+			return it->second;
 		}
 
 		// treeのget_allocatorが返す方に依存しない && 非explicitを期待しないように、明示的に変換する
