@@ -807,7 +807,7 @@ namespace ft
 		void balance_right_for_insert(node_type *top)
 		{
 			if (is_red(top->right()->left())) {
-				rotate_left(top->right());
+				rotate_right(top->right());
 			}
 			if (is_red(top->right()->right())) {
 				top                  = rotate_left(top);
