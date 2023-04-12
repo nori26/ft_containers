@@ -24,6 +24,8 @@ typedef ft::pair<Map::iterator, bool> Pair;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
 
+#define INSERT_SIZE 128
+
 class MvGen
 {
   public:
@@ -108,7 +110,7 @@ TEST(map, insert_empty)
 TEST(map, insert)
 {
 	std::vector<int> v;
-	int              size = 128;
+	int              size = INSERT_SIZE;
 	for (int i = 0; i < size; i++) {
 		v.push_back(i);
 	}
@@ -116,8 +118,8 @@ TEST(map, insert)
 		Map m;
 		for (size_t k = 0; k < 2; k++) {
 			for (int j = 0; j < size; j++) {
-				Pair p = m.insert(ft::make_pair(j, j));
-				ASSERT_EQ(*p.first, ValueType(ft::make_pair(j, j)));
+				Pair p = m.insert(ft::make_pair(v[j], v[j]));
+				ASSERT_EQ(*p.first, ValueType(ft::make_pair(v[j], v[j])));
 				ASSERT_EQ(p.second, k == 0);
 			}
 			ASSERT_EQ(m.size(), (unsigned)size);
@@ -150,7 +152,7 @@ TEST(map, insert_hint_empty)
 TEST(map, insert_hint)
 {
 	std::vector<int> v;
-	int              size = 128;
+	int              size = INSERT_SIZE;
 	for (int i = 0; i < size; i++) {
 		v.push_back(i);
 	}
@@ -159,8 +161,8 @@ TEST(map, insert_hint)
 		for (size_t k = 0; k < 2; k++) {
 			Map::iterator it = m.begin();
 			for (int j = 0; j < size; j++) {
-				it = m.insert(it, ft::make_pair(j, j));
-				ASSERT_EQ(*it, ValueType(ft::make_pair(j, j)));
+				it = m.insert(it, ft::make_pair(v[j], v[j]));
+				ASSERT_EQ(*it, ValueType(ft::make_pair(v[j], v[j])));
 			}
 			ASSERT_EQ(m.size(), (unsigned)size);
 			int n = 0;
@@ -175,7 +177,7 @@ TEST(map, insert_hint)
 TEST(map, insert_hint_begin)
 {
 	std::vector<int> v;
-	int              size = 128;
+	int              size = INSERT_SIZE;
 	for (int i = 0; i < size; i++) {
 		v.push_back(i);
 	}
@@ -183,8 +185,8 @@ TEST(map, insert_hint_begin)
 		Map m;
 		for (size_t k = 0; k < 2; k++) {
 			for (int j = 0; j < size; j++) {
-				Map::iterator it = m.insert(m.begin(), ft::make_pair(j, j));
-				ASSERT_EQ(*it, ValueType(ft::make_pair(j, j)));
+				Map::iterator it = m.insert(m.begin(), ft::make_pair(v[j], v[j]));
+				ASSERT_EQ(*it, ValueType(ft::make_pair(v[j], v[j])));
 			}
 			ASSERT_EQ(m.size(), (unsigned)size);
 			int n = 0;
@@ -199,7 +201,7 @@ TEST(map, insert_hint_begin)
 TEST(map, insert_hint_end)
 {
 	std::vector<int> v;
-	int              size = 128;
+	int              size = INSERT_SIZE;
 	for (int i = 0; i < size; i++) {
 		v.push_back(i);
 	}
@@ -207,8 +209,8 @@ TEST(map, insert_hint_end)
 		Map m;
 		for (size_t k = 0; k < 2; k++) {
 			for (int j = 0; j < size; j++) {
-				Map::iterator it = m.insert(m.end(), ft::make_pair(j, j));
-				ASSERT_EQ(*it, ValueType(ft::make_pair(j, j)));
+				Map::iterator it = m.insert(m.end(), ft::make_pair(v[j], v[j]));
+				ASSERT_EQ(*it, ValueType(ft::make_pair(v[j], v[j])));
 			}
 			ASSERT_EQ(m.size(), (unsigned)size);
 			int n = 0;
@@ -223,7 +225,7 @@ TEST(map, insert_hint_end)
 TEST(map, insert_range)
 {
 	std::vector<ft::pair<int, int> > v;
-	int              size = 128;
+	int              size = INSERT_SIZE;
 	for (int i = 0; i < size; i++) {
 		v.push_back(ft::make_pair(i, i));
 	}
