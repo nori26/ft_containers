@@ -94,9 +94,11 @@ namespace ft
 		}
 
 		// BidirectionalIteratorにはoperator-がないので、operator--で実装
+		// --iterator_type(current_)では、iterator_typeがクラス型でない時にコンパイルエラー
 		reference operator*() const
 		{
-			return *--iterator_type(current_);
+			iterator_type it = current_;
+			return *--it;
 		}
 
 		pointer operator->() const
