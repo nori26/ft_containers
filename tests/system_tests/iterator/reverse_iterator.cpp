@@ -682,3 +682,10 @@ TEST(reverse_iterator, reverse_iterator4)
 	const Vector cv;
 	ConstRevIter c_it(cv.end());
 }
+
+TEST(reverse_iterator, reverse_iterator5)
+{
+	ft::reverse_iterator<const char *> p("abcde");
+
+	EXPECT_EQ(*--p, 'a');
+}
