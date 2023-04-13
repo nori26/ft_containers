@@ -399,6 +399,23 @@ TEST_F(vector, iterator_op_inc)
 	EXPECT_EQ(++v.begin(), v.end());
 }
 
+TEST_F(vector, iterator_op_inc_const)
+{
+	const Vector           v(1, 1);
+	Vector::const_iterator b = v.begin();
+
+	const Vector::const_iterator &pre1  = ++b;
+	const Vector::const_iterator &pre2  = ++b;
+	const Vector::const_iterator &post1 = b++;
+	const Vector::const_iterator &post2 = b++;
+
+	EXPECT_EQ(&pre1, &pre2);
+	EXPECT_NE(&post1, &post2);
+
+	EXPECT_EQ(v.begin()++, v.begin());
+	EXPECT_EQ(++v.begin(), v.end());
+}
+
 TEST_F(vector, iterator_op_dec)
 {
 	Vector           v(1, 1);
@@ -408,6 +425,23 @@ TEST_F(vector, iterator_op_dec)
 	const Vector::iterator &pre2  = --b;
 	const Vector::iterator &post1 = b--;
 	const Vector::iterator &post2 = b--;
+
+	EXPECT_EQ(&pre1, &pre2);
+	EXPECT_NE(&post1, &post2);
+
+	EXPECT_EQ(v.end()--, v.end());
+	EXPECT_EQ(--v.end(), v.begin());
+}
+
+TEST_F(vector, iterator_op_dec_const)
+{
+	const Vector           v(1, 1);
+	Vector::const_iterator b = v.begin();
+
+	const Vector::const_iterator &pre1  = --b;
+	const Vector::const_iterator &pre2  = --b;
+	const Vector::const_iterator &post1 = b--;
+	const Vector::const_iterator &post2 = b--;
 
 	EXPECT_EQ(&pre1, &pre2);
 	EXPECT_NE(&post1, &post2);
@@ -695,7 +729,7 @@ TEST_F(vector, iterator3)
 
 TEST_F(vector, iterator6)
 {
-	Vector::iterator it;
+	Vector::iterator       it;
 	Vector::const_iterator c_it;
 	c_it = it;
 }
