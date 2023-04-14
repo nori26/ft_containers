@@ -689,3 +689,18 @@ TEST(reverse_iterator, reverse_iterator5)
 
 	EXPECT_EQ(*--p, 'a');
 }
+
+TEST(reverse_iterator, base)
+{
+	{
+		ft::reverse_iterator<const char *> p;
+
+		EXPECT_EQ(p.base(), (const char *)NULL);
+	}
+	{
+		const char                              *s = "a";
+		ft::reverse_iterator<const char *> p(s);
+
+		EXPECT_EQ(p.base(), s);
+	}
+}
