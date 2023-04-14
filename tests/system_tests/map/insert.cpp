@@ -243,6 +243,28 @@ TEST(map, insert_range)
 	}
 }
 
+TEST(map, insert_exception_safety)
+{
+	Map m;
+	int size = 128;
+	int n    = 0;
+
+	for (int i = 0; i < size; i++) {
+		if (i % 2) {
+			ftc::ExceptionOn on(1);
+			EXPECT_THROW(m.insert(ValueType(i, i)), std::runtime_error);
+		} else {
+			n++;
+			EXPECT_NO_THROW(m.insert(ValueType(i, i)));
+		}
+	}
+	EXPECT_EQ(m.size(), (unsigned)n);
+	Map::iterator it = m.begin();
+	for (int i = 0; i < n && it != m.end(); i++) {
+		ASSERT_EQ(*it++, ValueType(i * 2, i * 2));
+	}
+}
+
 // TEST(map, insert_brute_force)
 // {
 // 	MvGen mv;
