@@ -165,7 +165,6 @@ TEST(map, iterator_op_assign2)
 	Map m;
 	m.insert(ValueType(1, 1));
 	Map::iterator it = m.begin();
-	;
 
 	Map::const_iterator cit = m.end();
 	EXPECT_NE(it, cit);

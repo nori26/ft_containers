@@ -168,7 +168,6 @@ TEST(map, reverse_iterator_op_assign2)
 	Map m;
 	m.insert(ValueType(1, 1));
 	Map::reverse_iterator it = m.rbegin();
-	;
 
 	Map::const_reverse_iterator cit = m.rend();
 	EXPECT_NE(it, cit);

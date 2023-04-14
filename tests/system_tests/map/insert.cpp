@@ -225,7 +225,7 @@ TEST(map, insert_hint_end)
 TEST(map, insert_range)
 {
 	std::vector<ft::pair<int, int> > v;
-	int              size = INSERT_SIZE;
+	int                              size = INSERT_SIZE;
 	for (int i = 0; i < size; i++) {
 		v.push_back(ft::make_pair(i, i));
 	}
