@@ -1,6 +1,7 @@
 #include "gtest.h"
 
 #include "allocator.hpp"
+#include "cmp.hpp"
 #include "data.hpp"
 #include "init_vector.hpp"
 #include "vector_fixture.hpp"
@@ -19,36 +20,18 @@ typedef ftc::Allocator<ftc::Data>::ExceptionOn            AllocExceptionOn;
 
 #define ARRAY_SIZE(ary) (sizeof(ary) / sizeof(ary[0]))
 
-// TODO iterator 実装したらやる
+TEST_F(vector, operator_cmp_comma)
+{
+	ft::vector<CommaTest> v1(10);
+	ft::vector<CommaTest> v2(10);
 
-// class CommaTest
-// {
-//   public:
-// 	CommaTest() {}
-// 	bool operator==(const CommaTest &c) const
-// 	{
-// 		(void)c;
-// 		return true;
-// 	}
-// };
-
-// static ft::vector<CommaTest>::iterator operator,(ft::vector<CommaTest>::iterator it1,
-// ft::vector<CommaTest>::iterator it2)
-// {
-// 	(void)it2;
-// 	throw std::runtime_error("");
-// 	return it1;
-// }
-
-// TEST_F(vector, operator_eq_comma)
-// {
-// 	ft::vector<CommaTest> v1(10);
-// 	ft::vector<CommaTest> v2(10);
-
-// 	EXPECT_NO_THROW(v1 == v2);
-// 	EXPECT_NO_THROW(v1 == v2);
-// 	EXPECT_EQ(v1, v2);
-// }
+	EXPECT_NO_THROW(v1 == v2);
+	EXPECT_NO_THROW(v1 != v2);
+	EXPECT_NO_THROW(v1 < v2);
+	EXPECT_NO_THROW(v1 <= v2);
+	EXPECT_NO_THROW(v1 > v2);
+	EXPECT_NO_THROW(v1 >= v2);
+}
 
 TEST_F(vector, operator_eq_empty)
 {
