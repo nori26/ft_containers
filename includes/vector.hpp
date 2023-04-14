@@ -472,7 +472,7 @@ namespace ft
 			if (empty()) {
 				return;
 			}
-			allocator_.destroy(last_ - 1); // TODO &back()
+			allocator_.destroy(last_ - 1);
 			last_--;
 		}
 
