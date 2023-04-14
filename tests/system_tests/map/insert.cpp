@@ -285,13 +285,6 @@ TEST(map, insert_exception_safety)
 // 	}
 // }
 
-// TEST(map, insert_2)
-// {
-// 	MvGen mv;
-// 	Map   m;
-// 	m.insert(ft::make_pair(1, 1));
-// }
-
 // TEST(map, insert_huge)
 // {
 // 	Map m;
@@ -307,10 +300,4 @@ TEST(map, insert_exception_safety)
 // 			std::cout << m.size() << std::endl;
 // 		}
 // 	}
-// }
-
-// TEST(map, insert_const)
-// {
-// 	const Map   m;
-// 	// m.test();
 // }
