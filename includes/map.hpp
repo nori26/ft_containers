@@ -329,4 +329,14 @@ namespace ft
 	};
 } // namespace ft
 
+namespace std
+{
+	template <typename Key, typename Mapped, typename Compare, typename Allocator>
+	inline void
+	swap(ft::map<Key, Mapped, Compare, Allocator> &m1, ft::map<Key, Mapped, Compare, Allocator> &m2)
+	{
+		m1.swap(m2);
+	}
+} // namespace std
+
 #endif
