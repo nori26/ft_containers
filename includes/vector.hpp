@@ -526,6 +526,7 @@ namespace ft
 		}
 	};
 
+	// ft::がない場合、ADLがft::でないequalを発見するとオーバロード解決が失敗する
 	template <class T, class Alloc>
 	inline bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
