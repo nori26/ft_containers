@@ -1,8 +1,12 @@
 #ifndef RB_TREE_HPP
 #define RB_TREE_HPP
 
+#if !defined(FT_DEBUG)
+  #define NDEBUG
+#endif
+
 #include <algorithm>
-#include <cassert> // TODO ifdef
+#include <cassert>
 #include <iostream>
 #include <iterator>
 #include <memory>
