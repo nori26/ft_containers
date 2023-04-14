@@ -5,6 +5,7 @@
 #include <memory>
 #include <stdexcept>
 
+#include "algorithm.hpp"
 #include "rb_tree.hpp"
 #include "utility.hpp"
 
@@ -327,6 +328,60 @@ namespace ft
 			return cmp_(a, b.first);
 		}
 	};
+
+	template <typename Key, typename Mapped, typename Compare, class Allocator>
+	inline bool operator==(
+		const map<Key, Mapped, Compare, Allocator> &lhs,
+		const map<Key, Mapped, Compare, Allocator> &rhs
+	)
+	{
+		return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+	}
+
+	template <typename Key, typename Mapped, typename Compare, class Allocator>
+	inline bool operator<(
+		const map<Key, Mapped, Compare, Allocator> &lhs,
+		const map<Key, Mapped, Compare, Allocator> &rhs
+	)
+	{
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+
+	template <typename Key, typename Mapped, typename Compare, class Allocator>
+	inline bool operator!=(
+		const map<Key, Mapped, Compare, Allocator> &lhs,
+		const map<Key, Mapped, Compare, Allocator> &rhs
+	)
+	{
+		return !(lhs == rhs);
+	}
+
+	template <typename Key, typename Mapped, typename Compare, class Allocator>
+	inline bool operator>(
+		const map<Key, Mapped, Compare, Allocator> &lhs,
+		const map<Key, Mapped, Compare, Allocator> &rhs
+	)
+	{
+		return rhs < lhs;
+	}
+
+	template <typename Key, typename Mapped, typename Compare, class Allocator>
+	inline bool operator>=(
+		const map<Key, Mapped, Compare, Allocator> &lhs,
+		const map<Key, Mapped, Compare, Allocator> &rhs
+	)
+	{
+		return !(lhs < rhs);
+	}
+
+	template <typename Key, typename Mapped, typename Compare, class Allocator>
+	inline bool operator<=(
+		const map<Key, Mapped, Compare, Allocator> &lhs,
+		const map<Key, Mapped, Compare, Allocator> &rhs
+	)
+	{
+		return !(rhs < lhs);
+	}
 } // namespace ft
 
 namespace std
