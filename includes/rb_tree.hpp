@@ -350,7 +350,7 @@ namespace ft
 			*this = other;
 		}
 
-		// prev(end)はO(1)できないので、beginに対して逆順に挿入する
+		// prev(end)はO(1)で取得できないので、beginに対して逆順に挿入する
 		rb_tree &operator=(const rb_tree &rhs)
 		{
 			if (&rhs == this) {
