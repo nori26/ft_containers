@@ -324,11 +324,9 @@ namespace ft
 			  node_manager_(*this),
 			  node_allocator_(),
 			  cmp_(),
-			  min_(),
+			  min_(&end_),
 			  size_()
-		{
-			init_structure();
-		}
+		{}
 
 		explicit rb_tree(const value_compare &cmp, const allocator_type &alloc = allocator_type())
 			: end_(node_type::BLACK),
@@ -336,11 +334,9 @@ namespace ft
 			  node_manager_(*this),
 			  node_allocator_(alloc),
 			  cmp_(cmp),
-			  min_(),
+			  min_(&end_),
 			  size_()
-		{
-			init_structure();
-		}
+		{}
 
 		rb_tree(const rb_tree &other)
 			: end_(node_type::BLACK),
@@ -348,21 +344,12 @@ namespace ft
 			  node_manager_(*this),
 			  node_allocator_(other.node_allocator_),
 			  cmp_(),
-			  min_(),
+			  min_(&end_),
 			  size_()
 		{
-			init_structure();
 			*this = other;
 		}
 
-	  private:
-		void init_structure()
-		{
-			end_.right() = reinterpret_cast<node_type *>(-1);
-			min_         = &end_;
-		}
-
-	  public:
 		// prev(end)はO(1)できないので、beginに対して逆順に挿入する
 		rb_tree &operator=(const rb_tree &rhs)
 		{
