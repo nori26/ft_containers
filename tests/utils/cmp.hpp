@@ -40,4 +40,27 @@ std::vector<CommaTest>::iterator operator,(
 
 bool operator<(const CommaTest &, const CommaTest &);
 
+template <typename Key>
+struct RevCmp
+{
+	bool operator()(const Key &a, const Key &b) const
+	{
+		return b < a;
+	}
+};
+
+template <typename Key>
+struct MapCmp
+{
+	void *id;
+	MapCmp() : id(this) {}
+
+	MapCmp(const MapCmp &c) : id(c.id) {}
+
+	bool operator()(const Key &a, const Key &b) const
+	{
+		return a < b;
+	}
+};
+
 #endif

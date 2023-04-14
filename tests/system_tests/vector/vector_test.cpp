@@ -31,7 +31,25 @@ TEST_F(vector, get_allocator_ret_type)
 	EXPECT_EQ(typeid(ftc::Allocator<ftc::Data>), typeid(v.get_allocator()));
 }
 
+TEST_F(vector, get_allocator_ret_type_const)
+{
+	const Vector                     v;
+	const ftc::Allocator<ftc::Data> &a1 = v.get_allocator();
+	const ftc::Allocator<ftc::Data> &a2 = v.get_allocator();
+
+	EXPECT_NE(&a1, &a2);
+	EXPECT_EQ(typeid(ftc::Allocator<ftc::Data>), typeid(v.get_allocator()));
+}
+
 TEST_F(vector, get_allocator)
+{
+	ftc::Allocator<ftc::Data> a;
+	Vector                    v(a);
+
+	EXPECT_EQ(v.get_allocator().get_id(), a.get_id());
+}
+
+TEST_F(vector, get_allocator_const)
 {
 	ftc::Allocator<ftc::Data> a;
 	const Vector              v(a);
@@ -49,4 +67,9 @@ TEST_F(vector, types)
 	EXPECT_EQ(typeid(Vector::const_reference), typeid(const ftc::Data &)); // あんま意味ない
 	EXPECT_EQ(typeid(Vector::size_type), typeid(std::size_t));
 	EXPECT_EQ(typeid(Vector::difference_type), typeid(std::ptrdiff_t));
+}
+
+TEST_F(vector, template_params)
+{
+	EXPECT_EQ(typeid(ft::vector<int>), typeid(ft::vector<int, std::allocator<int> >));
 }

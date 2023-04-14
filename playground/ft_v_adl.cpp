@@ -1,5 +1,5 @@
 #include "../tests/utils/data.hpp"
-#include "../srcs/vector.hpp"
+#include "../includes/vector.hpp"
 
 int main()
 {

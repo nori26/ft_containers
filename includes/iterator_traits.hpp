@@ -2,6 +2,7 @@
 #define ITERATOR_TRAITS_HPP
 
 #include <cstddef>
+#include <iterator>
 
 #include "type_traits.hpp"
 

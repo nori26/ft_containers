@@ -67,7 +67,10 @@ namespace ft
 		)
 			: first_(NULL), last_(NULL), reserved_last_(NULL), allocator_(alloc)
 		{
-			assign(first, last);
+			vector v(allocator_);
+
+			v.assign(first, last);
+			swap(v);
 		}
 		// clang-format on
 
@@ -80,7 +83,7 @@ namespace ft
 		~vector()
 		{
 			destroy_at_end(size());
-			deallocate(first_, size());
+			deallocate(first_, capacity());
 		}
 
 	  private:
@@ -315,6 +318,9 @@ namespace ft
 
 		void swap(vector &v)
 		{
+			if (v.allocator_ != allocator_) {
+				std::swap(v.allocator_, allocator_);
+			}
 			std::swap(first_, v.first_);
 			std::swap(last_, v.last_);
 			std::swap(reserved_last_, v.reserved_last_);
@@ -466,7 +472,7 @@ namespace ft
 			if (empty()) {
 				return;
 			}
-			allocator_.destroy(last_ - 1); // TODO &back()
+			allocator_.destroy(last_ - 1);
 			last_--;
 		}
 
@@ -520,6 +526,7 @@ namespace ft
 		}
 	};
 
+	// ft::がない場合、ADLがft::でないequalを発見するとオーバロード解決が失敗する
 	template <class T, class Alloc>
 	inline bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
@@ -527,7 +534,7 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	bool operator!=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+	bool operator!=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
 		return !(lhs == rhs);
 	}

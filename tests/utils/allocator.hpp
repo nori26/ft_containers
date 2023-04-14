@@ -40,7 +40,9 @@ namespace ft_containers
 	  private:
 		static bool exception_on_;
 		static int  exception_rate_;
-		void       *id;
+
+	  public:
+		void *id;
 
 	  public:
 		Allocator() : std::allocator<T>(), id(this)
@@ -48,7 +50,8 @@ namespace ft_containers
 			ThrowRandom(__func__);
 		}
 
-		Allocator(const Allocator &other) : std::allocator<T>(other)
+		template <typename Type>
+		Allocator(const Allocator<Type> &other) : std::allocator<T>(other)
 		{
 			ThrowRandom(__func__);
 			id = other.id;
@@ -102,6 +105,49 @@ namespace ft_containers
 			}
 		}
 	};
+
+	template <class T>
+	class Allocator2 : public Allocator<T>
+	{
+	  public:
+		template <typename U>
+		struct rebind
+		{
+			typedef Allocator2<U> other;
+		};
+		Allocator2() : Allocator<T>() {}
+
+		template <typename Type>
+		Allocator2(const Allocator<Type> &other) : Allocator<T>(other)
+		{}
+	};
+
+	template <typename T>
+	inline bool operator==(const Allocator2<T> &lhs, const Allocator2<T> &rhs)
+	{
+		(void)lhs, (void)rhs;
+		return false;
+	}
+
+	template <typename T1, typename T2>
+	inline bool operator==(const Allocator2<T1> &lhs, const Allocator2<T2> &rhs)
+	{
+		(void)lhs, (void)rhs;
+		return false;
+	}
+
+	template <typename T>
+	inline bool operator!=(const Allocator2<T> &lhs, const Allocator2<T> &rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	template <typename T1, typename T2>
+	inline bool operator!=(const Allocator2<T1> &lhs, const Allocator2<T2> &rhs)
+	{
+		return !(lhs == rhs);
+	}
+
 	template <class T>
 	bool Allocator<T>::exception_on_ = false;
 	template <class T>
