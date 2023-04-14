@@ -609,7 +609,7 @@ namespace ft
 		iterator erase(iterator pos)
 		{
 			iterator next = ++iterator(pos);
-			erase(pos.base);
+			erase(pos.base_);
 			return next;
 		}
 
@@ -734,29 +734,29 @@ namespace ft
 		{
 			if (hint == end() || value_cmp()(value, *hint)) {
 				if (hint == begin()) {
-					return subtree_place::select_left(hint.base);
+					return subtree_place::select_left(hint.base_);
 				}
 				iterator prev = --iterator(hint);
 				if (value_cmp()(*prev, value)) {
-					if (hint.base->left() == NULL) {
-						return subtree_place::select_left(hint.base);
+					if (hint.base_->left() == NULL) {
+						return subtree_place::select_left(hint.base_);
 					} else {
-						return subtree_place::select_right(prev.base);
+						return subtree_place::select_right(prev.base_);
 					}
 				}
 				return find_equal(value);
 			} else if (value_cmp()(*hint, value)) {
 				iterator next = ++iterator(hint);
 				if (next == end() || value_cmp()(value, *next)) {
-					if (hint.base->right() == NULL) {
-						return subtree_place::select_right(hint.base);
+					if (hint.base_->right() == NULL) {
+						return subtree_place::select_right(hint.base_);
 					} else {
-						return subtree_place::select_left(next.base);
+						return subtree_place::select_left(next.base_);
 					}
 				}
 				return find_equal(value);
 			}
-			return subtree_place::select_child_side(hint.base->parent(), hint.base);
+			return subtree_place::select_child_side(hint.base_->parent(), hint.base_);
 		}
 
 		void balance_for_insert(node_type *top)
@@ -1019,23 +1019,23 @@ namespace ft
 		typedef NodeType node_type;
 
 	  private:
-		node_type *base;
+		node_type *base_;
 
 	  public:
-		rb_tree_generator() : base() {}
+		rb_tree_generator() : base_() {}
 
-		explicit rb_tree_generator(node_type *n) : base(n) {}
+		explicit rb_tree_generator(node_type *n) : base_(n) {}
 
 		node_type *next()
 		{
-			base = next(base);
-			return base;
+			base_ = next(base_);
+			return base_;
 		}
 
 		node_type *prev()
 		{
-			base = prev(base);
-			return base;
+			base_ = prev(base_);
+			return base_;
 		}
 
 		static node_type *next(node_type *node)
@@ -1096,26 +1096,26 @@ namespace ft
 		typedef rb_tree_const_iterator<Value> const_iterator_type;
 
 	  private:
-		node_type *base;
+		node_type *base_;
 
 	  public:
-		rb_tree_iterator() : base() {}
+		rb_tree_iterator() : base_() {}
 
-		explicit rb_tree_iterator(node_type *n) : base(n) {}
+		explicit rb_tree_iterator(node_type *n) : base_(n) {}
 
 		reference operator*() const
 		{
-			return base->value();
+			return base_->value();
 		}
 
 		pointer operator->() const
 		{
-			return base->value_ptr();
+			return base_->value_ptr();
 		}
 
 		iterator_type &operator++()
 		{
-			base = generator(base).next();
+			base_ = generator(base_).next();
 			return *this;
 		}
 
@@ -1130,7 +1130,7 @@ namespace ft
 
 		iterator_type &operator--()
 		{
-			base = generator(base).prev();
+			base_ = generator(base_).prev();
 			return *this;
 		}
 
@@ -1147,12 +1147,12 @@ namespace ft
 		// non_const -> const_iteratorの暗黙の変換が発生しない
 		bool operator==(const const_iterator_type &rhs) const
 		{
-			return base == rhs.base;
+			return base_ == rhs.base_;
 		}
 
 		bool operator!=(const const_iterator_type &rhs) const
 		{
-			return base != rhs.base;
+			return base_ != rhs.base_;
 		}
 	};
 
@@ -1176,28 +1176,28 @@ namespace ft
 		typedef rb_tree_iterator<Value>      non_const_iterator_type;
 
 	  private:
-		node_type *base;
+		node_type *base_;
 
 	  public:
-		rb_tree_const_iterator() : base() {}
+		rb_tree_const_iterator() : base_() {}
 
-		explicit rb_tree_const_iterator(node_type *n) : base(n) {}
+		explicit rb_tree_const_iterator(node_type *n) : base_(n) {}
 
-		rb_tree_const_iterator(const non_const_iterator_type &it) : base(it.base) {}
+		rb_tree_const_iterator(const non_const_iterator_type &it) : base_(it.base_) {}
 
 		reference operator*() const
 		{
-			return base->value();
+			return base_->value();
 		}
 
 		pointer operator->() const
 		{
-			return base->value_ptr();
+			return base_->value_ptr();
 		}
 
 		iterator_type &operator++()
 		{
-			base = generator(base).next();
+			base_ = generator(base_).next();
 			return *this;
 		}
 
@@ -1212,7 +1212,7 @@ namespace ft
 
 		iterator_type &operator--()
 		{
-			base = generator(base).prev();
+			base_ = generator(base_).prev();
 			return *this;
 		}
 
@@ -1227,12 +1227,12 @@ namespace ft
 
 		bool operator==(const iterator_type &rhs) const
 		{
-			return base == rhs.base;
+			return base_ == rhs.base_;
 		}
 
 		bool operator!=(const iterator_type &rhs) const
 		{
-			return base != rhs.base;
+			return base_ != rhs.base_;
 		}
 	};
 } // namespace ft
