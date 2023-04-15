@@ -177,7 +177,7 @@ TEST(stack, push_pop_size_empty_top2_list)
 		EXPECT_FALSE(s.empty());
 		EXPECT_EQ(s.size(), 2U);
 		EXPECT_EQ(s.top(), 2);
-		s.push(*++++v.begin());
+		s.push(*++ ++v.begin());
 		EXPECT_FALSE(s.empty());
 		EXPECT_EQ(s.size(), 3U);
 		EXPECT_EQ(s.top(), 3);

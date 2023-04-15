@@ -351,7 +351,7 @@ TEST(map, operator_assignment_append2)
 	Map m1(a1, a1 + ARRAY_SIZE(a1));
 	Map m2(a2, a2 + ARRAY_SIZE(a2));
 
-	m2                = m1;
+	m2 = m1;
 	m2.insert(ValueType(9, 9));
 	m2.insert(ValueType(10, 10));
 	Map::iterator it1 = m1.begin();

@@ -150,7 +150,7 @@ TEST(map, operator_ne_empty2)
 TEST(map, operator_ne_empty3)
 {
 	ValueType a1[] = {ValueType(1, 1)};
-	Map m1;
+	Map       m1;
 
 	EXPECT_NE(m1, Map(a1, a1 + ARRAY_SIZE(a1)));
 	EXPECT_TRUE(m1 != Map(a1, a1 + ARRAY_SIZE(a1)));
