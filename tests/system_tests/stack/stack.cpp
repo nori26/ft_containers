@@ -29,6 +29,55 @@ TEST(stack, types)
 	EXPECT_EQ(typeid(Stack::const_reference), typeid(Stack::container_type::const_reference));
 }
 
+TEST(stack, constructor)
+{
+	ftc::Data a1[] = {1, 2, 3};
+	Vector    v(a1, a1 + ARRAY_SIZE(a1));
+	{
+		Stack s(v);
+
+		EXPECT_EQ(s.size(), v.size());
+		Vector::reverse_iterator it = v.rbegin();
+		while (!s.empty()) {
+			EXPECT_EQ(s.top(), *it);
+			s.pop();
+			++it;
+		}
+	}
+	{
+		Stack s1(v);
+		Stack s2(s1);
+
+		EXPECT_EQ(s1, s2);
+		EXPECT_EQ(s2.size(), s1.size());
+		while (!s1.empty() || !s2.empty()) {
+			EXPECT_EQ(s1.top(), s2.top());
+			s1.pop();
+			s2.pop();
+		}
+	}
+	{
+		const Vector &v2 = v;
+		Stack         s(v2);
+
+		EXPECT_EQ(s.size(), v2.size());
+		Vector::const_reverse_iterator it = v2.rbegin();
+		while (!s.empty()) {
+			EXPECT_EQ(s.top(), *it);
+			s.pop();
+			++it;
+		}
+	}
+	{
+		const Stack s1(v);
+		Stack       s2(s1);
+
+		EXPECT_EQ(s2.size(), s1.size());
+		EXPECT_EQ(s1.top(), s2.top());
+		EXPECT_EQ(s1, s2);
+	}
+}
+
 TEST(stack, push_pop_size_empty_top_types)
 {
 	{
