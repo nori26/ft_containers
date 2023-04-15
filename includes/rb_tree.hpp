@@ -31,7 +31,7 @@ namespace ft
 	  public:
 		enum color_type {
 			RED,
-			BLACK,
+			BLACK
 		};
 
 	  private:
