@@ -2,6 +2,8 @@
 # Test rules #
 ##############
 
+CXX              := c++
+
 BUILDDIR		 := ./build
 FTDIR            := $(BUILDDIR)/ft
 ASANDIR          := $(BUILDDIR)/asan
