@@ -1,15 +1,15 @@
 #include <deque>
 #include <iostream>
 #include <string>
-#if 1 // CREATE A REAL STL EXAMPLE
+#if defined(FT_CONTAINERS)
+  #include "includes/map.hpp"
+  #include "includes/stack.hpp"
+  #include "includes/vector.hpp"
+#else
   #include <map>
   #include <stack>
   #include <vector>
 namespace ft = std;
-#else
-  #include <map.hpp>
-  #include <stack.hpp>
-  #include <vector.hpp>
 #endif
 
 #include <stdlib.h>
