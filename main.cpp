@@ -1,15 +1,17 @@
 #include <deque>
 #include <iostream>
 #include <string>
-#if 1 // CREATE A REAL STL EXAMPLE
+#if defined(FT_CONTAINERS)
+  #include "includes/map.hpp"
+  #include "includes/stack.hpp"
+  #include "includes/vector.hpp"
+  std::string g_name = "ft";
+#else
   #include <map>
   #include <stack>
   #include <vector>
+  std::string g_name = "stl";
 namespace ft = std;
-#else
-  #include <map.hpp>
-  #include <stack.hpp>
-  #include <vector.hpp>
 #endif
 
 #include <stdlib.h>
@@ -53,6 +55,7 @@ class MutantStack : public ft::stack<T>
 
 int main(int argc, char **argv)
 {
+	std::cout << g_name + " test" << std::endl;
 	if (argc != 2) {
 		std::cerr << "Usage: ./test seed" << std::endl;
 		std::cerr << "Provide a seed please" << std::endl;

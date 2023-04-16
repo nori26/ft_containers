@@ -66,14 +66,14 @@ TEST(map, swap)
 	EXPECT_EQ(m1.get_allocator().get_id(), m1_old_alloc);
 	EXPECT_EQ(m1.size(), m2_old_size);
 	Map::iterator it = m1.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a2) && it != m1.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a2) || it != m1.end(); i++) {
 		EXPECT_EQ(*it++, a2[i]);
 	}
 
 	EXPECT_EQ(m2.get_allocator().get_id(), m2_old_alloc);
 	EXPECT_EQ(m2.size(), m1_old_size);
 	it = m2.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a1) && it != m2.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a1) || it != m2.end(); i++) {
 		EXPECT_EQ(*it++, a1[i]);
 	}
 }
@@ -110,14 +110,14 @@ TEST(map, swap2)
 	EXPECT_EQ(m1.get_allocator().get_id(), m1_old_alloc);
 	EXPECT_EQ(m1.size(), m2_old_size);
 	Map::iterator it = m1.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a2) && it != m1.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a2) || it != m1.end(); i++) {
 		EXPECT_EQ(*it++, a2[i]);
 	}
 
 	EXPECT_EQ(m2.get_allocator().get_id(), m2_old_alloc);
 	EXPECT_EQ(m2.size(), m1_old_size);
 	it = m2.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a1) && it != m2.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a1) || it != m2.end(); i++) {
 		EXPECT_EQ(*it++, a1[i]);
 	}
 }
@@ -138,14 +138,14 @@ TEST(map, swap3)
 	EXPECT_EQ(m1.get_allocator().get_id(), m1_old_alloc);
 	EXPECT_EQ(m1.size(), m2_old_size);
 	Map::iterator it = m1.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a2) && it != m1.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a2) || it != m1.end(); i++) {
 		EXPECT_EQ(*it++, a2[i]);
 	}
 
 	EXPECT_EQ(m2.get_allocator().get_id(), m2_old_alloc);
 	EXPECT_EQ(m2.size(), m1_old_size);
 	it = m2.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a1) && it != m2.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a1) || it != m2.end(); i++) {
 		EXPECT_EQ(*it++, a1[i]);
 	}
 }
@@ -184,14 +184,14 @@ TEST(map, swap_specialize2)
 	EXPECT_EQ(m1.get_allocator().get_id(), m1_old_alloc);
 	EXPECT_EQ(m1.size(), m2_old_size);
 	Map::iterator it = m1.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a2) && it != m1.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a2) || it != m1.end(); i++) {
 		EXPECT_EQ(*it++, a2[i]);
 	}
 
 	EXPECT_EQ(m2.get_allocator().get_id(), m2_old_alloc);
 	EXPECT_EQ(m2.size(), m1_old_size);
 	it = m2.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a1) && it != m2.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a1) || it != m2.end(); i++) {
 		EXPECT_EQ(*it++, a1[i]);
 	}
 }
@@ -212,14 +212,14 @@ TEST(map, swap_specialize3)
 	EXPECT_EQ(m1.get_allocator().get_id(), m1_old_alloc);
 	EXPECT_EQ(m1.size(), m2_old_size);
 	Map::iterator it = m1.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a2) && it != m1.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a2) || it != m1.end(); i++) {
 		EXPECT_EQ(*it++, a2[i]);
 	}
 
 	EXPECT_EQ(m2.get_allocator().get_id(), m2_old_alloc);
 	EXPECT_EQ(m2.size(), m1_old_size);
 	it = m2.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a1) && it != m2.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a1) || it != m2.end(); i++) {
 		EXPECT_EQ(*it++, a1[i]);
 	}
 }
@@ -240,14 +240,14 @@ TEST(map, swap_specialize)
 	EXPECT_EQ(m1.get_allocator().get_id(), m1_old_alloc);
 	EXPECT_EQ(m1.size(), m2_old_size);
 	Map::iterator it = m1.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a2) && it != m1.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a2) || it != m1.end(); i++) {
 		EXPECT_EQ(*it++, a2[i]);
 	}
 
 	EXPECT_EQ(m2.get_allocator().get_id(), m2_old_alloc);
 	EXPECT_EQ(m2.size(), m1_old_size);
 	it = m2.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a1) && it != m2.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a1) || it != m2.end(); i++) {
 		EXPECT_EQ(*it++, a1[i]);
 	}
 }
@@ -378,14 +378,14 @@ TEST(map, swap_alloc2)
 	EXPECT_EQ(m1.get_allocator().get_id(), m2_old_alloc);
 	EXPECT_EQ(m1.size(), m2_old_size);
 	Map::iterator it = m1.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a2) && it != m1.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a2) || it != m1.end(); i++) {
 		EXPECT_EQ(*it++, a2[i]);
 	}
 
 	EXPECT_EQ(m2.get_allocator().get_id(), m1_old_alloc);
 	EXPECT_EQ(m2.size(), m1_old_size);
 	it = m2.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a1) && it != m2.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a1) || it != m2.end(); i++) {
 		EXPECT_EQ(*it++, a1[i]);
 	}
 }
@@ -422,14 +422,14 @@ TEST(map, swap2_alloc2)
 	EXPECT_EQ(m1.get_allocator().get_id(), m2_old_alloc);
 	EXPECT_EQ(m1.size(), m2_old_size);
 	Map::iterator it = m1.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a2) && it != m1.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a2) || it != m1.end(); i++) {
 		EXPECT_EQ(*it++, a2[i]);
 	}
 
 	EXPECT_EQ(m2.get_allocator().get_id(), m1_old_alloc);
 	EXPECT_EQ(m2.size(), m1_old_size);
 	it = m2.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a1) && it != m2.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a1) || it != m2.end(); i++) {
 		EXPECT_EQ(*it++, a1[i]);
 	}
 }
@@ -450,14 +450,14 @@ TEST(map, swap3_alloc2)
 	EXPECT_EQ(m1.get_allocator().get_id(), m2_old_alloc);
 	EXPECT_EQ(m1.size(), m2_old_size);
 	Map::iterator it = m1.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a2) && it != m1.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a2) || it != m1.end(); i++) {
 		EXPECT_EQ(*it++, a2[i]);
 	}
 
 	EXPECT_EQ(m2.get_allocator().get_id(), m1_old_alloc);
 	EXPECT_EQ(m2.size(), m1_old_size);
 	it = m2.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a1) && it != m2.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a1) || it != m2.end(); i++) {
 		EXPECT_EQ(*it++, a1[i]);
 	}
 }
@@ -496,14 +496,14 @@ TEST(map, swap_specialize2_alloc2)
 	EXPECT_EQ(m1.get_allocator().get_id(), m2_old_alloc);
 	EXPECT_EQ(m1.size(), m2_old_size);
 	Map::iterator it = m1.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a2) && it != m1.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a2) || it != m1.end(); i++) {
 		EXPECT_EQ(*it++, a2[i]);
 	}
 
 	EXPECT_EQ(m2.get_allocator().get_id(), m1_old_alloc);
 	EXPECT_EQ(m2.size(), m1_old_size);
 	it = m2.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a1) && it != m2.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a1) || it != m2.end(); i++) {
 		EXPECT_EQ(*it++, a1[i]);
 	}
 }
@@ -524,14 +524,14 @@ TEST(map, swap_specialize3_alloc2)
 	EXPECT_EQ(m1.get_allocator().get_id(), m2_old_alloc);
 	EXPECT_EQ(m1.size(), m2_old_size);
 	Map::iterator it = m1.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a2) && it != m1.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a2) || it != m1.end(); i++) {
 		EXPECT_EQ(*it++, a2[i]);
 	}
 
 	EXPECT_EQ(m2.get_allocator().get_id(), m1_old_alloc);
 	EXPECT_EQ(m2.size(), m1_old_size);
 	it = m2.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a1) && it != m2.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a1) || it != m2.end(); i++) {
 		EXPECT_EQ(*it++, a1[i]);
 	}
 }
@@ -552,14 +552,14 @@ TEST(map, swap_specialize_alloc2)
 	EXPECT_EQ(m1.get_allocator().get_id(), m2_old_alloc);
 	EXPECT_EQ(m1.size(), m2_old_size);
 	Map::iterator it = m1.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a2) && it != m1.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a2) || it != m1.end(); i++) {
 		EXPECT_EQ(*it++, a2[i]);
 	}
 
 	EXPECT_EQ(m2.get_allocator().get_id(), m1_old_alloc);
 	EXPECT_EQ(m2.size(), m1_old_size);
 	it = m2.begin();
-	for (size_t i = 0; i < ARRAY_SIZE(a1) && it != m2.end(); i++) {
+	for (size_t i = 0; i < ARRAY_SIZE(a1) || it != m2.end(); i++) {
 		EXPECT_EQ(*it++, a1[i]);
 	}
 }

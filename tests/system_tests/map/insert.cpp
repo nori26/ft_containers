@@ -16,7 +16,7 @@ namespace ft = std;
 #endif
 
 namespace ftc = ft_containers;
-typedef ft::pair<const ftc::Data, ftc::Data> ValueType;
+typedef ft::pair<const ftc::Data, ftc::Data>                                         ValueType;
 typedef ft::map<ftc::Data, ftc::Data, MapCmp<ftc::Data>, ftc::Allocator<ValueType> > Map;
 // typedef ft::map<ftc::Data, int> Map;
 // typedef ft::map<int, int> Map;
@@ -260,7 +260,7 @@ TEST(map, insert_exception_safety)
 	}
 	EXPECT_EQ(m.size(), (unsigned)n);
 	Map::iterator it = m.begin();
-	for (int i = 0; i < n && it != m.end(); i++) {
+	for (int i = 0; i < n || it != m.end(); i++) {
 		ASSERT_EQ(*it++, ValueType(i * 2, i * 2));
 	}
 }

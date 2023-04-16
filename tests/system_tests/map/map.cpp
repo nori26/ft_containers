@@ -2,12 +2,12 @@
 
 #include <climits>
 #include <functional>
-#include <typeinfo>
 #include <memory>
+#include <typeinfo>
 
 #include "allocator.hpp"
-#include "data.hpp"
 #include "cmp.hpp"
+#include "data.hpp"
 
 #ifdef FT_TEST
   #include "map.hpp"
@@ -43,7 +43,10 @@ TEST(map, types)
 
 TEST(map, template_param)
 {
-	EXPECT_EQ(typeid(ft::map<int, int>), typeid(ft::map<int, int, std::less<int>, std::allocator<ft::pair<const int, int> > >));
+	EXPECT_EQ(
+		typeid(ft::map<int, int>),
+		typeid(ft::map<int, int, std::less<int>, std::allocator<ft::pair<const int, int> > >)
+	);
 }
 
 TEST(map, get_allocator_types)

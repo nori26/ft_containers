@@ -2,6 +2,8 @@
 # Test rules #
 ##############
 
+CXX              := c++
+
 BUILDDIR		 := ./build
 FTDIR            := $(BUILDDIR)/ft
 ASANDIR          := $(BUILDDIR)/asan
@@ -57,15 +59,10 @@ $(TESTER)	: $(GTESTLIB) $(CASE_OBJS) $(UTIL_OBJS)
 $(GTESTLIB)	:
 	$(MAKE) -C $(TESTDIR)
 
-$(OBJDIR)/$(CASE_DIR)/%.o: $(CASE_DIR)/%.cpp
-	@mkdir -p $(OBJDIR)/$(CASE_DIR)/$(*D)
-	@mkdir -p $(DEPSDIR)/$(CASE_DIR)/$(*D)
-	$(CXX) $(GTEST_FLAGS) $(PP_FLAGS) $(GTEST_INCLUDES) $(INCLUDES) -MMD -MP -MF $(DEPSDIR)/$(CASE_DIR)/$*.d -c $< -o $@
-
-$(OBJDIR)/$(UTIL_DIR)/%.o: $(UTIL_DIR)/%.cpp
-	@mkdir -p $(OBJDIR)/$(UTIL_DIR)/$(*D)
-	@mkdir -p $(DEPSDIR)/$(UTIL_DIR)/$(*D)
-	$(CXX) $(GTEST_FLAGS) $(PP_FLAGS) $(GTEST_INCLUDES) $(INCLUDES) -MMD -MP -MF $(DEPSDIR)/$(UTIL_DIR)/$*.d -c $< -o $@
+$(OBJDIR)/%.o: %.cpp
+	@mkdir -p $(OBJDIR)/$(*D)
+	@mkdir -p $(DEPSDIR)/$(*D)
+	$(CXX) $(GTEST_FLAGS) $(PP_FLAGS) $(GTEST_INCLUDES) $(INCLUDES) -MMD -MP -MF $(DEPSDIR)/$*.d -c $< -o $@
 
 clean: FORCE
 	rm -rf $(BUILDDIR)

@@ -571,7 +571,7 @@ TEST_F(vector, assign_input_iter_val_reserved)
 
 TEST_F(vector, assign_input_iter_exception)
 {
-	size_t            a1[]  = {1, 2, 3, 4};
+	size_t            a1[] = {1, 2, 3, 4};
 	Vector            v2;
 	std::stringstream ss;
 
