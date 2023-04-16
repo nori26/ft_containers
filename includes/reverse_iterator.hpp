@@ -27,22 +27,21 @@ namespace ft
 		typedef typename traits::pointer         pointer;
 		typedef typename traits::reference       reference;
 
-		// stlはprotectedだけどなんでわからん
-	  private:
-		iterator_type current_;
+	  protected:
+		iterator_type current;
 
 	  public:
-		reverse_iterator() : current_() {}
+		reverse_iterator() : current() {}
 
-		explicit reverse_iterator(const iterator_type &it) : current_(it) {}
+		explicit reverse_iterator(const iterator_type &it) : current(it) {}
 
 		template <typename T>
-		reverse_iterator(const reverse_iterator<T> &other) : current_(other.base())
+		reverse_iterator(const reverse_iterator<T> &other) : current(other.base())
 		{}
 
 		iterator_type base() const
 		{
-			return current_;
+			return current;
 		}
 
 		reverse_iterator &operator=(const reverse_iterator &rhs)
@@ -50,42 +49,42 @@ namespace ft
 			if (&rhs == this) {
 				return *this;
 			}
-			current_ = rhs.current_;
+			current = rhs.current;
 			return *this;
 		}
 
 		reverse_iterator &operator+=(difference_type n)
 		{
-			current_ -= n;
+			current -= n;
 			return *this;
 		}
 
 		reverse_iterator &operator-=(difference_type n)
 		{
-			current_ += n;
+			current += n;
 			return *this;
 		}
 
 		reverse_iterator &operator++()
 		{
-			--current_;
+			--current;
 			return *this;
 		}
 
 		reverse_iterator operator++(int)
 		{
-			return reverse_iterator(current_--);
+			return reverse_iterator(current--);
 		}
 
 		reverse_iterator &operator--()
 		{
-			++current_;
+			++current;
 			return *this;
 		}
 
 		reverse_iterator operator--(int)
 		{
-			return reverse_iterator(current_++);
+			return reverse_iterator(current++);
 		}
 
 		reference operator[](difference_type n) const
@@ -94,10 +93,10 @@ namespace ft
 		}
 
 		// BidirectionalIteratorにはoperator-がないので、operator--で実装
-		// --iterator_type(current_)では、iterator_typeがクラス型でない時にコンパイルエラー
+		// --iterator_type(current)では、iterator_typeがクラス型でない時にコンパイルエラー
 		reference operator*() const
 		{
-			iterator_type it = current_;
+			iterator_type it = current;
 			return *--it;
 		}
 
@@ -108,12 +107,12 @@ namespace ft
 
 		reverse_iterator operator+(difference_type n) const
 		{
-			return reverse_iterator(current_ - n);
+			return reverse_iterator(current - n);
 		}
 
 		reverse_iterator operator-(difference_type n) const
 		{
-			return reverse_iterator(current_ + n);
+			return reverse_iterator(current + n);
 		}
 	};
 
