@@ -30,6 +30,7 @@ using namespace std::rel_ops;
 
 TEST(reverse_iterator, types)
 {
+	EXPECT_EQ(typeid(RevIter::iterator_type), typeid(Vector::iterator));
 	EXPECT_EQ(typeid(RevIter::difference_type), typeid(std::ptrdiff_t));
 	EXPECT_EQ(typeid(RevIter::value_type), typeid(ftc::Data));
 	EXPECT_EQ(typeid(RevIter::pointer), typeid(ftc::Data *));
@@ -51,6 +52,7 @@ TEST(reverse_iterator, types)
 
 TEST(reverse_iterator, types_const)
 {
+	EXPECT_EQ(typeid(ConstRevIter::iterator_type), typeid(Vector::const_iterator));
 	EXPECT_EQ(typeid(std::ptrdiff_t), typeid(ConstRevIter::difference_type));
 	EXPECT_EQ(typeid(const ftc::Data), typeid(ConstRevIter::value_type));
 	EXPECT_EQ(typeid(const ftc::Data *), typeid(ConstRevIter::pointer));
@@ -703,4 +705,16 @@ TEST(reverse_iterator, base)
 
 		EXPECT_EQ(p.base(), s);
 	}
+}
+
+TEST(reverse_iterator, protected)
+{
+	class c : public RevIter
+	{
+		public:
+			RevIter::iterator_type f()
+			{
+				return this->current;
+			}
+	};
 }
