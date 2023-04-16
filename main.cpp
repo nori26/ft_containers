@@ -5,10 +5,12 @@
   #include "includes/map.hpp"
   #include "includes/stack.hpp"
   #include "includes/vector.hpp"
+  std::string g_name = "ft";
 #else
   #include <map>
   #include <stack>
   #include <vector>
+  std::string g_name = "stl";
 namespace ft = std;
 #endif
 
@@ -53,6 +55,7 @@ class MutantStack : public ft::stack<T>
 
 int main(int argc, char **argv)
 {
+	std::cout << g_name + " test" << std::endl;
 	if (argc != 2) {
 		std::cerr << "Usage: ./test seed" << std::endl;
 		std::cerr << "Provide a seed please" << std::endl;
