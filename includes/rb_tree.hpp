@@ -182,7 +182,7 @@ namespace ft
 		typedef ptrdiff_t                                             difference_type;
 		typedef typename node_type::color_type                        color_type;
 		typedef typename Allocator::template rebind<node_type>::other node_allocator;
-		// template 曖昧青解消子でrebindがテンプレートクラスであることを明示する
+		// template 曖昧性解消子でrebindがテンプレートクラスであることを明示する
 		// template がない場合、< は小なり演算子として解釈される
 		typedef rb_tree_iterator<value_type>         iterator;
 		typedef rb_tree_const_iterator<value_type>   const_iterator;
